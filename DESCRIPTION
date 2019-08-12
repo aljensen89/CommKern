@@ -1,0 +1,14 @@
+Package: spinglass
+Version: 0.0.0.9000
+Title: Hierarchical Spinglass
+Authors@R: c(person("Alexandria", "Jensen",, "alexandria.jensen@cuanschutz.edu", role = c("aut", "cre")),
+             person("Debashis", "Ghosh", , "debashis.ghosh@cuanschutz.edu", role = c("ths")))
+Description: A full sentence about the package.  More detail in a short paragraph.
+Depends: R (>= 3.6.0)
+License: GPL (>= 2)
+LazyData: true
+Imports:
+Suggests:
+  knitr,
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr
