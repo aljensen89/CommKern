@@ -8,7 +8,7 @@
 #' @param ymat a matrix
 #' @param ... not currentl used
 #' 
-#' @return the scalar product of x by ymat
+#' @return the scalar product of x by ymat divided by 2.
 #' 
 #' @export
 example_function <- function(x, ymat, ...) {
