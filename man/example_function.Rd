@@ -14,11 +14,16 @@ example_function(x, ymat, ...)
 \item{...}{not currentl used}
 }
 \value{
-the scalar product of x by ymat
+the scalar product of x by ymat divided by 2.
 }
 \description{
 Description of the Example Function.
 }
 \details{
 Details....  (can be many paragraphs)
+}
+\examples{
+
+example_function(2, matrix(c(1, 2, 3, 4), ncol = 2))
+  
 }
