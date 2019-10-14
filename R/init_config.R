@@ -2,7 +2,10 @@
 #' 
 #' Description of the initial configuration assignment function.  
 #' 
-#' From the pottsmodel_2 text file, translating the assign_initial_conf function
+#' From the pottsmodel_2 text file, translating the assign_initial_conf function. The
+#' description in the C++ code is the following: assinging an initial random configuration
+#' of spins to nodes if calledwith a negative argument or the spin used as argument when
+#' called with a positive one.
 #' 
 #' @param spin an integer
 #' 
