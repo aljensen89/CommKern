@@ -18,7 +18,7 @@
 #'   
 #' @export
 
-heatbath_parallel_lookup <- function(gamma,prob,kT, max_sweeps) {
+heatbath_parallel_lookup <- function(gamma,prob,kT,max_sweeps) {
   #DLList_Iter<NNode*> iter, net_iter
   #DLList_Iter<NLink*> l_iter
   #DLList_Iter<unsigned int*> i_iter, i_iter2
@@ -207,8 +207,9 @@ heatbath_parallel_lookup <- function(gamma,prob,kT, max_sweeps) {
       acceptance <- changes/num_of_nodes
       return(0)
     }
-    else{}
+    else{
       acceptance <- changes/num_of_nodes
       return(changes)
+    }
   }
 }
