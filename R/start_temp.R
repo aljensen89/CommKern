@@ -9,7 +9,7 @@
 #' 
 #' @param gamma double
 #' @param prob double
-#' @parama ts double
+#' @param ts double
 #' 
 #' @return kT
 #'

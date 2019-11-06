@@ -9,7 +9,7 @@
 #' 
 #' @param gamma double
 #' @param prob double
-#' @parama max_sweeps integer
+#' @param max_sweeps integer
 #' 
 #' @return changes
 #'
@@ -106,7 +106,7 @@ heatbath_parallel_zerotemp <- function(gamma,prob,max_sweeps) {
     #P_SPIN=i_iter2.First(previous_spins)
     
     while(!net_iter[length(net_iter)]){
-      old_spin <- Get_ClusterIndex(node)
+      old_spin <- Set_ClusterIndex(node)
       #new_spin=*SPIN
       
       if(new_spin!=old_spin){
