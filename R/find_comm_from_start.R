@@ -222,9 +222,41 @@ find_comm_from_start <- function(gamma,prob,nodename,result,cohesion,
     }
     
     if(remove){
+      #Remove those with negative affinities
+      #community->fDelete(max_aff_node)
+      max_aff_node <- Set_Marker(to_do_marker)
       
+      #Update the sum of degrees in the community
+      Ks <- Ks-Get_Weight(max_aff_node)
+      Kr <- Kr+Get_Weight(max_aff_node)
+      
+      #Add the node to to_do again
+      to_do <- Push(max_aff_node)
     }
+    #IGRAPH_ALLOW_INTERRUPTION() /*This is not clean...*/
   }
   
-  
+  #Write the node in the community to a file
+  if(cohesion){
+    cohesion <- inner_links-gamma/total_degree_sum*Ks*Ks*0.5
+  }
+  if(adhesion){
+    adhesion <- outer_links-gamma/total_degree_sum*Ks*Kr
+  }
+  if(my_inner_links){
+    my_inner_links <- inner_links
+  }
+  if(my_outer_links){
+    my_outer_links <- outer_links
+  }
+  if(result){
+    node <- iter.First(community)
+    igraph_vector_resize(result, 0)
+    while(!iter.End()){
+      #IGRAPH_CHECK(igraph_vector_push_back(result, node->Get_Index()))
+      #node=iter.Next()
+    }
+  }
+  size <- Size(community)
+  size
 }
