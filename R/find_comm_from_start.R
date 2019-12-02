@@ -27,8 +27,8 @@ find_comm_from_start <- function(gamma,prob,nodename,result,cohesion,
   
   #DLList_Iter<NNode*> iter, iter2;
   #DLList_Iter<NLink*> l_iter;
-  #DLList<NNoce*>* to_do;
-  #DLList<NNoce*>* community;
+  #DLList<NNode*>* to_do;
+  #DLList<NNode*>* community;
   #NNode *start_node=0, *n_cur, *neighbor, *max_aff_node, *node;
   #NLink *l_cur;
   

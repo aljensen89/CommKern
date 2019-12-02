@@ -25,9 +25,9 @@ write_clusters <- function(modularity, temperature, csize, membership, kT, gamma
  #DLList_Iter<NNode*> iter, iter2
  inner_links <- matrix(data=NA,nrow=x,ncol=x) #What does HugeArray<int> mean for dimensions?
  outer_links <- matrix(data=NA,nrow=x,ncol=x)
- nodes <- matrix(data=NA,nrow=x,ncol=x)
+ nodes <- matrix(data=NA,nrow=x,ncol=x) #HugeArray defined somewhere else
  
  if(temperature){ #This temperature doesn't have a * before it, while all others do...?
-   temperature <- kT 
+   temperature <- kT #if temperature is not NULL, then do
  }
 }
