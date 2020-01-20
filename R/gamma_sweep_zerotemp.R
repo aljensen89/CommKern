@@ -1,9 +1,9 @@
-#' Gamma sweep
+#' Gamma sweep at zero temp
 #' 
-#' Description of the gamma sweep function.
+#' Description of the gamma sweep at zero temp function.
 #' 
-#' From the pottsmodel_2 text file, translating the GammaSweep function. This function
-#' performs a gamma sweep
+#' From the pottsmodel_2 text file, translating the GammaSweepZeroTemp function. This 
+#' function performs a gamma sweep at zero temp
 #' 
 #' @param gamma_start real
 #' @param gamma_stop real
@@ -12,7 +12,7 @@
 #' @param non_parallel boolean
 #' @param repetitions integer
 #' 
-#' @return kT
+#' @return gamma
 #'
 #' @examples 
 #' 
@@ -22,10 +22,10 @@
 
 gamma_sweep <- function(gamma_start, gamma_stop, prob, steps, non_parallel, repetitions){
   stepsize <- 0.0
-  kT <- 0.0
-  kT_start <- 0.0
+  changes <- 0.0
   gamma <- 0.0
   acc <- 0.0
+  runs <- 0.0
   
   #NNode *n_cur, *n_cur2
   #DLList_iter<NNode*> iter, iter2
@@ -44,53 +44,41 @@ gamma_sweep <- function(gamma_start, gamma_stop, prob, steps, non_parallel, repe
     #n_cur=iter.Next()
   }
   for(n in 0:steps){
-    assign_initial_xconfig(-1)
+    assign_initial_config(-1)
     #initialize_Qmatrix()
     gamma <- gamma_start+stepsize*n
-    kT <- 0.5
-    acceptance <- 0.5
-    
-    while(acceptance<1.0-1.0/q*0.95){ #wollen 95% acceptance
-      kT <- kT*1.1
-      if(!non_parallel){
-        heatbath_parallel_lookup(gamma, prob, kT, 25)
-      }
-      else{
-        heatbath_lookup(gamma, prob, kT, 25)
-      }
-    }
-    kT_start <- kT
     
     for(i in 0:repetitions){
       changes <- 1
-      kT <- kT_start
       assign_initial_config(-1)
       #initialize_Qmatrix()
+      runs <- 0.0
       
-      while(changes>0 & kT>0.01){
-        kT <- kT*0.99
+      while (changes>0 & runs<250){
         if(!non_parallel){
-          changes <- heatbath_parallel_lookup(gamma, prob, kT, 50)
+          changes <- heatbath_parallel_zerotemp(gamma, prob, 1)
         }
         else{
-          acc <- heatbath_lookup(gamma, prob, kT, 50)
+          acc <- heatbath_zerotemp(gamma, prob, 1)
         }
-        ifelse(acc>(1.0-1.0/q*0.01),changes <- 1, changes <- 0)
+        if(acc>(1-1/q*0.01)){
+          changes <- 1
+        }
+        else{
+          changes <- 0.0
+        }
+        runs <- runs + 1
       }
-    }
-      
-      #Calculate the correlation
       #n_cur=iter.First(net->node_list)
       while(!iter.End()){
-        #n_cur2=iter2.First(net->node_list)
-        while(!iter2.End()){
-          if(Get_ClusterIndex(n_cur)==Get_ClusterIndex(n_cur2)){
-            #correlation[n_cur->Get_Index()]->Set(n_cur2->Get_Index())+=0.5
-          }
-          #n_cur2=iter2.Next()
+        if(n_cur->Get_ClusterIndex()==n_cur2->GetClusterIndex()){
+          #correlation[n_cur->Get_Index()]->Set(n_cur2->Get_Index())+=0.5
+          #correlation[n_cur2->Get_Index()]->Set(n_cur->Get_Index())+=0.5
         }
-        #n_cur=iter.Next()
+        #n_cur2=iter2.Next()
       }
+      #n_cur=iter.Next()
+    }
   }
-  return(kT)
+  return(gamma)
 }
