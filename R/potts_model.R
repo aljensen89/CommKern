@@ -17,9 +17,14 @@
 #' @export
 Potts_Model <- function(network, qvalue, m){
   
-  #initialize iter, n_cur, i_ptr, net, q, operation_mode
+  #DLList_Iter<NNode*> iter;
+  #NNode *N_cur;
+  #unsigned int *i_ptr
   
-  k_max=0
+  net  <- n
+  q <- qvalue
+  operation_mode <- m
+  k_max <- 0
   Qa <- rep(NA, q+1)
   weights <- rep(NA, q+1)
   color_field <- rep(NA, q+1)
