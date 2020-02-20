@@ -29,6 +29,18 @@
 spinglass_orig <- function(graph, weights, modularity, temperature,
                       membership, csize, spins, parupdate, starttemp,
                       stoptemp, coolfact, update_rule, gamma) {
+  
+  changes <- 0.0
+  runs <- 0.0
+  use_weights <- FALSE
+  zeroT <- FALSE
+  kT <- 0.0
+  acc <- 0.0
+  prob <- 0.0
+  #ClusterList<NNode*> *cl_cur
+  #network *net
+  #PottsModel *pm
+  
   if (spins < 2 | spins > 500) {
     stop("Invalid number of spins")
   }
@@ -42,11 +54,14 @@ spinglass_orig <- function(graph, weights, modularity, temperature,
     stop("The starttemp value should be larger in absolute value than the stoptemp")
   }
   
-  #node_list<-nodes(graph)
-  #link_list<-links(graph)
-  #cluster_list<-initial_config?
+  #net = new network;
+  #net->node_list=new DL_Indexed_List<NNode*>();
+  #net->link_list=new DL_Indexed_List<NLink*>();
+  #net->cluster_list=new DL_Indexed_List<ClusterList<NNode*>*>();
   
   prob <- 2*(sum_weights)/length(node_list)/(length(node_list) - 1)
+  
+  pm <- PottsModel(net, spins, update_rule)
   
   #Random number generator - why??
   
