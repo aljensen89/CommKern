@@ -25,21 +25,21 @@ Potts_Model <- function(network, qvalue, m){
   q <- qvalue
   operation_mode <- m
   k_max <- 0
-  Qa <- rep(NA, q+1)
-  weights <- rep(NA, q+1)
-  color_field <- rep(NA, q+1)
+  Qa <- rep(NA, q+1) #Needed in calculating modularity
+  weights <- rep(NA, q+1) #Weights for each spin state needed in Monte Carlo process
+  color_field <- rep(NA, q+1) #Bookkeeping of occupation numbers of spin states or the number of links in the community
   neighbors <- rep(NA, q+1)
   
-  num_of_nodes <- length(node_list)
-  num_of_links <- length(link_list)
+  num_of_nodes <- length(node_list) #num_of_nodes=net->node_list->Size()
+  num_of_links <- length(link_list) #num_of_links=net->link_list->Size()
   
-  n_cur <- iter[i] #also calling the node list here; using an iter.First call
-  #Documentation says these lists are needed to keep track of spin states for parallel update mode
+  #n_cur=iter.First(net->node_list);
   
-  new_spins <- vector()
-  previous_spins <- vector()
+  ##These lists are needed to keep track of spin states for parallel update mode
+  new_spins <- vector() #new_spins=new DL_Indexed_List<unsigned int*>()
+  previous_spins <- vector() #previous_spins=new DL_Indexed_List<unsigned int*>()
   
-  while(!iter[q+1]) {
+  while(!iter.End()) { #Figure out how to code this into R
     if(k_max < degree(n_cur)) {
       k_max <- degree(n_cur)
     }
@@ -49,6 +49,6 @@ Potts_Model <- function(network, qvalue, m){
     i_ptr <- 0
     #previous_spins <- Push(i_ptr)
     
-    n_cur <- iter[i+1]
+    #n_cur=iter.Next()
   }
 }
