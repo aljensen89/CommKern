@@ -16,6 +16,8 @@
 #' @export
 
 init_lookup <- function(kT, gamma){
+  
+  #The lookup table contains all entries of exp{-beta*(-neighbors+gamma*h)} as needed in HeatBath algorithm
   beta <- 1.0/kT
   
   for (w in 0:(k_max+num_of_nodes)){
