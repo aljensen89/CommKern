@@ -17,9 +17,9 @@
 #' @export
 Potts_Model <- function(network, qvalue, m){
   
-  #DLList_Iter<NNode*> iter;
-  #NNode *N_cur;
-  #unsigned int *i_ptr
+  #DLList_Iter<NNode*> iter; ##Creating an iteration using the NNode constructor, function holding node-based info
+  #NNode *N_cur; ##The current node being examined
+  #unsigned int *i_ptr ##???
   
   net  <- n
   q <- qvalue
@@ -33,22 +33,22 @@ Potts_Model <- function(network, qvalue, m){
   num_of_nodes <- length(node_list) #num_of_nodes=net->node_list->Size()
   num_of_links <- length(link_list) #num_of_links=net->link_list->Size()
   
-  #n_cur=iter.First(net->node_list);
+  #n_cur=iter.First(net->node_list); ##the first node in the network list is the current node
   
   ##These lists are needed to keep track of spin states for parallel update mode
   new_spins <- vector() #new_spins=new DL_Indexed_List<unsigned int*>()
   previous_spins <- vector() #previous_spins=new DL_Indexed_List<unsigned int*>()
   
-  while(!iter.End()) { #Figure out how to code this into R
-    if(k_max < degree(n_cur)) {
-      k_max <- degree(n_cur)
+  while(!iter.End()) { #Figure out how to code this into R, until the end of the iteration...
+    if(k_max < Get_Degree(n_cur)) {
+      k_max <- Get_Degree(n_cur)
     }
-    i_ptr <- 0
-    #new_spins <- Push(i_ptr)
-    
-    i_ptr <- 0
-    #previous_spins <- Push(i_ptr)
-    
-    #n_cur=iter.Next()
+    #i_ptr=new unsigned int;
+    #*i_ptr=0;
+    #new_spins->Push(i_ptr);
+    #i_ptr=new unsigned int;
+    #*i_ptr=0;
+    #previous_spins->Push(i_ptr);
+    #n_cur=iter.Next(); ##Move to the next node in the network list, making it the current node
   }
 }
