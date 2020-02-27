@@ -19,19 +19,17 @@
 #' @export
 
 heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
-  #DLList_Iter<NNode*> iter, net_iter
-  #DLList_Iter<NLink*> l_iter
-  #DLList_Iter<unsigned int*> i_iter, i_iter2
-  #NNode *node, *n_cur
-  #NLink *l_cur
+  #DLList_Iter<NNode*> iter, net_iter ##Creating two iterations using the NNode constructor, function holding node-based info
+  #DLList_Iter<NLink*> l_iter ##Creating an iteration using the NLink constructor, function holding edge-based info
+  #DLList_Iter<unsigned int*> i_iter, i_iter2 ##Creating two iterations, not using a constructor
+  #NNode *node, *n_cur ##The current node being examined (x2)
+  #NLink *l_cur ##The current link being examined
   
-  new_spin <- 0.0 #unsigned integer
-  spin_opt <- 0.0 #unsigned integer
-  old_spin <- 0.0 #unsigned integer
-  spin <- 0.0 #unsigned integer
+  new_spin <- 0 #unsigned integer
+  spin_opt <- 0 #unsigned integer
+  old_spin <- 0 #unsigned integer
+  spin <- 0 #unsigned integer
   r <- 0.0 #long
-  
-  #unsigned long changes
   
   h<- 0.0 #double
   delta <- 0.0 #double
@@ -47,12 +45,12 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
     sweep <- sweep+1
     
     #over all nodes in the network
-    for(n in 0:length(NNode)){
+    for(n in 0:num_of_nodes){ #Need to get total number of nodes
       r <- -1
       
-      while(r<0 | r>(length(NNode)-1)){
-        r<-sample(0:(length(NNode)-1),1)
-        node<-node_list(r) #Uses the call node=net->node_list->Get(r)
+      while(r<0 | r>(num_of_nodes-1)){
+        r<-sample(0:(num_of_nodes-1),1)
+        #node=net->node_list->Get(r); ##from the node list of the network, grab the rth one and make it node
         
         #Count how many neighbors of each spin are present first of all zero
         for(i in 0:q){
@@ -60,20 +58,17 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
           degree<-Get_Weight(node)
           
           #Loop over all links (=neighbors)
-          #l_cur=l_iter.First(node->Get_Links())
+          #l_cur=l_iter.First(node->Get_Links()) ##For the node, get all links and grab first one
           
-          while(!l_iter[length(l_iter)]){
+          while(!l_iter.End()){
             w <- Get_Weight(l_cur)
             
-            if(node==Get_Start(l_cur)){
-              n_cur<-Get_End(l_cur)
-            }
-            else{
-              n_cur<-Get_Start(l_cur)
-            }
+            #If node is the starting node for the current link, then n_cur becomes l_cur's ending node
+            #otherwise it becomes l_cur's starting node
+            ifelse(node==Get_Start(l_cur), n_cur<-Get_End(l_cur), n_cur<-Get_Start(l_cur))
             
             neighbours[Get_ClusterIndex(n_cur)] <- w+neighbours
-            #l_cur=l_iter.Next()
+            #l_cur=l_iter.Next() ##Move on to the next link in the iterator
           }
           
           #Search optimal spin
@@ -89,7 +84,7 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
         }
         
         spin_opt <- old_spin
-        for(spin in 1:q){
+        for(spin in 1:q){ #all possible spins
           if(spin!=old_spin){
             h <- color_field[spin]+delta-color_field[old_spin]
             deltaE <- as.numeric(neightbours[old_spin]-neighbours[spin])+(gamma*prob*h)
@@ -98,27 +93,27 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
               deltaEmin <- deltaE
             }
           }
-        }
+        } #for spin
         
         #Now update the spins
-        #new_spin=spin_opt
-        if(new_spin!=old_spin){
+        new_spin=spin_opt
+        
+        if(new_spin!=old_spin){ #did we really change something?
           changes<-changes+1
-          node<-Set_ClusterIndex(node)
+          node <- Set_ClusterIndex(new_spin) #But in C++ this is using a -> ASK PETER ABOUT THIS
           
           color_field[old_spin] <- color_field-1 #-- argument in C++
           color_field[new_spin] <- color_field+1 #++ argument in C++
           
           #Q matrix update - iteration over all neighbors
-          #l_cur=l_iter.First(node->Get_Links())
-          while(!l_iter[length(l_iter)]){
+          #l_cur=l_iter.First(node->Get_Links()) ##For node, look at all its links and grab first one
+          while(!l_iter.End()){ #Until the end of the link iterator...
             w <- Get_Weight(l_cur)
-            if(node==Get_Start(l_cur)){
-              n_cur <- Get_End(l_cur)
-            }
-            else {
-              n_cur <- Get_Start(l_cur)
-            }
+            
+            #If node is the starting node for the current link, then n_cur becomes l_cur's ending node
+            #otherwise it becomes l_cur's starting node
+            ifelse(node==Get_Start(l_cur), n_cur <- Get_End(l_cur), n_cur <- Get_Start(l_cur))
+            
             Qmatrix[old_spin,Get_ClusterIndex(n_cur)] <- Qmatrix[old_spin,Get_ClusterIndex(n_cur)]-w
             Qmatrix[new_spin,Get_ClusterIndex(n_cur)] <- Qmatrix[new_spin,Get_ClusterIndex(n_cur)]+w
             Qmatrix[Get_ClusterIndex(n_cur),old_spin] <- Qmatrix[Get_ClusterIndex(n_cur),old_spin]-w
@@ -127,13 +122,13 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
             Qa[old_spin] <- Qa[old_spin]-w
             Qa[new_spin] <- Qa[new_spin]+w
             
-            #l_cur=l_iter.Next()
-          }
+            #l_cur=l_iter.Next() #Next link in the iterator
+          } #while l_iter
         }
-      }
-    }
+      } #for n
+    } #while markov
     
     acceptance<-changes/num_of_nodes/sweep
-    acceptance
+    return(acceptance)
   }
 }
