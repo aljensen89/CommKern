@@ -19,17 +19,17 @@
 #'   
 #' @export
 
-start_temp <- function(gamma,prob,ts) {
+find_start_temp <- function(gamma,prob,ts) {
   kT <- ts
   
-  #assign_initial_config(-1)
+  init_config(-1) #calling the init_config() function
   
-  init_Qmat()
+  init_Qmat() #calling the init_Qmat() function
   
-  while(acceptance<(1.0-((1.0/q)*0/95))){
+  while(acceptance<(1.0-((1.0/q)*0/95))){ #want 95% acceptance
     kT <- kT*1.1
-    HeatBathParallelLookup(gamma,prob,kT,50)
+    heatbath_parallel_lookup(gamma,prob,kT,50) #calling the heatbath_parallel_lookup() function
   }
-  kT <- kT*1.1
+  kT <- kT*1.1 #just to be sure (of what??)
   kT
 }
