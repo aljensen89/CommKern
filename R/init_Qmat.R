@@ -34,7 +34,7 @@ init_Qmat <- function(){
   #Go over all links and make corresponding entries in Q matrix
   #An edge connecting state i with state j will get and entry in Q_ij and Q_ji
   
-  #l_cur=l_iter.First(net->link_list); ##From links of n_cur, first link in list is assigned as l_cur
+  #l_cur=l_iter.First(net->link_list); ##From the network's link list, grab first one
   
   while (!iter.End()){ #Figure out how to code this into R, until the end of the iteration...
     i <- Get_ClusterIndex(Get_Start(l_cur)) #grab cluster index for the starting node in l_cur's list
