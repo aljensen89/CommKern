@@ -12,7 +12,7 @@
 #'   
 #' @export
 
-calculate_gen0 <- function() {
+calculate_gen0 <- function() { #Different from calculate_Q by a factor of gamma
   Q <- 0.0
   
   for (i in 0:q){
