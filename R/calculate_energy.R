@@ -18,25 +18,26 @@
 #' @export
 
 calculate_energy <- function(gamma){
-  e <- 0.0
+  e <- 0
   
-  #DLList_Iter<NLink*> l_iter
-  #NLink *l_cur
+  #DLList_Iter<NLink*> l_iter; ##Creating an iteration using the NLink constructor, function holding edge-based info
+  #NLink *l_cur; ##The current link being examined
   
-  l_cur <- l_iter[i] #also calling the links list here; using an l_iter.First call
+  #l_cur=l_iter.First(net->link_list); ##From the network's link list, grab first one
   
-  while(!l_iter[q+1]){
-    #if(L=l_cur->Get_Start()->Get_ClusterIndex()==l_cur->Get_End()->Get_ClusterIndex())
-    #  {
-    #  e <- e-1
-    #  }
-      l_cur <- l_iter[i+1]
+  while (!iter.End()){ #Figure out how to code this into R, until the end of the iteration...
+    #If the cluster index for the nodes connected by the current link are the same, then the energy goes down by one
+    if(Get_ClusterIndex(Get_Start(l_cur))==Get_ClusterIndex(Get_End(l_cur))) {
+      e <- e-1
+      }
+    #l_cur=l_iter.Next(); ##Move to the next link in the node's link list, making it the current link
   }
   
+  #And the penalty term contributes according to cluster sizes
   for(i in 1:q){
     e <- e+(gamma*0.5*color_field[i]*(color_field[i]-1))
   }
   
-  energy <- e
+  energy <- e #Where is "energy" being called in the C++ script?
   e
 }
