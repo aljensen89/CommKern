@@ -18,7 +18,7 @@ calculate_Q <- function(){
   Q <- 0.0
   
   for (i in 0:q){
-    Q <- Q+((Qmatrix[i,i]-Qa[i]^2)/(2.0*sum_weights))
+    Q <- Q+((Qmatrix[i,i]-Qa[i]^2)/(2.0*sum_weights(net)))
     if (Qa[i]<0.0 | Qmatrix[i,i]<0.0){
       #print("Negative Qa or Q[i,i]")
     }
