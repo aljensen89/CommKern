@@ -20,11 +20,11 @@ calculate_Q <- function(){
   for (i in 0:q){
     Q <- Q+((Qmatrix[i,i]-Qa[i]^2)/(2.0*sum_weights))
     if (Qa[i]<0.0 | Qmatrix[i,i]<0.0){
-      print("Negative Qa or Q[i,i]")
+      #print("Negative Qa or Q[i,i]")
     }
   }
   
-  Q <- Q/(2.0*sum_weights)
+  Q <- Q/(2.0*sum_weights(net)) #Q is replaced by Q divided by 2 times the sum of all weights in network
   
   Q
 }
