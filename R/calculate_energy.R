@@ -39,5 +39,5 @@ calculate_energy <- function(gamma){
   }
   
   energy <- e #Where is "energy" being called in the C++ script?
-  e
+  return(e)
 }

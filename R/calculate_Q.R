@@ -25,6 +25,5 @@ calculate_Q <- function(){
   }
   
   Q <- Q/(2.0*sum_weights(net)) #Q is replaced by Q divided by 2 times the sum of all weights in network
-  
-  Q
+  return(Q)
 }
