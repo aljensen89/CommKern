@@ -31,5 +31,5 @@ find_start_temp <- function(gamma,prob,ts) {
     heatbath_parallel_lookup(gamma,prob,kT,50) #calling the heatbath_parallel_lookup() function
   }
   kT <- kT*1.1 #just to be sure (of what??)
-  kT
+  return(kT)
 }
