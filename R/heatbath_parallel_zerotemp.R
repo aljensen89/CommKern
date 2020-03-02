@@ -115,7 +115,7 @@ heatbath_parallel_zerotemp <- function(gamma,prob,max_sweeps) {
       
       if(new_spin!=old_spin){ #Do we really have a change?
         changes <- changes+1
-        node <- Set_ClusterIndex(new_spin) #But in C++ this is using a -> ASK PETER ABOUT THIS
+        #node -> Set_ClusterIndex(new_spin) #At memory address, set the cluster index for current node to new_spin
         
         #In parallel update, there occur cyclic attractors of size two
         #This makes the program run forever
