@@ -19,10 +19,10 @@ Potts_Model <- function(network, qvalue, m){
   
   #DLList_Iter<NNode*> iter; ##Creating an iteration using the NNode constructor, function holding node-based info
   #NNode *N_cur; ##The current node being examined
-  #unsigned int *i_ptr ##???
+  #unsigned int *i_ptr ##Other, integer-valued iterator
   
   net  <- n
-  q <- qvalue
+  q <- qvalue #Number of communities
   operation_mode <- m
   k_max <- 0
   Qa <- rep(NA, q+1) #Needed in calculating modularity
