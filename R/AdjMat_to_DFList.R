@@ -71,11 +71,11 @@ matrix_to_df<-function(func_mat,str_mat){
   ##Because symmetric matrix, replace upper triangle with something that can be filtered out
   func_mat2[upper.tri(func_mat2)]<-NA
   
-  func_df<-melt(func_mat2)
+  func_df<-reshape2::melt(func_mat2)
   
   ##Filter out the upper matrix values, the self correlations, and value=0
   func_df<-filter(func_df,!is.na(value)) %>%
-    filter(X1 != X2) %>%
+    filter(Var1 != Var2) %>%
     filter(value != 0)
   
   ##Renaming the columns
@@ -87,11 +87,11 @@ matrix_to_df<-function(func_mat,str_mat){
   ##Because symmetric matrix, replace upper triangle with something that can be filtered out
   str_mat2[upper.tri(str_mat2)]<-NA
   
-  str_df<-melt(str_mat2)
+  str_df<-reshape2::melt(str_mat2)
   
   ##Filter out the upper matrix values, the self correlations, and value=0
   str_df<-filter(str_df,!is.na(value)) %>%
-    filter(X1 != X2) %>%
+    filter(Var1 != Var2) %>%
     filter(value != 0)
   
   ##Renaming the columns
