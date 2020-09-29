@@ -8,6 +8,8 @@
 #' updating. Note that Qmatrix and Qa are only counting! The normalization by num_of_links
 #' is done later.
 #' 
+#' @param network list
+#' 
 #' @return ???
 #'
 #' @examples 
@@ -16,11 +18,14 @@
 #'   
 #' @export
 
-init_Qmat <- function(){
-  #DLList_Iter<NLink*> l_iter; ##Creating an iteration using the NLink constructor, function holding edge-based info
-  #NLink *l_cur; ##The current link being examined
+init_Qmat <- function(network){
   
-  num_of_links <- length(link_list) #num_of_links=net->link_list->Size();
+  num_of_links <- nrow(network$func_edges)
+  
+  #Need to create Qmatrix and Qa somewhere else in the code
+  #Dimensions determined by q - the max number of communities specified a priori
+  ##Qmatrix<-matrix(ncol=q,nrow=q)
+  ##Qa<-rep(NA,q)
   
   #Initialize with zeros
   for (i in 0:q){
@@ -36,20 +41,16 @@ init_Qmat <- function(){
   
   #l_cur=l_iter.First(net->link_list); ##From the network's link list, grab first one
   
-  while (!iter.End()){ #Figure out how to code this into R, until the end of the iteration...
-    i <- Get_ClusterIndex(Get_Start(l_cur)) #grab cluster index for the starting node in l_cur's list
-    j <- Get_ClusterIndex(Get_End(l_cur)) #grab cluster index for the ending node in l_cur's list
+  for (k in 1:nrow(network$func_edges)){
+    i <- network$vertexes$community[network$vertexes$node_id==network$func_edges[k,1]]
+    j <- network$vertexes$community[network$vertexes$node_id==network$func_edges[k,2]]
     
-    Qmatrix[i,j] <- Qmatrix[i,j]+Get_Weight(l_cur) 
-    Qmatrix[j,i] <- Qmatrix[j,i]+Get_Weight(l_cur) 
-    
-    #l_cur=l_iter.Next();
+    Qmatrix[i,j] <- Qmatrix[i,j]+network$func_edges[k,3]
+    Qmatrix[j,i] <- Qmatrix[j,i]+network$func_edges[k,3]
   }
   
   for (i in 0:q){
-    for (j in 0:q){
-      Qa[i] <- Qa+Qmatrix[i,j]
-    }
+    Qa[i] <- rowSums(Qmatrix)[i]
   }
   calculate_Q() #This is a function!
 }
