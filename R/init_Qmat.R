@@ -19,27 +19,13 @@
 #' @export
 
 init_Qmat <- function(network){
-  
-  num_of_links <- nrow(network$func_edges)
-  
   #Need to create Qmatrix and Qa somewhere else in the code
   #Dimensions determined by q - the max number of communities specified a priori
-  ##Qmatrix<-matrix(ncol=q,nrow=q)
-  ##Qa<-rep(NA,q)
-  
-  #Initialize with zeros
-  for (i in 0:q){
-    Qa[i] <- 0.0
-    for (j in i:q){
-      Qmatrix[i,j] <- 0.0
-      Qmatrix[j,i] <- 0.0
-    }
-  }
-  
+  ##Qmatrix<-matrix(0L,ncol=q,nrow=q)
+  ##Qa<-rep(0,q)
+
   #Go over all links and make corresponding entries in Q matrix
   #An edge connecting state i with state j will get and entry in Q_ij and Q_ji
-  
-  #l_cur=l_iter.First(net->link_list); ##From the network's link list, grab first one
   
   for (k in 1:nrow(network$func_edges)){
     i <- network$vertexes$community[network$vertexes$node_id==network$func_edges[k,1]]
