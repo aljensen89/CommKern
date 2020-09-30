@@ -35,7 +35,7 @@ init_Qmat <- function(network){
     Qmatrix[j,i] <- Qmatrix[j,i]+network$func_edges[k,3]
   }
   
-  for (i in 0:q){
+  for (i in 1:q){
     Qa[i] <- rowSums(Qmatrix)[i]
   }
   calculate_Q() #This is a function!
