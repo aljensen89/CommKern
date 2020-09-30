@@ -28,7 +28,7 @@ find_start_temp <- function(gamma,prob,ts) {
   
   while(acceptance<(1.0-((1.0/q)*0/95))){ #want 95% acceptance
     kT <- kT*1.1
-    heatbath_parallel_lookup(gamma,prob,kT,50) #calling the heatbath_parallel_lookup() function
+    heatbath_lookup(gamma,prob,kT,50) #calling the heatbath_lookup() function
   }
   kT <- kT*1.1 #just to be sure (of what??)
   return(kT)
