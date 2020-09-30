@@ -17,13 +17,14 @@
 calculate_Q <- function(){
   Q <- 0.0
   
-  for (i in 0:q){
-    Q <- Q+((Qmatrix[i,i]-Qa[i]^2)/(2.0*sum_weights(net)))
-    if (Qa[i]<0.0 | Qmatrix[i,i]<0.0){
-      #print("Negative Qa or Q[i,i]")
-    }
+  for (i in 1:q){
+    Q <- Q+((Qmatrix[i,i]-Qa[i]^2)/(2.0*sum(network$func_edges$func_weight)))
+    #if (Qa[i]<0.0 | Qmatrix[i,i]<0.0){
+    #  print("Negative Qa or Q[i,i]")
+    #}
   }
   
-  Q <- Q/(2.0*sum_weights(net)) #Q is replaced by Q divided by 2 times the sum of all weights in network
+  #Q is replaced by Q divided by 2 times the sum of all weights in network
+  Q <- Q/(2.0*sum(network$func_edges$func_weight))
   return(Q)
 }
