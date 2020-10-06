@@ -15,13 +15,9 @@
 #' example_function(2, matrix(c(1, 2, 3, 4), ncol = 2))
 #'   
 #' @export
-Potts_Model <- function(network, qvalue, m){
+potts_model <- function(network, qvalue, m){
   
-  #DLList_Iter<NNode*> iter; ##Creating an iteration using the NNode constructor, function holding node-based info
-  #NNode *N_cur; ##The current node being examined
-  #unsigned int *i_ptr ##Other, integer-valued iterator
-  
-  net  <- n
+  net <- network
   q <- qvalue #Number of communities
   operation_mode <- m
   k_max <- 0
@@ -30,25 +26,18 @@ Potts_Model <- function(network, qvalue, m){
   color_field <- rep(NA, q+1) #Bookkeeping of occupation numbers of spin states or the number of links in the community
   neighbors <- rep(NA, q+1)
   
-  num_of_nodes <- length(node_list) #num_of_nodes=net->node_list->Size()
-  num_of_links <- length(link_list) #num_of_links=net->link_list->Size()
+  num_of_nodes <- length(net$vertexes$node_id)
+  num_of_links <- nrow(net$func_edges)
   
   #n_cur=iter.First(net->node_list); ##the first node in the network list is the current node
   
   ##These lists are needed to keep track of spin states for parallel update mode
-  new_spins <- vector() #new_spins=new DL_Indexed_List<unsigned int*>()
-  previous_spins <- vector() #previous_spins=new DL_Indexed_List<unsigned int*>()
+  new_spins <- rep(0,length(network$vertexes$node_id))
+  previous_spins <- rep(0,length(network$vertexes$node_id))
   
-  while(!iter.End()) { #Figure out how to code this into R, until the end of the iteration...
-    if(k_max < Get_Degree(n_cur)) {
-      k_max <- Get_Degree(n_cur)
+  for (i in 1:length(network$vertexes$node_id)){
+    if (k_max < network$vertexes$func_degree[i]){
+      k_max <- network$vertexes$func_degree[i]
     }
-    #i_ptr=new unsigned int;
-    #*i_ptr=0;
-    #new_spins->Push(i_ptr);
-    #i_ptr=new unsigned int;
-    #*i_ptr=0;
-    #previous_spins->Push(i_ptr);
-    #n_cur=iter.Next(); ##Move to the next node in the network list, making it the current node
   }
 }
