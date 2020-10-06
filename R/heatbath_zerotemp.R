@@ -19,46 +19,42 @@
 #' @export
 
 heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
-  #DLList_Iter<NNode*> iter, net_iter ##Creating two iterations using the NNode constructor, function holding node-based info
-  #DLList_Iter<NLink*> l_iter ##Creating an iteration using the NLink constructor, function holding edge-based info
-  #DLList_Iter<unsigned int*> i_iter, i_iter2 ##Creating two iterations, not using a constructor
-  #NNode *node, *n_cur ##The current node being examined (x2)
-  #NLink *l_cur ##The current link being examined
-  
-  new_spin <- 0 #unsigned integer
-  spin_opt <- 0 #unsigned integer
-  old_spin <- 0 #unsigned integer
-  spin <- 0 #unsigned integer
-  r <- 0.0 #long
-  
-  h<- 0.0 #double
-  delta <- 0.0 #double
-  deltaE <- 0.0 #double
-  deltaEmin <- 0.0 #double
-  w <- 0.0 #double
-  degree <- 0.0 #double
-  
+  new_spin <- 0
+  spin_opt <- 0
+  old_spin <- 0
+  spin <- 0
+  r <- 0.0
+  h <- 0.0
+  delta <- 0.0
+  deltaE <- 0.0
+  deltaEmin <- 0.0
+  w <- 0.0
+  degree <- 0.0
   sweep <- 0
   changes <- 0
   
-  while(sweep<max_sweeps){
+  while(sweep < max_sweeps){
     sweep <- sweep+1
     
     #over all nodes in the network
-    for(n in 0:num_of_nodes){ #Need to get total number of nodes
+    for(n in 0:num_of_nodes){ #Need to get total number of nodes - maybe in spinglass_orig function?
       r <- -1
       
-      while(r<0 | r>(num_of_nodes-1)){
-        r<-sample(0:(num_of_nodes-1),1)
-        #node=net->node_list->Get(r); ##from the node list of the network, grab the rth one and make it node
+      while(r < 0 | r > (num_of_nodes-1)){
+        r <- sample(0:(num_of_nodes-1),1)
         
-        #Count how many neighbors of each spin are present first of all zero
+        node <- network$vertexes$node_id[r]
+        
+        #Count how many neighbors of each spin are present
+        #First set everything to zero
         for(i in 0:q){
-          neighbors[i]<-0
-          degree<-Get_Weight(node)
+          neighbors[i] <- 0
+          degree <- network$vertexes$func_degree[node]
           
           #Loop over all links (=neighbors)
-          #l_cur=l_iter.First(node->Get_Links()) ##For the node, get all links and grab first one
+          l_iter <- network$func_edges %>% 
+            filter(network$func_edges$func_start_node==network$vertexes$node_id[node] | 
+                     network$func_edges$func_end_node==network$vertexes$node_id[node])
           
           while(!l_iter.End()){
             w <- Get_Weight(l_cur)
