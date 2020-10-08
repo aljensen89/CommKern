@@ -19,7 +19,7 @@
 
 init_config <- function(spin) {
   
-  #Need to initialize color_filed elsewhere in code
+  #Need to initialize color_field elsewhere in code
   ##color_field<-rep(0,q)
   s <- 0
   sum_weight <- 0
@@ -29,9 +29,7 @@ init_config <- function(spin) {
   
   for (i in 1:length(network$vertexes$node_id)){
     #If the spin is somehow <0, randomly assign s to an integer, otherwise assign as normal
-    ifelse(spin<0,
-           s <- sample(1:q,1),
-           s <- spin) 
+    if(spin<0){s <- sample(1:q,1)} else{s <- spin}
     
     sum_weight <- network$vertexes$func_degree[i]
     
@@ -45,8 +43,7 @@ init_config <- function(spin) {
     av_k <- av_k + sum_weight
     
     #In case we want all links to contribute equally - parameter gamma is fixed
-    ifelse(operation_mode==0, color_field[i] <- color_field[i] + 1, 
-           color_field[i] <- color_field[i] + sum_weight)
+    if(operation_mode==0){color_field[i] <- color_field[i]+1} else{color_field[i] <- color_field[i]+sum_weight}
     
     #Or in the case we want to use a weight of each link that is proportional to k_i*k_j
     total_degree_sum <- total_degree_sum + sum_weight
@@ -56,5 +53,5 @@ init_config <- function(spin) {
   av_k_squared <- av_k_squared / length(network$vertexes$node_id)
   av_k <- av_k / length(network$vertexes$node_id)
   
-  return(length(network$vertexes$node_id))
+  return(network)
 }
