@@ -29,7 +29,7 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
   deltaE <- 0.0
   deltaEmin <- 0.0
   w <- 0.0
-  degree <- 0.0
+  deg <- 0.0
   sweep <- 0
   changes <- 0
   
@@ -44,38 +44,42 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
         r <- sample(0:(num_of_nodes-1),1)
         
         node <- network$vertexes$node_id[r]
+        n_cur <- NA
         
         #Count how many neighbors of each spin are present
         #First set everything to zero
         for(i in 0:q){
           neighbors[i] <- 0
-          degree <- network$vertexes$func_degree[node]
+          deg <- network$vertexes$func_degree[node]
           
           #Loop over all links (=neighbors)
           l_iter <- network$func_edges %>% 
             filter(network$func_edges$func_start_node==network$vertexes$node_id[node] | 
                      network$func_edges$func_end_node==network$vertexes$node_id[node])
           
-          while(!l_iter.End()){
-            w <- Get_Weight(l_cur)
+          for (j in 1:nrow(l_iter)){
+            w <- l_iter$func_weight
             
             #If node is the starting node for the current link, then n_cur becomes l_cur's ending node
             #otherwise it becomes l_cur's starting node
-            ifelse(node==Get_Start(l_cur), n_cur<-Get_End(l_cur), n_cur<-Get_Start(l_cur))
+            if(node==l_iter$func_start_node[i]){
+              n_cur <- l_iter$func_end_node[i]
+            }else{
+                n_cur <- l_iter$func_start_node[i]
+                }
             
-            neighbours[Get_ClusterIndex(n_cur)] <- w+neighbours
-            #l_cur=l_iter.Next() ##Move on to the next link in the iterator
+            neighbours[network$vertexes$community[network$vertexes$node_id==n_cur]] <- w + neighbours[network$vertexes$community[network$vertexes$node_id==n_cur]]
           }
           
           #Search optimal spin
-          old_spin <- Get_ClusterIndex(node)
+          old_spin <- network$vertexes$community[network$vertexes$node_id==node]
           
           if (operation_mode==0){
             delta <- 1.0
           }
           else if (operation_mode==1){ #Newman modularity
-            prob <- degree/total_degree_sum
-            delta <- degree
+            prob <- deg/total_degree_sum #Is total_degree_sum initialized somewhere else?
+            delta <- deg
           }
         }
         
