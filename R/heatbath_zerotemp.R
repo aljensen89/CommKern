@@ -32,12 +32,13 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
   deg <- 0.0
   sweep <- 0
   changes <- 0
+  #num_of_nodes <- length(network$vertexes$node_id)
   
   while(sweep < max_sweeps){
     sweep <- sweep+1
     
     #over all nodes in the network
-    for(n in 0:num_of_nodes){ #Need to get total number of nodes - maybe in spinglass_orig function?
+    for(n in 1:num_of_nodes){
       r <- -1
       
       while(r < 0 | r > (num_of_nodes-1)){
@@ -58,7 +59,7 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
                      network$func_edges$func_end_node==network$vertexes$node_id[node])
           
           for (j in 1:nrow(l_iter)){
-            w <- l_iter$func_weight
+            w <- l_iter$func_weight[i]
             
             #If node is the starting node for the current link, then n_cur becomes l_cur's ending node
             #otherwise it becomes l_cur's starting node
@@ -87,7 +88,7 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
         for(spin in 1:q){ #all possible spins
           if(spin!=old_spin){
             h <- color_field[spin]+delta-color_field[old_spin]
-            deltaE <- as.numeric(neightbours[old_spin]-neighbours[spin])+(gamma*prob*h)
+            deltaE <- (neighbours[old_spin]-neighbours[spin])+(gamma*prob*h)
             if(deltaE<deltaEmin){
               spin_opt <- spin
               deltaEmin <- deltaE
@@ -96,39 +97,45 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
         } #for spin
         
         #Now update the spins
-        new_spin=spin_opt
+        new_spin <- spin_opt
         
         if(new_spin!=old_spin){ #did we really change something?
-          changes<-changes+1
-          node <- Set_ClusterIndex(new_spin) #But in C++ this is using a -> ASK PETER ABOUT THIS
+          changes <- changes+1
+          network$vertexes$community[network$vertexes$node_id==node] <- new_spin
           
-          color_field[old_spin] <- color_field-1 #-- argument in C++
-          color_field[new_spin] <- color_field+1 #++ argument in C++
+          color_field[old_spin] <- color_field-1 
+          color_field[new_spin] <- color_field+1 
           
           #Q matrix update - iteration over all neighbors
-          #l_cur=l_iter.First(node->Get_Links()) ##For node, look at all its links and grab first one
-          while(!l_iter.End()){ #Until the end of the link iterator...
-            w <- Get_Weight(l_cur)
+          l_iter2 <- network$func_edges %>% 
+            filter(network$func_edges$func_start_node==network$vertexes$node_id[node] | 
+                     network$func_edges$func_end_node==network$vertexes$node_id[node])
+          
+          for (j in 1:nrow(l_iter2)){
+            w2 <- l_iter2$func_weight[i]
             
             #If node is the starting node for the current link, then n_cur becomes l_cur's ending node
             #otherwise it becomes l_cur's starting node
-            ifelse(node==Get_Start(l_cur), n_cur <- Get_End(l_cur), n_cur <- Get_Start(l_cur))
+            if(node==l_iter$func_start_node[i]){
+              n_cur2 <- l_iter2$func_end_node[i]
+            }else{
+              n_cur2 <- l_iter2$func_start_node[i]
+            }
             
-            Qmatrix[old_spin,Get_ClusterIndex(n_cur)] <- Qmatrix[old_spin,Get_ClusterIndex(n_cur)]-w
-            Qmatrix[new_spin,Get_ClusterIndex(n_cur)] <- Qmatrix[new_spin,Get_ClusterIndex(n_cur)]+w
-            Qmatrix[Get_ClusterIndex(n_cur),old_spin] <- Qmatrix[Get_ClusterIndex(n_cur),old_spin]-w
-            Qmatrix[Get_ClusterIndex(n_cur),new_spin] <- Qmatrix[Get_ClusterIndex(n_cur),new_spin]+w
+            Qmatrix[old_spin,Get_ClusterIndex(n_cur2)] <- Qmatrix[old_spin,Get_ClusterIndex(n_cur2)]-w2
+            Qmatrix[new_spin,Get_ClusterIndex(n_cur2)] <- Qmatrix[new_spin,Get_ClusterIndex(n_cur2)]+w2
+            Qmatrix[Get_ClusterIndex(n_cur2),old_spin] <- Qmatrix[Get_ClusterIndex(n_cur2),old_spin]-w2
+            Qmatrix[Get_ClusterIndex(n_cur2),new_spin] <- Qmatrix[Get_ClusterIndex(n_cur2),new_spin]+w2
             
-            Qa[old_spin] <- Qa[old_spin]-w
-            Qa[new_spin] <- Qa[new_spin]+w
+            Qa[old_spin] <- Qa[old_spin]-w2
+            Qa[new_spin] <- Qa[new_spin]+w2
             
-            #l_cur=l_iter.Next() #Next link in the iterator
-          } #while l_iter
+          } #while l_iter2
         }
       } #for n
     } #while markov
     
-    acceptance<-changes/num_of_nodes/sweep
+    acceptance <- changes/num_of_nodes/sweep
     return(acceptance)
   }
 }
