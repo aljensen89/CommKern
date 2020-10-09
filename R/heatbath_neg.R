@@ -99,8 +99,108 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
       }
       
       #We now have the weight of the (in and out) neighbors in each cluster available to us
+      old_spin <- spin[v]
       
+      #Look for the optimal spin
+      #Set the appropriate variables
+      delta_pos_out <- degree_pos_out[v]
+      delta_pos_in <- degree_pos_in[v]
+      delta_neg_out <- degree_neg_out[v]
+      delta_neg_in <- degree_neg_in[v]
+      
+      k_v_pos_out <- gamma*(delta_pos_out/m_pt)
+      k_v_pos_in <- gamma*(delta_pos_in/m_pt)
+      k_v_neg_out <- lambda*(delta_neg_out/m_nt)
+      k_v_neg_in <- lambda*(delta_neg_in/m_nt)
+      
+      #The expectation value for the old spin
+      if(directed_net==TRUE){
+        exp_old_spin <- (k_v_pos_out*(degree_community_pos_in[old_spin]-delta_pos_in)-
+                         k_v_neg_out*(degree_community_neg_in[old_spin]-delta_neg_in)+
+                         k_v_pos_in*(degree_community_pos_out[old_spin]-delta_pos_out)-
+                         k_v_neg_in*(degree_community_neg_out[old_spin]-delta_neg_out))
+      } else {
+        exp_old_spin <- (k_v_pos_out*(degree_community_pos_in[old_spin]-delta-pos_in)-
+                         k_v_neg_out*(degree_community_neg_in[old_spin]-delta_neg_in))
+      }
+      
+      #Calculating the probabilities for each transition to another community
+      weights[old_spin] <- 0
+      
+      for(spin_opt in 1:q) { #All possible new spins
+        if(spin_opt!=old_spin){ #Except the old one!
+          if(directed_net==TRUE){
+            exp_spin <- ((k_v_pos_out*degree_community_pos_in[spin_opt])-
+                         (k_v_neg_out*degree_community_neg_in[spin_opt])+
+                         (k_v_pos_in*degree_community_pos_out[spin_opt])-
+                         (k_v_neg_in*degree_community_neg_out[spin_opt]))
+          } else {
+            exp_spin <- ((k_v_pos_out*degree_community_pos_in[spin_opt])-
+                         (k_v_neg_out*degree_community_neg_in[spin_opt]))
+          }
+          
+          weights[spin_opt] <- ((neighbours[spin_opt]-exp_spin)-
+                               (neighbours[old_spin]-exp_old_spin))
+          
+          if(weights[spin_opt]>maxweight) {
+            maxweight <- weights[spin_opt]
+          }
+        }
+      }
+      
+      #Calculate expected probability an (?)
+      sum_weights <- 0
+      for (spin_opt in 1:q) { #All possible new spins
+        weights[spin_opt] <- weights[spin_opt]-maxweight #Subtract maxweight for numerical stability (otherwise overflow)
+        weights[spin_opt] <- exp(beta*weights[spin_opt])
+        sum_weights <- sum_weights + weights[spin_opt]
+      }
+      
+      #Choose a new spin dependent on the calculated probabilities
+      r <- sample(0:sum_weights,1)
+      new_spin <- 1
+      found <- FALSE
+      while(found==FALSE & new_spin<=q) {
+        if(r<=weights[new_spin]){
+          spin_opt <- new_spin #We have found a new spin
+          found=TRUE
+        } else {
+          r <- r-weights[new_spin] #Perhaps the next spin is the one we want
+        }
+        new_spin <- new_spin+1
+      }
+      
+      #Some weird thing happened: we haven't found a new spin when that shouldn't be the case
+      #Numerical problems?
+      if(found==FALSE) {
+        problem_count <- problem_count+1
+      }
+      
+      #If there wasn't a problem, we should have found our new spin
+      new_spin <- spin_opt
+      
+      #The new spin is available to us, so change all appropriate counters
+      if(new_spin!=old_spin){ #Did we really change something?
+        changes <- changes+1
+        spin[v] <- new_spin
+      }
+      
+      #The new spin increases by one and the old spin decreases by one
+      csize[new_spin] <- csize[new_spin]+1
+      csize[old_spin] <- csize[old_spin]-1
+      
+      #Change the sums of degree for the old spin
+      degree_community_pos_in[old_spin] <- degree_community_pos_in[old_spin]-delta_pos_in
+      degree_community_neg_in[old_spin] <- degree_community_neg_in[old_spin]-delta_neg_in
+      degree_community_pos_out[old_spin] <- degree_community_pos_out[old_spin]-delta_pos_out
+      degree_community_neg_out[old_spin] <- degree_community_neg_out[old_spin]-delta_neg_out
+      
+      #And for the new spin
+      degree_community_pos_in[new_spin] <- degree_community_pos_in[new_spin]+delta_pos_in
+      degree_community_neg_in[new_spin] <- degree_community_neg_in[new_spin]+delta_neg_in
+      degree_community_pos_out[new_spin] <- degree_community_pos_out[new_spin]+delta_pos_out
+      degree_community_neg_out[new_spin] <- degree_community_neg_out[new_spin]+delta_neg_out
     }
   }
-  
+  return(changes/num_of_nodes/)
 }
