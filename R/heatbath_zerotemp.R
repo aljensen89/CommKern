@@ -59,14 +59,14 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
                      network$func_edges$func_end_node==network$vertexes$node_id[node])
           
           for (j in 1:nrow(l_iter)){
-            w <- l_iter$func_weight[i]
+            w <- l_iter$func_weight[j]
             
             #If node is the starting node for the current link, then n_cur becomes l_cur's ending node
             #otherwise it becomes l_cur's starting node
-            if(node==l_iter$func_start_node[i]){
-              n_cur <- l_iter$func_end_node[i]
+            if(node==l_iter$func_start_node[j]){
+              n_cur <- l_iter$func_end_node[j]
             }else{
-                n_cur <- l_iter$func_start_node[i]
+                n_cur <- l_iter$func_start_node[j]
                 }
             
             neighbours[network$vertexes$community[network$vertexes$node_id==n_cur]] <- w + neighbours[network$vertexes$community[network$vertexes$node_id==n_cur]]
