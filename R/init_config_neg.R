@@ -20,7 +20,7 @@
 init_config_neg <- function(init_spins) {
  s <- 0
  
- if(init_spins){
+ if(init_spins==TRUE){
    
    #Bookkeeping the various degrees (positive/negative) and (in/out)
    degree_pos_in <- rep(0,num_of_nodes) #Positive indegree of the nodes (or sum of weights)
@@ -53,7 +53,12 @@ init_config_neg <- function(init_spins) {
  sum_weight_neg_out <- 0
  
  for(v in 1:num_of_nodes){
-   if(init_spins){s <- sample(1:q,1) spin[v] <- s} else{s <- spin[v]}
+   if(init_spins){
+     s <- sample(1:q,1) 
+     spin[v] <- s
+   } else{
+       s <- spin[v]
+   }
    
    n_cur <- network$vertexes$node_id[v]
    l_iter <- network$func_edges %>% 
@@ -74,7 +79,7 @@ init_config_neg <- function(init_spins) {
      }
    }
    
-   if (!is_directed){
+   if (directed_net==FALSE){
      sum_weight_pos <- sum_weight_pos_in+sum_weight_pos_out
      sum_weight_pos_in <- sum_weight_pos
      sum_weight_pos_out <- sum_weight_pos
@@ -84,7 +89,7 @@ init_config_neg <- function(init_spins) {
      sum_weight_neg_out <- sum_weight_neg
    }
    
-   if(init_spins){ #Set the degrees correctly
+   if(init_spins==TRUE){ #Set the degrees correctly
      degree_pos_in[v] <- sum_weight_pos_in
      degree_neg_in[v] <- sum_weight_neg_in
      degree_pos_out[v] <- sum_weight_pos_out
@@ -104,5 +109,5 @@ init_config_neg <- function(init_spins) {
    m_p <- m_p+sum_weight_pos_in
    m_n <- m_n+sum_weight_neg_in
  }
-  return(network)
+  return()
 }
