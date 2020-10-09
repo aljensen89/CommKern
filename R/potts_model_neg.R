@@ -21,6 +21,6 @@ potts_model <- function(network, num_communities, directed){
  q <- num_communities
  is_directed <- directed
  is_init <- FALSE
- num_nodes <- length(net$vertexes$node_id)
+ num_of_nodes <- length(net$vertexes$node_id)
  
 }
