@@ -23,14 +23,14 @@ find_start_temp_neg <- function(gamma,lambda,ts) {
   kT <- ts
   
   #Assign random initial condition
-  network<-init_config_neg(TRUE)
+  init_config_neg(TRUE)
   
   #The factor 1-(1/q) is important since even at infinite temperature, 1-(1/q) of all spins do
   #change their state as a randomly chosen new state is with probability (1/q) the old state
   acceptance <- 0
   while (acceptance<((1-(1/q))*0.95)){ #Want 95% acceptance
     kt <- kT*1.1
-    acceptance <- HeatBathLookup_Neg(gamma,lambda,kT,50)
+    acceptance <- heatbath_neg(gamma,lambda,kT,50)
   }
   kT <- kt*1.1 #Just to be sure
   return(kT)
