@@ -95,6 +95,7 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
         }
         
         #Add the link to the correct cluster
+        #Like A_{ij} in equation (10) from Traag and Bruggeman
         neighbours[network$vertexes$community[network$vertexes$node_id==n_cur]] <- w + neighbours[network$vertexes$community[network$vertexes$node_id==n_cur]]
       }
       
@@ -120,6 +121,7 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
                          k_v_pos_in*(degree_community_pos_out[old_spin]-delta_pos_out)-
                          k_v_neg_in*(degree_community_neg_out[old_spin]-delta_neg_out))
       } else {
+        #Approximately equal to [m_{rs}^{+/-}], which is the expected number of arcs from community r to s
         exp_old_spin <- (k_v_pos_out*(degree_community_pos_in[old_spin]-delta_pos_in)-
                          k_v_neg_out*(degree_community_neg_in[old_spin]-delta_neg_in))
       }
@@ -135,10 +137,11 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
                          (k_v_pos_in*degree_community_pos_out[spin_opt])-
                          (k_v_neg_in*degree_community_neg_out[spin_opt]))
           } else {
+            #Approximately equal to [m_{rs}^{+/-}], which is the expected number of arcs from community r to s
             exp_spin <- ((k_v_pos_out*degree_community_pos_in[spin_opt])-
                          (k_v_neg_out*degree_community_neg_in[spin_opt]))
           }
-          
+          #Difference in (observed-expected) between spin_opt and old_spin
           weights[spin_opt] <- ((neighbours[spin_opt]-exp_spin)-
                                (neighbours[old_spin]-exp_old_spin))
           
@@ -148,11 +151,11 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
         }
       }
       
-      #Calculate expected probability an (?)
+      #Calculate expected probability across all possible community designations
       sum_weights <- 0
       for (spin_opt in 1:q) { #All possible new spins
         weights[spin_opt] <- weights[spin_opt]-maxweight #Subtract maxweight for numerical stability (otherwise overflow)
-        weights[spin_opt] <- exp(beta*weights[spin_opt])
+        weights[spin_opt] <- exp(beta*weights[spin_opt]) #Probability statement from Traag and Bruggeman
         sum_weights <- sum_weights + weights[spin_opt]
       }
       
