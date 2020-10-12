@@ -36,14 +36,14 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
   v <- 0 #The node we will be investigating
   
   #The variables required for the calculations
-  delta_pos_out <- 0
-  delta_pos_in <- 0
-  delta_neg_out <- 0
-  delta_neg_in <- 0
-  k_v_pos_out <- 0
-  k_v_pos_in <- 0
-  k_v_neg_out <- 0
-  k_v_neg_in <-0
+  delta_pos_out <- 0 #Positive outdegree for node, equation (1) from Traag and Bruggeman
+  delta_pos_in <- 0 #Positive indegree for node, equation (1) from Traag and Bruggeman
+  delta_neg_out <- 0 #Negative outdegree for node, equation (1) from Traag and Bruggeman
+  delta_neg_in <- 0 #Negative indegree for node, equation (1) from Traag and Bruggeman
+  k_v_pos_out <- 0 #gamma*(delta_pos_out/m_pt)
+  k_v_pos_in <- 0 #gamma*(delta_pos_in/m_pt)
+  k_v_neg_out <- 0 #lambda*(delta_neg_out/m_nt)
+  k_v_neg_in <-0 #lambda*(delta_neg_in/m_nt)
   
   w <- 0 #Weight of the edge
   beta <- (1/t) #Weight for the probabilities
@@ -52,8 +52,8 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
   maxweight <- 0
   sum_weights <- 0 #For normalizing the probabilities
   
-  m_pt <- m_p
-  m_nt <- m_n
+  m_pt <- m_p #All positive indegree weights in the network, used for normalization
+  m_nt <- m_n #All negative indegree weights in the network, used for normalization
   
   if (m_pt<0.001) {
     m_pt <- 1
@@ -120,7 +120,7 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
                          k_v_pos_in*(degree_community_pos_out[old_spin]-delta_pos_out)-
                          k_v_neg_in*(degree_community_neg_out[old_spin]-delta_neg_out))
       } else {
-        exp_old_spin <- (k_v_pos_out*(degree_community_pos_in[old_spin]-delta-pos_in)-
+        exp_old_spin <- (k_v_pos_out*(degree_community_pos_in[old_spin]-delta_pos_in)-
                          k_v_neg_out*(degree_community_neg_in[old_spin]-delta_neg_in))
       }
       
