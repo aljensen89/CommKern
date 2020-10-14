@@ -205,5 +205,7 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
       degree_community_neg_out[new_spin] <- degree_community_neg_out[new_spin]+delta_neg_out
     }
   }
-  return(changes/num_of_nodes/sweep)
+  
+  acceptance <- changes/num_of_nodes/sweep
+  return(acceptance)
 }
