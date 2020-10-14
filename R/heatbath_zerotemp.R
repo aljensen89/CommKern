@@ -41,8 +41,8 @@ heatbath_zerotemp <- function(gamma,prob,max_sweeps) {
     for(n in 1:num_of_nodes){
       r <- -1
       
-      while(r < 0 | r > (num_of_nodes-1)){
-        r <- sample(0:(num_of_nodes-1),1)
+      while(r < 0 | r >num_of_nodes){
+        r <- sample(1:num_of_nodes,1)
         
         node <- network$vertexes$node_id[r]
         n_cur <- NA
