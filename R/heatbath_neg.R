@@ -69,7 +69,7 @@ heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
     #Loop over all nodes in network
     for(n in 1:num_of_nodes){
       #Look for a random node
-      v <- sample(1:(num_of_nodes-1),1)
+      v <- sample(1:num_of_nodes,1)
       node <- network$vertexes$node_id[network$vertexes$node_id==v]
       
       #Initialize the neighbors and weights
