@@ -20,26 +20,24 @@
 #' @export
 
 heatbath_lookup <- function(gamma,prob,kT,max_sweeps) {
-  new_spin <- 0.0 
-  spin_opt <- 0.0 
-  old_spin <- 0.0 
+  new_spin <- NA #Contains the spin to which we will update
+  spin_opt <- NA #The optional spin we will consider
+  old_spin <- NA #The spin of the node we are currently changing
   
-  sweep <- 0.0 
   max_q <- 0.0 
-  rn < -0.0 
+  rn < -0.0 #Placeholder for node we will be investigating
   
-  w <- 0.0 
-  degree <- 0.0 
-  norm <- 0.0 
-  r <- 0.0 
-  beta <- 0.0 
+  w <- 0.0 #Weight of the edge
+  deg <- 0.0 #Degree of node currently being examined
+  norm <- 0.0 #Sets bounds for an nrorm() call
+  r <- 0.0 #Random number used for assigning new spin
+  beta <- 0.0 #Weight for the probabilities
   minweight <- 0.0 
-  prefac <- 0.0 
-  norm <- 0
+  prefac <- 0.0 #Multiplier for beta but unsure what it's point is as it is always = 1
   
   found <- FALSE
-  sweep <- 0.0
-  changes <- 1.0
+  sweep <- 0
+  changes <- 1
   problemcount <- 0
   
   #num_of_nodes <- length(network$vertexes$node_id)
@@ -51,6 +49,7 @@ heatbath_lookup <- function(gamma,prob,kT,max_sweeps) {
     for (n in 0:num_of_nodes){
       rn <- -1
       
+      #Look for a random node
       while(rn<0 | rn>num_of_nodes){
         rn <- sample(1:num_of_nodes,1)
       }
@@ -79,7 +78,8 @@ heatbath_lookup <- function(gamma,prob,kT,max_sweeps) {
         }else{
           n_cur <- l_iter$func_start_node[j]
         }
-          
+        
+        #Like A_{ij} in equation (2) from Reichardt and Bornholdt
         neighbours[network$vertexes$community[network$vertexes$node_id==n_cur]] <- w + neighbours[network$vertexes$community[network$vertexes$node_id==n_cur]]
       }
       
@@ -139,7 +139,7 @@ heatbath_lookup <- function(gamma,prob,kT,max_sweeps) {
       #Now set the new spin
       if(new_spin!=old_spin){
         changes <- changes+1
-        node<-Set_ClusterIndex(new_spin)
+        network$vertexes$community[network$vertexes$node_id==node] <- new_spin
           
         color_field[old_spin] <- color_field[old_spin]-delta
         color_field[new_spin] <- color_field[new_spin]+delta

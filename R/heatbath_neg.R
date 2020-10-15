@@ -20,13 +20,10 @@
 #' @export
 
 heatbath_neg <- function(gamma,lambda,t,max_sweeps) {
-  #The new_spin contains the spin to which we will update
-  #The spin_opt is the optional spin we will consider
-  #The old_spin is the spin of the node we are currently changing
   
-  new_spin <- NA
-  spin_opt <- NA
-  old_spin <- NA
+  new_spin <- NA #Contains the spin to which we will update
+  spin_opt <- NA #The optional spin we will consider
+  old_spin <- NA #The spin of the node we are currently changing
   sweep <- 0
   changes <- 0
   problem_count <- 0
