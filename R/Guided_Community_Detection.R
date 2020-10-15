@@ -102,5 +102,28 @@ computeModularityMatrix <- function(adjacency_matrix, vertexDegrees, m){
   return(modularity_matrix)
 }
 
+computeUserGuidedModularityMatrix <- function(modularity_matrix, guidance_matrix, 
+                                              communities, mu){
+  sum <- 0
+  numRows <- nrow(modularity_matrix)
+  numCols <- ncol(modularity_matrix)
+  
+  for(i in 1:numRows){
+    for(j in 1:numCols){
+      if(i==j){
+        next
+      }
+      #Only contribute to the value if delta(C_i, C_j) == 1
+      if(communities[i] != communities[j]){
+        next
+      }
+      M_ij <- modularity_matrix[i,j]
+      deltaU_ij <- guidance_matrix[i,j]
+      
+      sum <- sum+M_ij+(mu*deltaU_ij) #We're adding instead of subtracting, and will negate later
+    }
+  }
+  return(-1*sum) #Negate the sum, since we're adding instead of subtracting 
+}
 
   
