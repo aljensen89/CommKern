@@ -126,4 +126,100 @@ computeUserGuidedModularityMatrix <- function(modularity_matrix, guidance_matrix
   return(-1*sum) #Negate the sum, since we're adding instead of subtracting 
 }
 
+computeUserGuidanceMatrix <- function(adjacency_matrix, vertexDegrees, m, functionalLabels){
+  numRows <- nrow(modularity_matrix)
+  numCols <- ncol(modularity_matrix)
+  
+  guidance_matrix <- matrix(NA,nrow=numRows,ncol=numCols)
+  
+  for(i in 1:numRows){
+    d_i <-vertexDegrees[i]
+    for(j in 1:numCols){
+      #Set alpha1 and alpha2 to be 1 for now
+      alpha1 <- 1
+      alpha2 <- 1
+      
+      #Compute the variables of the equation
+      A_ij <- adjacency_matrix[i,j]
+      d_j <- vertexDegrees[j]
+      f_i <- functionalLabels[i]
+      f_j <- functionalLabels[j]
+      
+      #If no guidance is available, the entry is zero
+      if(is.na(f_i) | is.na(f_j)){
+        guidance_matrix[i,j] <- 0
+        next
+      }
+      u_ij <- alpha1*computeSmoothness(A_ij,f_i,f_j,d_i,d_j)
+      ubar_ij <- -alpha2*computeSmoothness(A_ij,f_i,f_j,d_i,d_j)
+      
+      #Compute deltaU_ij = u_ij - ubar_ij
+      deltaU_ij <- u_ij - ubar_ij
+      
+      guidance_matrix[i,j] <- deltaU_ij
+    }
+  }
+  return(guidance_matrix)
+}
+
+computeUserGuidedModularityMatrix <- function(adjacency_matrix, vertexDegrees, m,
+                                              mu, functionalLabels){
+  twoM <- 2*m
+  numRows <- nrow(adjacency_matrix)
+  numCols <- ncol(adjacency_matrix)
+  
+  modularity_matrix <- matrix(0,nrow=numRows,ncol=numCols)
+  
+  for(i in 1:numRows){
+    d_i <- vertexDegrees[i]
+    
+    for(j in 1:numCols){
+      #Set alpha1 and alpha2 to be 1 for now
+      alpha1 <- 1
+      alpha2 <- 1
+      
+      #Compute the variables of the equation
+      A_ij <- adjacency_matrix[i,j]
+      d_j <- vertex_degrees[j]
+      f_i <- functionalLabels[i]
+      f_j <- functionalLabels[j]
+      u_ij <- alpha1*computeSmoothness(A_ij,f_i,f_j,d_i,d_j)
+      ubar_ij <- -alpha2*computeSmoothness(A_ij,f_i,f_j,d_i,d_j)
+      
+      if(is.na(u_ij) | is.na(ubar_ij)){
+        print("u_ij or ubar_ij is NA")
+      }
+      
+      #Compute the null model
+      nullProbability <- (d_i*d_j)/twoM
+      
+      #Compute the guidance portion
+      guidanceModifer <- u_ij-ubar_ij
+      
+      #Compute the modularity
+      M_ij <- A_ij - (nullProbability-(u*guidanceModifer))
+      modularity_matrix[i,j] <- M_ij
+    }
+  }
+  return(modularity_matrix)
+}
+
+computeSmoothness <- function(A_ij, f_i, f_j, d_i, d_j){
+  normalizedFi <- NA
+  if(d_i==0){
+    normalizedFi <- 0*f_i
+  } else{
+    normalizedFi <- f_i/sqrt(d_i)
+  }
+  
+  normalizedFj <- NA
+  if(d_j==0){
+    normalizedFj <- 0*f_i
+  } else{
+    normalizedFj <- f_j/sqrt(d_j)
+  }
+  diffFiFj <- normalizedFi-normalizedFj
+  return(A_ij*c(dist(t(diffFiFj)) ^ 2))
+}
+
   
