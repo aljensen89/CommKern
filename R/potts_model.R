@@ -23,8 +23,8 @@ potts_model <- function(network, qvalue, m){
   k_max <- 0
   Qa <- rep(0, q+1) #Needed in calculating modularity
   weights <- rep(0, q+1) #Weights for each spin state needed in Monte Carlo process
-  color_field <- rep(0, q+1) #Bookkeeping of occupation numbers of spin states or the number of links in the community
-  neighbors <- rep(0, q+1)
+  color_field <- rep(0, q+1) #Bookkeeping of occupation numbers of spin states
+  neighbors <- rep(0, q+1) #Bookkeeping of the number of links in the community
   
   num_of_nodes <- length(net$vertexes$node_id)
   num_of_links <- nrow(net$func_edges)
