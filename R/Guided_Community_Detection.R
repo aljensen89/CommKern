@@ -103,8 +103,8 @@ computeModularityMatrix <- function(adjacency_matrix, vertexDegrees, m){
   return(modularity_matrix)
 }
 
-computeUserGuidedModularityMatrix <- function(modularity_matrix, guidance_matrix, 
-                                              communities, mu){
+computeUserGuidedModularity <- function(modularity_matrix, guidance_matrix, 
+                                        communities, mu){
   sum <- 0
   numRows <- nrow(modularity_matrix)
   numCols <- ncol(modularity_matrix)
