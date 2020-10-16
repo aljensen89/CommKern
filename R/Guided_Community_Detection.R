@@ -76,6 +76,7 @@ find_communities <- function(modularity_matrix, guidance_matrix,
       bestCommunitiesSoFar <- communities
     }
   }
+}
 
 computeModularityMatrix <- function(adjacency_matrix, vertexDegrees, m){
   twoM <- 2*m
