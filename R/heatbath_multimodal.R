@@ -4,7 +4,7 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
   changes <- 1
   
   current_communities <- network$vertexes$community
-  current_hamiltonian <- compute_multimodal_mod(modularity_matrix,guidance_matrix,
+  current_hamiltonian <- compute_multimodal_mod(mod_matrix,structural_matrix,
                                                      current_communities,alpha)
   
   while(sweep<max_sweeps){
@@ -46,7 +46,7 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
     for(spin in 1:q){ #all possible new spins
       if(spin!=old_spin){ #except the old one
         new_communities[node] <- spin
-        new_hamiltonian <- compute_multimodal_mod(modularity_matrix,guidance_matrix,
+        new_hamiltonian <- compute_multimodal_mod(mod_matrix,structural_matrix,
                                                        new_communities,alpha)
         
         if (new_hamiltonian<current_hamiltonian){

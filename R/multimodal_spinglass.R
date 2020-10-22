@@ -1,8 +1,8 @@
 multimodal_spinglass <- function(functional_matrix,structural_matrix,network,spins,
-                                 alpha,starttemp,stoptemp,coolfact,gamma){
+                                 alpha,starttemp,coolfact,gamma){
   
   ##Initializing variables for the function
-  changes <- 0
+  changes <- 1
   mod_matrix <- compute_modularity_matrix(functional_matrix,network)
   
   ##Checks on the function input values
@@ -24,13 +24,14 @@ multimodal_spinglass <- function(functional_matrix,structural_matrix,network,spi
   }
   
   ##Finding the inital temperature for the heatbath_multimodal function
-  initial_temp <- FindStartTemp(gamma,alpha,starttemp)
+  initial_temp <- find_start_temp(gamma,alpha,starttemp)
   
   ##Initial random configuration of the nodes to spin states/communities
   network <- init_config(-1)
   
   temp <- initial_temp
-  while(temp > stoptemp){
+    
+  while(changes > 0 & temp > 1e-4){
     acc <- heatbath_multimodal(gamma,alpha,temp,max_sweeps)
     if(acc < (1-(1/spins)*0.01)){
       changes <- 0

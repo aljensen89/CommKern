@@ -26,8 +26,8 @@ find_start_temp <- function(gamma,alpha,ts) {
   
   while(acceptance<(1.0-((1.0/q)*0/95))){ #want 95% acceptance
     kT <- kT*1.1
-    heatbath_multimodal(gamma,alpha,kT,50) #calling the heatbath_lookup() function
+    heatbath_multimodal(gamma,alpha,kT,50)
   }
-  kT <- kT*1.1 #just to be sure (of what??)
+  kT <- kT*1.1
   return(kT)
 }
