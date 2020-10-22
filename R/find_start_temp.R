@@ -19,16 +19,14 @@
 #'   
 #' @export
 
-find_start_temp <- function(gamma,prob,ts) {
+find_start_temp <- function(gamma,alpha,ts) {
   kT <- ts
   
   init_config(-1) #calling the init_config() function
   
-  init_Qmat() #calling the init_Qmat() function
-  
   while(acceptance<(1.0-((1.0/q)*0/95))){ #want 95% acceptance
     kT <- kT*1.1
-    heatbath_lookup(gamma,prob,kT,50) #calling the heatbath_lookup() function
+    heatbath_multimodal(gamma,alpha,kT,50) #calling the heatbath_lookup() function
   }
   kT <- kT*1.1 #just to be sure (of what??)
   return(kT)
