@@ -1,13 +1,13 @@
-compute_modularity_matrix <- function(functional_matrix,network){
+compute_modularity_matrix <- function(functional_matrix,net){
   m <- 0.5*sum(functional_matrix)
   
   mod_matrix <- matrix(0,nrow=nrow(functional_matrix),ncol=ncol(functional_matrix))
   
   for(i in 1:nrow(functional_matrix)){
-    d_i <- network$vertexes$func_degree[i]
+    d_i <- net$vertexes$func_degree[i]
     for(j in 1:ncol(functional_matrix)){
       A_ij <- functional_matrix[i,j]
-      d_j <- network$vertexes$func_degree[j]
+      d_j <- net$vertexes$func_degree[j]
       
       #Compute the null model
       null_probability <- (d_i*d_j)/(2*m)

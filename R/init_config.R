@@ -21,7 +21,7 @@ init_config <- function(spin) {
   s <- 0
   sum_weight <- 0
   
-  for (i in 1:length(network$vertexes$node_id)){
+  for (i in 1:length(net$vertexes$node_id)){
     #If the spin is somehow <0, randomly assign s to an integer, otherwise assign as normal
     if(spin<0){
       s <- sample(1:q,1)
@@ -29,14 +29,14 @@ init_config <- function(spin) {
       s <- spin
     }
     
-    sum_weight <- network$vertexes$func_degree[i]
+    sum_weight <- net$vertexes$func_degree[i]
     
-    network$vertexes$community[i] <- s
+    net$vertexes$community[i] <- s
     
     #l_iter <- network$func_edges %>% 
     #  filter(network$func_edges$func_start_node==network$vertexes$node_id[i] | 
     #           network$func_edges$func_end_node==network$vertexes$node_id[i])
     
   }
-  return(network)
+  return(net)
 }

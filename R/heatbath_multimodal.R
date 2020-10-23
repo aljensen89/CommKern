@@ -3,7 +3,7 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
   rn <- 0
   changes <- 1
   
-  current_communities <- network$vertexes$community
+  current_communities <- net$vertexes$community
   current_hamiltonian <- compute_multimodal_mod(mod_matrix,structural_matrix,
                                                      current_communities,alpha)
   
@@ -19,28 +19,10 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
       rn <- sample(1:num_of_nodes,1)
     }
     
-    node <- network$vertexes$node_id[rn]
-    deg <- network$vertexes$func_degree[node]
-    
-    #Loop over all links (=neighbors)
-    l_iter <- network$func_edges %>% 
-      filter(network$func_edges$func_start_node==network$vertexes$node_id[node] | 
-               network$func_edges$func_end_node==network$vertexes$node_id[node])
-    
-    for (j in 1:nrow(l_iter)){
-      w <- l_iter$func_weight[j]
-      
-      #If node is the starting node for the current link, then n_cur becomes l_cur's ending node
-      #otherwise it becomes l_cur's starting node
-      if(node==l_iter$func_start_node[j]){
-        n_cur <- l_iter$func_end_node[j]
-      }else{
-        n_cur <- l_iter$func_start_node[j]
-      }
-    }
+    node <- net$vertexes$node_id[rn]
     
     #Search optimal spin
-    old_spin <- network$vertexes$community[network$vertexes$node_id==node]
+    old_spin <- net$vertexes$community[net$vertexes$node_id==node]
     spin_opt <- old_spin
     
     for(spin in 1:q){ #all possible new spins
@@ -51,6 +33,7 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
         
         if (new_hamiltonian<current_hamiltonian){
           current_communities <- new_communities
+          current_hamiltonian <- new_hamiltonian
           changes <- changes+1
         }
         
@@ -58,12 +41,12 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
         probOfMoving <- exp(-(new_hamiltonian-current_hamiltonian)/temp)
         
         if(runif(1,min=0,max=1)<probOfMoving){
-            current_communities <- new_communities
-          }
+          current_communities <- new_communities
           current_hamiltonian <- new_hamiltonian
           changes <- changes+1
         }
       }
+    }
   }
   acceptance <- changes/num_of_nodes/sweep
   return(acceptance)
