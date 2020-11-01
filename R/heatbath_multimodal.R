@@ -48,6 +48,9 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
       }
     }
   }
+  best_communities <- current_communities
+  best_hamiltonian <- current_hamiltonian
+  
   acceptance <- changes/num_of_nodes/sweep
   return(acceptance)
 }
