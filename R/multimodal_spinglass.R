@@ -37,8 +37,8 @@ multimodal_spinglass <- function(functional_matrix,structural_matrix,network,spi
   temp <- initial_temp
     
   while(changes > 0 & temp > 1e-8){
-    acc <- heatbath_multimodal(gamma,alpha,temp,100)
-    if(acc < (1-(1/spins)*0.01)){
+    acc <- heatbath_multimodal(gamma,alpha,temp,50)
+    if(acc < (1-(1/spins))*0.01){
       changes <- 0
     } else{
       changes <- 1
