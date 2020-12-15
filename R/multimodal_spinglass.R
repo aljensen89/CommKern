@@ -2,13 +2,21 @@ multimodal_spinglass <- function(functional_matrix,structural_matrix,network,spi
                                  alpha,coolfact,gamma){
   
   ##Initializing variables for the function
+  functional_matrix<-func_mat_final
+  structural_matrix<-str_mat_funal
+  spins<-3
+  network<-CMU_network
+  alpha<-1
+  coolfact<-0.985
+  gamma<-1
+  
   net <- network
   changes <- 1
   q <- spins
   num_of_nodes <- length(net$vertexes$node_id)
   best_communities <- rep(NA,num_of_nodes)
   best_hamiltonian <- NA
-  mod_matrix <- compute_modularity_matrix(functional_matrix_final,net)
+  mod_matrix <- compute_modularity_matrix(functional_matrix,net)
   
   ##Checks on the function input values
   if (spins < 2 | spins > length(net$vertexes$node_id)) {
@@ -23,30 +31,35 @@ multimodal_spinglass <- function(functional_matrix,structural_matrix,network,spi
   if(alpha < 0) {
     stop("Invalid alpha value")
   }
-# if(starttemp < 0){
-#    stop("Invalid starttemp value")
-#  }
-  
-  ##Finding the inital temperature for the heatbath_multimodal function
-  initial_temp <- find_start_temp(gamma,alpha,starttemp)
-  #initial_temp <- 10000
+
+  start.time<-Sys.time()
   
   ##Initial random configuration of the nodes to spin states/communities
-  net <- init_config(-1)
+  #net <- init_config(-1)
+  
+  ##Finding the inital temperature for the heatbath_multimodal function
+  initial_temp <- find_start_temp(gamma,alpha,1)
+  #initial_temp <- 10000
   
   temp <- initial_temp
     
   while(changes > 0 & temp > 1e-6){
     acc <- heatbath_multimodal(gamma,alpha,temp,50)
-    if(acc < (1-(1/spins))*0.01){
+    if(acc < (1-(1/spins))*0.05){
       changes <- 0
     } else{
       changes <- 1
     }
    temp <- temp*coolfact
+   net$vertexes$community <- best_communities
   }
   
-  net$vertexes$community <- best_communities
+  #net$vertexes$community <- best_communities
+  
+  end.time<-Sys.time()
+  
+  time.taken<-end.time-start.time
+  
   return(net)
 }
   

@@ -4,7 +4,7 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
   changes <- 1
   
   current_communities <- net$vertexes$community
-  current_hamiltonian <- compute_multimodal_mod(mod_matrix,structural_matrix_final,
+  current_hamiltonian <- compute_multimodal_mod(mod_matrix,structural_matrix,
                                                      current_communities,alpha)
   
   while(sweep<max_sweeps){
@@ -28,7 +28,7 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
     for(spin in 1:q){ #all possible new spins
       if(spin!=old_spin){ #except the old one
         new_communities[node] <- spin
-        new_hamiltonian <- compute_multimodal_mod(mod_matrix,structural_matrix_final,
+        new_hamiltonian <- compute_multimodal_mod(mod_matrix,structural_matrix,
                                                        new_communities,alpha)
         
         if (new_hamiltonian<current_hamiltonian){
@@ -48,8 +48,8 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
       }
     }
   }
-  best_communities <- current_communities
-  best_hamiltonian <- current_hamiltonian
+  best_communities <<- current_communities
+  best_hamiltonian <<- current_hamiltonian
   
   #acceptance <- changes/num_of_nodes/sweep #This is coming from igraph C++ code
   acceptance <- changes/(max_sweeps*q) #Proportion of changes that occurred divided by total possible changes

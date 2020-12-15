@@ -23,7 +23,7 @@ find_start_temp <- function(gamma,alpha,ts) {
   kT <- ts
   acceptance <- 0
   
-  net<-init_config(-1) #calling the init_config() function
+  net<<-init_config(-1) #calling the init_config() function
   
   while(acceptance < (1-(1/spins))*0.95){ #want 95% acceptance
     kT <- kT*1.1
