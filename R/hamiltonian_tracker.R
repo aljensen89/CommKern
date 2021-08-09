@@ -1,4 +1,4 @@
-heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
+heatbath_multimodal_tracker <- function(gamma,alpha,temp,max_sweeps){
   sweep <- 0
   rn <- 0
   changes <- 1
@@ -34,14 +34,16 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
           current_hamiltonian <- new_hamiltonian
           changes <- changes+1
         } else{
-        #Otherwise, move to it with some probability
-        probOfMoving <- exp(-(new_hamiltonian-current_hamiltonian)/temp)
-        
-        if(runif(1,min=0,max=1)<probOfMoving){
-          current_communities <- new_communities
-          current_hamiltonian <- new_hamiltonian
-          changes <- changes+1
-        }
+          #Otherwise, move to it with some probability
+          probOfMoving <- exp(-(new_hamiltonian-current_hamiltonian)/temp)
+          
+          if(runif(1,min=0,max=1)<probOfMoving){
+            current_communities <- new_communities
+            current_hamiltonian <- new_hamiltonian
+            
+            hamiltonian_track <<- c(hamiltonian_track,current_hamiltonian)
+            changes <- changes+1
+          }
         }
       }
     }

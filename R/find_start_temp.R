@@ -25,7 +25,7 @@ find_start_temp <- function(gamma,alpha,ts) {
   
   net<<-init_config(-1) #calling the init_config() function
   
-  while(acceptance < (1-(1/spins))*0.95){ #want 95% acceptance
+  while(acceptance < (1-(1/q))*0.95){ #want 95% acceptance
     kT <- kT*1.1
     acceptance <- heatbath_multimodal(gamma,alpha,kT,50)
   }

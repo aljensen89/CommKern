@@ -1,22 +1,13 @@
-multimodal_spinglass <- function(functional_matrix,structural_matrix,network,spins,
-                                 alpha,coolfact,gamma){
+multimodal_spinglass <- function(network,spins,alpha,coolfact,gamma){
   
-  ##Initializing variables for the function
-  functional_matrix<-func_mat_final
-  structural_matrix<-str_mat_funal
-  spins<-3
-  network<-CMU_network
-  alpha<-1
-  coolfact<-0.985
-  gamma<-1
-  
+  #Initializing variables
   net <- network
   changes <- 1
   q <- spins
   num_of_nodes <- length(net$vertexes$node_id)
   best_communities <- rep(NA,num_of_nodes)
   best_hamiltonian <- NA
-  mod_matrix <- compute_modularity_matrix(functional_matrix,net)
+  mod_matrix <- compute_modularity_matrix(net)
   
   ##Checks on the function input values
   if (spins < 2 | spins > length(net$vertexes$node_id)) {

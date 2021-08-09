@@ -1,12 +1,12 @@
-compute_modularity_matrix <- function(functional_matrix,net){
-  m <- 0.5*sum(functional_matrix)
+compute_modularity_matrix <- function(net){
+  m <- 0.5*sum(net$func_matrix)
   
-  mod_matrix <- matrix(0,nrow=nrow(functional_matrix),ncol=ncol(functional_matrix))
+  mod_matrix <- matrix(0,nrow=nrow(net$func_matrix),ncol=ncol(net$func_matrix))
   
-  for(i in 1:nrow(functional_matrix)){
+  for(i in 1:nrow(net$func_matrix)){
     d_i <- net$vertexes$func_degree[i]
-    for(j in 1:ncol(functional_matrix)){
-      A_ij <- functional_matrix[i,j]
+    for(j in 1:ncol(net$func_matrix)){
+      A_ij <- net$func_matrix[i,j]
       d_j <- net$vertexes$func_degree[j]
       
       #Compute the null model

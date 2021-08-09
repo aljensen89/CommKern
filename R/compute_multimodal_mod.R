@@ -1,5 +1,5 @@
 #-\sum_{i \neg j} M_{ij} \delta(C_i,C_j) - \alpha \sum_{i \neg j} S_{ij} \delta(C_i,C_j)
-compute_multimodal_mod <- function(mod_matrix,structural_matrix,communities,alpha){
+compute_multimodal_mod <- function(mod_matrix,net,communities,alpha){
   sum <- 0
   #delta_ij <- 0
   
@@ -19,7 +19,7 @@ compute_multimodal_mod <- function(mod_matrix,structural_matrix,communities,alph
         next
       }
       M_ij <- mod_matrix[i,j]
-      S_ij <- structural_matrix[i,j]
+      S_ij <- net$str_matrix[i,j]
       
       sum <- sum+(M_ij+(alpha*S_ij)) #We're adding instead of subtracting, and will negate later
     }
