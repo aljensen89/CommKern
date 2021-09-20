@@ -56,11 +56,14 @@ sim_mat[79:81,79:81] <- 0.37
 #Correlation map
 sim_mat_melt <- reshape2::melt(sim_mat)
 
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Symm_Hier_Graph.png",
+    width=5,height=5,units="in",res=500)
 ggplot(sim_mat_melt,aes(x=Var1,y=Var2,fill=value))+geom_tile()+
   scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
                        midpoint=0.5,limit=c(0,1),space="Lab", 
                        name="")+
   labs(x="Node",y="Node",title="Symmetric, Hierarchical Adjacancy Matrix")
+dev.off()
 
 #Creating network object for simulation 1
 rownames(sim_mat) <- seq(1:81)
@@ -78,11 +81,13 @@ sim_net_comm <- comm_layers_tree
 sim_comm_long <- sim_net_comm %>%
   gather(layer,comm,layer_1:layer_3,factor_key=TRUE)
 
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Symm_Hier_Comm.png",
+    width=5,height=5,units="in",res=500)
 ggplot(sim_comm_long,aes(layer,node_id))+
   geom_raster(aes(fill=as.factor(comm)))+
   scale_fill_discrete(name="Community")+
-  xlab("Layer")+ylab("Node ID")+ggtitle("Simulation 1: Community Assignment by Layer")
-
+  xlab("Layer")+ylab("Node ID")+ggtitle("Community Assignment by Layer")
+dev.off()
 
 hamiltonian_plot_sim <- data.frame(index=seq(1:length(hamiltonian_track)),
                                ham=hamiltonian_track)
@@ -103,11 +108,14 @@ sim_mat1_noise <- abs(sim_mat+noise_sim1) #to avoid negative correlation values
 #Correlation map
 sim_mat_noise_melt <- reshape2::melt(sim_mat1_noise)
 
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Noisy_Symm_Hier_Comm.png",
+    width=5,height=5,units="in",res=500)
 ggplot(sim_mat_noise_melt,aes(x=Var1,y=Var2,fill=value))+geom_tile()+
   scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
                        midpoint=0.5,limit=c(0,1),space="Lab", 
                        name="")+
   labs(x="Node",y="Node",title="Symmetric, Hierarchical Adjacancy Matrix: Noisy")
+dev.off()
 
 #Running the hier_mult_spin function
 #Creating network object for simulation 1
@@ -125,11 +133,13 @@ sim_noisenet_comm <- comm_layers_tree
 sim_noisecomm_long <- sim_noisenet_comm %>%
   gather(layer,comm,layer_1:layer_3,factor_key=TRUE)
 
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Noisy_Symm_Hier_Comm.png",
+    width=5,height=5,units="in",res=500)
 ggplot(sim_noisecomm_long,aes(layer,node_id))+
   geom_raster(aes(fill=as.factor(comm)))+
   scale_fill_discrete(name="Community")+
   xlab("Layer")+ylab("Node ID")+ggtitle("Noisy Simulation 1: Community Assignment by Layer")
-
+dev.off()
 
 hamiltonian_plot_noisesim <- data.frame(index=seq(1:length(hamiltonian_track)),
                                    ham=hamiltonian_track)
@@ -144,11 +154,14 @@ ggplot(hamiltonian_plot_noisesim,aes(x=index,y=ham))+
 sim_mat_melt_null <- sim_mat_melt
 sim_mat_melt_null$value <- sample(sim_mat_melt_null$value)
 
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Null_Graph.png",
+    width=5,height=5,units="in",res=500)
 ggplot(sim_mat_melt_null,aes(x=Var1,y=Var2,fill=value))+geom_tile()+
   scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
                        midpoint=0.5,limit=c(0,1),space="Lab", 
                        name="")+
   labs(x="Node",y="Node",title="Null Adjacancy Matrix")
+dev.off()
 
 sim_mat_null <- reshape2::acast(sim_mat_melt_null,Var1~Var2,value.var="value")
 
@@ -168,10 +181,13 @@ sim_null_comm <- comm_layers_tree
 sim_null_comm_long <- sim_null_comm %>%
   gather(layer,comm,layer_1:layer_3,factor_key=TRUE)
 
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Null_Comm.png",
+    width=5,height=5,units="in",res=500)
 ggplot(sim_null_comm_long,aes(layer,node_id))+
   geom_raster(aes(fill=as.factor(comm)))+
   scale_fill_discrete(name="Community")+
-  xlab("Layer")+ylab("Node ID")+ggtitle("Null Simulation: Community Assignment by Layer")
+  xlab("Layer")+ylab("Node ID")+ggtitle("Community Assignment by Layer")
+dev.off()
 
 
 hamiltonian_plot_null <- data.frame(index=seq(1:length(hamiltonian_track)),
@@ -355,11 +371,14 @@ sim_mat3[80:81,80:81] <- 0.37
 #Correlation map
 sim_mat3_melt <- reshape2::melt(sim_mat3)
 
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Uneq_Hier_Graph.png",
+    width=5,height=5,units="in",res=500)
 ggplot(sim_mat3_melt,aes(x=Var1,y=Var2,fill=value))+geom_tile()+
   scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
                        midpoint=0.5,limit=c(0,1),space="Lab", 
                        name="")+
   labs(x="Node",y="Node",title="Unequal Community Sizes \nHierarchical Adjacancy Matrix")
+
 
 #Creating network object for simulation 3
 rownames(sim_mat3) <- seq(1:81)
@@ -377,10 +396,13 @@ sim3_net_comm <- comm_layers_tree
 sim3_comm_long <- sim3_net_comm %>%
   gather(layer,comm,layer_1:layer_3,factor_key=TRUE)
 
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Uneq_Hier_Comm.png",
+    width=5,height=5,units="in",res=500)
 ggplot(sim3_comm_long,aes(layer,node_id))+
   geom_raster(aes(fill=as.factor(comm)))+
   scale_fill_discrete(name="Community")+
-  xlab("Layer")+ylab("Node ID")+ggtitle("Simulation 2: Community Assignment by Layer")
+  xlab("Layer")+ylab("Node ID")+ggtitle("Community Assignment by Layer")
+dev.off()
 
 
 ##Simulation 4: unequal community sizes, not symmetric hierarchical
