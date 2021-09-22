@@ -98,57 +98,111 @@ ggplot(hamiltonian_plot_sim,aes(x=index,y=ham))+
   ylab("Hamiltonian Energy Value")+
   ggtitle("Hamiltonian Energy Value across Heatbath Algorithm")
 
-##Adding noise to network
+##Adding noise to network - low noise (sd=0.01)
 #Adding random noise
-noise_sim1 <- matrix(rnorm(nrow(sim_mat)*ncol(sim_mat),mean=0,sd=0.01),
+lownoise_sim1 <- matrix(rnorm(nrow(sim_mat)*ncol(sim_mat),mean=0,sd=0.01),
                 nrow=nrow(sim_mat))
 
-sim_mat1_noise <- abs(sim_mat+noise_sim1) #to avoid negative correlation values
+sim_mat1_lownoise <- abs(sim_mat+lownoise_sim1) #to avoid negative correlation values
 
 #Correlation map
-sim_mat_noise_melt <- reshape2::melt(sim_mat1_noise)
+sim_mat_lownoise_melt <- reshape2::melt(sim_mat1_lownoise)
 
-png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Noisy_Symm_Hier_Comm.png",
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/LowNoise_Graph.png",
     width=5,height=5,units="in",res=500)
-ggplot(sim_mat_noise_melt,aes(x=Var1,y=Var2,fill=value))+geom_tile()+
+ggplot(sim_mat_lownoise_melt,aes(x=Var1,y=Var2,fill=value))+geom_tile()+
   scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
                        midpoint=0.5,limit=c(0,1),space="Lab", 
                        name="")+
-  labs(x="Node",y="Node",title="Symmetric, Hierarchical Adjacancy Matrix: Noisy")
+  labs(x="Node",y="Node",title="Symmetric, Hierarchical Adjacancy Matrix: Low Noise")
 dev.off()
 
 #Running the hier_mult_spin function
 #Creating network object for simulation 1
-rownames(sim_mat1_noise) <- seq(1:81)
-colnames(sim_mat1_noise) <- seq(1:81)
+rownames(sim_mat1_lownoise) <- seq(1:81)
+colnames(sim_mat1_lownoise) <- seq(1:81)
 
-sim_noise_network <- matrix_to_df(sim_mat1_noise,sim_mat_str)
+sim_lownoise_network <- matrix_to_df(sim_mat1_lownoise,sim_mat_str)
 
-sim_noisenet_comm <- hms(input_net=sim_noise_network,spins=3,alpha=0,coolfact=0.99,
+sim_lownoisenet_comm <- hms(input_net=sim_lownoise_network,spins=3,alpha=0,coolfact=0.99,
+                            false_pos=0.01,gamma=1,max_layers=3,parallel=FALSE)
+
+#Plot of the communities
+sim_lownoisenet_comm <- comm_layers_tree
+
+sim_lownoisecomm_long <- sim_lownoisenet_comm %>%
+  gather(layer,comm,layer_1:layer_3,factor_key=TRUE)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/LowNoise_Comm.png",
+    width=5,height=5,units="in",res=500)
+ggplot(sim_lownoisecomm_long,aes(layer,node_id))+
+  geom_raster(aes(fill=as.factor(comm)))+
+  scale_fill_discrete(name="Community")+
+  xlab("Layer")+ylab("Node ID")+ggtitle("Low Noise Simulation: Community Assignment by Layer")
+dev.off()
+
+hamiltonian_plot_lownoisesim <- data.frame(index=seq(1:length(hamiltonian_track)),
+                                   ham=hamiltonian_track)
+
+ggplot(hamiltonian_plot_lownoisesim,aes(x=index,y=ham))+
+  geom_line()+
+  xlab("Index")+
+  ylab("Hamiltonian Energy Value")+
+  ggtitle("Hamiltonian Energy Value across Heatbath Algorithm: Low Noise")
+
+##Adding noise to network - medium noise (sd=0.05)
+#Adding random noise
+mednoise_sim1 <- matrix(rnorm(nrow(sim_mat)*ncol(sim_mat),mean=0,sd=0.05),
+                     nrow=nrow(sim_mat))
+
+sim_mat1_mednoise <- abs(sim_mat+mednoise_sim1) #to avoid negative correlation values
+
+#Correlation map
+sim_mat_mednoise_melt <- reshape2::melt(sim_mat1_mednoise)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/MedNoise_Symm_Hier_Comm.png",
+    width=5,height=5,units="in",res=500)
+ggplot(sim_mat_mednoise_melt,aes(x=Var1,y=Var2,fill=value))+geom_tile()+
+  scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
+                       midpoint=0.5,limit=c(0,1),space="Lab", 
+                       name="")+
+  labs(x="Node",y="Node",title="Symmetric, Hierarchical Adjacancy Matrix: Medium Noise")
+dev.off()
+
+#Running the hier_mult_spin function
+#Creating network object for simulation 1
+rownames(sim_mat1_mednoise) <- seq(1:81)
+colnames(sim_mat1_mednoise) <- seq(1:81)
+
+sim_mednoise_network <- matrix_to_df(sim_mat1_mednoise,sim_mat_str)
+
+sim_mednoisenet_comm <- hms(input_net=sim_mednoise_network,spins=3,alpha=0,coolfact=0.99,
                          false_pos=0.01,gamma=1,max_layers=3,parallel=FALSE)
 
 #Plot of the communities
-sim_noisenet_comm <- comm_layers_tree
+sim_mednoisenet_comm <- comm_layers_tree
 
-sim_noisecomm_long <- sim_noisenet_comm %>%
+sim_mednoisecomm_long <- sim_mednoisenet_comm %>%
   gather(layer,comm,layer_1:layer_3,factor_key=TRUE)
 
-png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Noisy_Symm_Hier_Comm.png",
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/MedNoise_Symm_Hier_Comm.png",
     width=5,height=5,units="in",res=500)
 ggplot(sim_noisecomm_long,aes(layer,node_id))+
   geom_raster(aes(fill=as.factor(comm)))+
   scale_fill_discrete(name="Community")+
-  xlab("Layer")+ylab("Node ID")+ggtitle("Noisy Simulation 1: Community Assignment by Layer")
+  xlab("Layer")+ylab("Node ID")+ggtitle("Medium Noise Simulation: Community Assignment by Layer")
 dev.off()
 
-hamiltonian_plot_noisesim <- data.frame(index=seq(1:length(hamiltonian_track)),
-                                   ham=hamiltonian_track)
+hamiltonian_plot_mednoisesim <- data.frame(index=seq(1:length(hamiltonian_track)),
+                                        ham=hamiltonian_track)
 
-ggplot(hamiltonian_plot_noisesim,aes(x=index,y=ham))+
+ggplot(hamiltonian_plot_mednoisesim,aes(x=index,y=ham))+
   geom_line()+
   xlab("Index")+
   ylab("Hamiltonian Energy Value")+
-  ggtitle("Hamiltonian Energy Value across Heatbath Algorithm: Noisy")
+  ggtitle("Hamiltonian Energy Value across Heatbath Algorithm: Medium Noise")
+
+
 
 ###Extra test: null graph with no hierarchical community structure###
 sim_mat_melt_null <- sim_mat_melt
@@ -403,6 +457,15 @@ ggplot(sim3_comm_long,aes(layer,node_id))+
   scale_fill_discrete(name="Community")+
   xlab("Layer")+ylab("Node ID")+ggtitle("Community Assignment by Layer")
 dev.off()
+
+hamiltonian_plot_sim3 <- data.frame(index=seq(1:length(hamiltonian_track)),
+                                   ham=hamiltonian_track)
+
+ggplot(hamiltonian_plot_sim3,aes(x=index,y=ham))+
+  geom_line()+
+  xlab("Index")+
+  ylab("Hamiltonian Energy Value")+
+  ggtitle("Hamiltonian Energy Value across Heatbath Algorithm")
 
 
 ##Simulation 4: unequal community sizes, not symmetric hierarchical

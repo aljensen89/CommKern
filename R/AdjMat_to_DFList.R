@@ -106,7 +106,8 @@ matrix_to_df<-function(func_mat,str_mat){
   
   vertex_df<-degree(func_mat,str_mat,vertex_df)
   
-  func_str_df<-list(func_edges=func_df,str_edges=str_df,vertexes=vertex_df)
+  func_str_df<-list(func_edges=func_df,str_edges=str_df,vertexes=vertex_df,
+                    func_matrix=func_mat,str_matrix=str_mat)
   
   return(func_str_df)
 }
