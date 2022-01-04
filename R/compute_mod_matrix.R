@@ -9,7 +9,7 @@
 #' connectivity aspect of the network object.
 #' The function takes in a network object and returns the modularity matrix.
 #' 
-#' @param net list
+#' @param net a network object in list form (see the matrix_to_df() function for more details)
 #' 
 #' @return mod_matrix
 #'   

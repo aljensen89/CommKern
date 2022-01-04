@@ -2,15 +2,14 @@
 #' 
 #' Description of the starting temperature function.  
 #' 
-#' From the pottsmodel_2 text file, translating the FindStartTemp function. The
-#' description in the C++ code is the following: we would like to start from a temperature
+#' Within the spinglass algorithm, we would like to start from a temperature
 #' with at least 95 of all proposed spin changes accepted in 50 sweeps over the network.
 #' The function returns the temperature found.
 #' 
-#' @param alpha double
-#' @param ts double
+#' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
+#' @param ts the starting temperature for the search, set to 1 within the algorithm 
 #' 
-#' @return kT
+#' @return kT the starting temperature that meets the criteria specified above
 #'
 #' @export
 

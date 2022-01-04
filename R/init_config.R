@@ -2,15 +2,13 @@
 #' 
 #' Description of the initial configuration assignment function.  
 #' 
-#' From the pottsmodel_2 text file, translating the assign_initial_conf function. The
-#' description in the C++ code is the following: assigning an initial random configuration
-#' of spins to nodes if called with a negative argument or the spin used as argument when
-#' called with a positive one.
+#' Assigning an initial random configuration of spins to nodes if called with a negative 
+#' argument or the spin used as argument when called with a positive one.
 #' The function returns the initial random configuration of nodes to communities.
 #' 
-#' @param spin integer
+#' @param spin an integer indicating the maximum number of spins, or communities, that can be used
 #' 
-#' @return network object with communities randomly assigned
+#' @return net list object with the communities portion of the list initially assigned
 #'   
 #' @export
 

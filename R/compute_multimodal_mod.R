@@ -14,10 +14,10 @@
 #' The function takes in a network object, the mod_matrix output from compute_mod_matrix(),
 #' a vector of communities, and a parameter alpha and returns the multimodal modularity matrix.
 #' 
-#' @param net list
-#' @param mod_matrix matrix
-#' @param communities vector
-#' @param alpha double
+#' @param net a network object in list form (see the matrix_to_df() function for more details)
+#' @param mod_matrix the modularity matrix output from the compute_mod_matrix() function
+#' @param communities the vector of node assignments to communities
+#' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
 #' 
 #' @return multimodal modularity matrix
 #'   

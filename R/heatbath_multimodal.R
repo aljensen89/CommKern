@@ -15,11 +15,11 @@
 #' 
 #' The function returns the acceptance of the heatbath algorithm for the given temperature.
 #' 
-#' @param alpha double
-#' @param temp double
-#' @param max_sweeps integer
+#' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
+#' @param temp a double parameter found using the find_start_temp() function
+#' @param max_sweeps an integer parameter of the maximum number of sweeps allowed at each temperature
 #' 
-#' @return acceptance
+#' @return acceptance value of the algorithm for the given temperature
 #'   
 #' @export
 
