@@ -10,11 +10,7 @@
 #' 
 #' @param spin integer
 #' 
-#' @return the initial configuration of the model
-#'
-#' @examples 
-#' 
-#' example_function(2, matrix(c(1, 2, 3, 4), ncol = 2))
+#' @return network object with communities randomly assigned
 #'   
 #' @export
 

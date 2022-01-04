@@ -1,4 +1,4 @@
-heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
+heatbath_multimodal <- function(alpha,temp,max_sweeps){
   sweep <- 0
   rn <- 0
   changes <- 1
@@ -49,7 +49,6 @@ heatbath_multimodal <- function(gamma,alpha,temp,max_sweeps){
   best_communities <<- current_communities
   best_hamiltonian <<- current_hamiltonian
   
-  #acceptance <- changes/num_of_nodes/sweep #This is coming from igraph C++ code
   acceptance <- changes/(max_sweeps*q) #Proportion of changes that occurred divided by total possible changes
   return(acceptance)
 }

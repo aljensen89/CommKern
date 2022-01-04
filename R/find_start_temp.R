@@ -7,15 +7,14 @@
 #' with at least 95 of all proposed spin changes accepted in 50 sweeps over the network.
 #' The function returns the temperature found.
 #' 
-#' @param gamma double
-#' @param prob double
+#' @param alpha double
 #' @param ts double
 #' 
 #' @return kT
 #'
 #' @export
 
-find_start_temp <- function(gamma,alpha,ts) {
+find_start_temp <- function(alpha,ts) {
   kT <- ts
   acceptance <- 0
   
@@ -23,7 +22,7 @@ find_start_temp <- function(gamma,alpha,ts) {
   
   while(acceptance < (1-(1/q))*0.95){ #want 95% acceptance
     kT <- kT*1.1
-    acceptance <- heatbath_multimodal(gamma,alpha,kT,50)
+    acceptance <- heatbath_multimodal(alpha,kT,50)
   }
   kT <- kT*1.1
   return(kT)
