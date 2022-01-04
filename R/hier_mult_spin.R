@@ -1,4 +1,26 @@
-###Sketch of hierarchical multimodal_spinglass algorithm###
+#' Hierarchical multimodal spinglass algorithm
+#' 
+#' Description of the hierarchcial multimodal spinglass algorithm function.  
+#' 
+#' This is the main function of the algorithm. After running checks on the input parameters, the algorithm
+#' begins on the first layer of the network, finding the optimal configuration of nodes to communities using
+#' the heatbath algorithm. Once the community assignments have been finalized, the set of nodes within each
+#' of these communities is broken up and become their own subnetworks, on which the algorithm is applied again
+#' to get further subnetwork community assignments. This continues until the maximum number of layers is reached.
+#' 
+#' The function returns a dataframe of nodes to communities across the layers.
+#' 
+#' @param input_net a network object in list form (see the matrix_to_df() function for more details)
+#' @param spins an integer indicating the maximum number of spins, or communities, that can be used
+#' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
+#' @param coolfact a double parameter that indicates how quickly (or slowly) to cool the heathbath algorithm, typically set to be 0.95-0.99
+#' @param false_pos a double parameter that indicates the level of false positives to allow the system to make (if ground truth is known), typically set to 0.01-0.05
+#' @param max_layers an integer parameter that specifies the maximum number of layers of communities within the network
+#' @param parallel a boolean operator (not currently used)
+#' 
+#' @return comm_layers_tree a dataframe consisting of nodes and their community assignments across the layers
+#'   
+#' @export
 
 hms <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FALSE){
   
