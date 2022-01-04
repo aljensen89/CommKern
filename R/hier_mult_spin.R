@@ -1,6 +1,6 @@
 ###Sketch of hierarchical multimodal_spinglass algorithm###
 
-hms <- function(input_net,spins,alpha,coolfact,false_pos,gamma,max_layers,parallel=FALSE){
+hms <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FALSE){
   
   #Checks on the function input values
   if (spins < 2 | spins > length(input_net$vertexes$node_id)) {
@@ -8,9 +8,6 @@ hms <- function(input_net,spins,alpha,coolfact,false_pos,gamma,max_layers,parall
   }
   if (coolfact < 0 | coolfact >= 1) {
     stop("Must provide a temperature cooling factor within (0,1)")
-  }
-  if (gamma < 0) {
-    stop("Must provide a strictly positive gamma value")
   }
   if(alpha < 0) {
     stop("Must provide a strictly positive alpha value")
@@ -62,11 +59,11 @@ hms <- function(input_net,spins,alpha,coolfact,false_pos,gamma,max_layers,parall
       mod_matrix <- compute_modularity_matrix(net)
       
       ##Finding the initial temperature for the heatbath_multimodal function
-      initial_temp <- find_start_temp(gamma,alpha,1)
+      initial_temp <- find_start_temp(alpha,1)
       temp <- initial_temp
       
       while(changes > 0 & temp > 1e-6){
-        acc <- heatbath_multimodal(gamma,alpha,temp,50)
+        acc <- heatbath_multimodal(alpha,temp,50)
         if(acc < (1-(1/q))*false_pos){
           changes <- 0
         } else{
