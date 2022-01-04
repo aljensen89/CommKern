@@ -105,11 +105,13 @@ setwd("/Users/jenseale/Dropbox/PhD_Dissertation_Work/CMU_SC_BOLD/SC")
 #Bringing in the SC Matlab matrices
 sc_full_files<-list.files(path=".",pattern="*.mat")
 sc_full_mydata<-lapply(sc_full_files,function(X) readMat(X)$connectivity)
-sc_array<-array(dim=c(length(sc_full_files),1,dim(sc_full_mydata[[1]])[1],dim(sc_full_mydata[[1]])[2]))
+sc_array <- array(dim=c(dim(sc_full_mydata[[1]])[1],dim(sc_full_mydata[[1]])[2],length(sc_full_files)))
+
+#sc_array<-array(dim=c(length(sc_full_files),1,dim(sc_full_mydata[[1]])[1],dim(sc_full_mydata[[1]])[2]))
 
 #Adding the SC data to the empty array
-for (i in 1:nrow(sc_array)) {
-  sc_array[i,1,,]<-sc_full_mydata[[i]]
+for (i in 1:dim(sc_array)[3]) {
+  sc_array[,,i]<-sc_full_mydata[[i]]
 }
 
 #Grabbing the coaxid numbers for the SC matrices
@@ -131,6 +133,8 @@ for (k in attr_vars){
   attr_df[[k]]<-as.character()
 }
 
+attr_df$coaxid <- stringr::str_pad(attr_df$coaxid,pad="0",width=4)
+
 ##Filling in the attributes data frame
 count<-1
 for(i in 1:dim(cmu_bold_files$attributes[,,1]$subject)[1]){
@@ -143,19 +147,120 @@ for(i in 1:dim(cmu_bold_files$attributes[,,1]$subject)[1]){
 attr_df[attr_df=="NaN"]<-NA
 
 #Pulling the BOLD time series for each ROI and calculating cross-correlations for adjacency matrices
-fc_array<-array(dim=c(length(names(cmu_bold_files$bold[,,1]$avgs[,,1])),1,
-                      dim(sc_full_mydata[[1]])[1],dim(sc_full_mydata[[1]])[2]))
+fc_array<-array(dim=c(dim(sc_full_mydata[[1]])[1],dim(sc_full_mydata[[1]])[2],length(names(cmu_bold_files$bold[,,1]$avgs[,,1]))))
 
-for (i in 1:2){
+for (i in 1:length(names(cmu_bold_files$bold[,,1]$avgs[,,1]))){
   names<-names(cmu_bold_files$bold[,,1]$avgs[,,1])
   for (j in 1:dim(sc_full_mydata[[1]])[1]){
     for (k in 1:dim(sc_full_mydata[[1]])[1]){
-      fc_array[i,1,j,k]<-ccf(ts(cmu_bold_files$bold[,,1]$avgs[,,1][[names[i]]][,,1]$rois.data[j,]),
+      fc_array[j,k,i]<-ccf(ts(cmu_bold_files$bold[,,1]$avgs[,,1][[names[i]]][,,1]$rois.data[j,]),
                              ts(cmu_bold_files$bold[,,1]$avgs[,,1][[names[i]]][,,1]$rois.data[k,]),
                              type=c("correlation"),plot=FALSE)$acf[,,1][24]
     }
   }
 }
+
+##Finding the subjects who don't have a fMRI scan but do have a structural scan
+sc_only_ids <- subset(sc_coaxid,!(sc_coaxid %in% attr_df$coaxid))
+sc_only_vecloc <- match(sc_only_ids,sc_coaxid)
+
+##Subsetting the sc_array to exclude the cerebellar ROIs
+sc_array_subset<-array(dim=c(600,600,length(sc_full_files)))
+
+for (i in 1:dim(sc_array)[3]){
+  sc_array_subset[,,i] <- sc_array[1:600,1:600,i]
+
+  rownames(sc_array_subset[,,i]) <- c(1:nrow(sc_array_subset[,,i]))
+  colnames(sc_array_subset[,,i]) <- c(1:nrow(sc_array_subset[,,i]))
+}
+
+sc_array_subset <- sc_array_subset[,,-sc_only_vecloc]
+
+##Calculating the mean sc_array
+mean_sc_array <- rowMeans(sc_array_subset,dim=2,na.rm=TRUE)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/CMU_SC_Average.png",
+    width=5,height=5,units="in",res=500)
+ggplot(data = reshape2::melt(mean_sc_array), aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()+scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
+                                   midpoint=0.5,limit=c(0,1),space="Lab", 
+                                   name="")+
+  labs(x="Node",y="Node",title="Average Structural Adjacancy Matrix")
+dev.off()
+
+##Calculating the standard deviation of sc_array
+sd_sc_array <- apply(sc_array_subset,1:2,sd)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/CMU_SC_StandDev.png",
+    width=5,height=5,units="in",res=500)
+ggplot(data = reshape2::melt(sd_sc_array), aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()+scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
+                                   midpoint=0.5,limit=c(0,1),space="Lab", 
+                                   name="")+
+  labs(x="Node",y="Node",title="Standard Deviation Structural Adjacancy Matrix")
+dev.off()
+
+##Calculating the coefficient of variation of sc_array
+cf_sc_array <- (sd_sc_array/mean_sc_array)*100
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/CMU_SC_CoefVar.png",
+    width=5,height=5,units="in",res=500)
+ggplot(data = reshape2::melt(cf_sc_array), aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()+scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
+                                   midpoint=400,limit=c(0,800),space="Lab", 
+                                   name="")+
+  labs(x="Node",y="Node",title="Coefficient of Variation Structural Adjacancy Matrix")
+dev.off()
+
+##Subsetting the fc_array to exclude the cerebellar ROIs 
+fc_array_subset<-array(dim=c(600,600,dim(fc_array)[3]))
+
+for (i in 1:dim(fc_array)[3]){
+  fc_array_subset[,,i] <- fc_array[1:600,1:600,i]
+  
+  rownames(fc_array_subset[,,i]) <- c(1:nrow(fc_array_subset[,,i]))
+  colnames(fc_array_subset[,,i]) <- c(1:nrow(fc_array_subset[,,i]))
+}
+
+##Calculating the mean fc_array
+mean_fc_array <- rowMeans(fc_array_subset,dim=2,na.rm=TRUE)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/CMU_FC_Average.png",
+    width=5,height=5,units="in",res=500)
+ggplot(data = reshape2::melt(mean_fc_array), aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()+scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
+                                   midpoint=0.5,limit=c(0,1),space="Lab", 
+                                   name="")+
+  labs(x="Node",y="Node",title="Average Functional Adjacancy Matrix")
+dev.off()
+
+##Calculating the standard deviation of fc_array
+sd_fc_array <- apply(fc_array_subset,1:2,sd)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/CMU_SC_StandDev.png",
+    width=5,height=5,units="in",res=500)
+ggplot(data = reshape2::melt(sd_fc_array), aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()+scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
+                                   midpoint=0.25,limit=c(0,0.5),space="Lab", 
+                                   name="")+
+  labs(x="Node",y="Node",title="Standard Deviation Functional Adjacancy Matrix")
+dev.off()
+
+##Calculating the coefficient of variation of fc_array
+cf_fc_array <- (sd_fc_array/mean_fc_array)*100
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/CMU_FC_CoefVar.png",
+    width=5,height=5,units="in",res=500)
+ggplot(data = reshape2::melt(cf_fc_array), aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()+scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
+                                   midpoint=400,limit=c(0,800),space="Lab", 
+                                   name="")+
+  labs(x="Node",y="Node",title="Coefficient of Variation Functional Adjacancy Matrix")
+dev.off()
+
+#Saving .Rdata objects
+save(sc_array_subset,file="/Users/jenseale/Dropbox/PhD_Dissertation_Work/CMU_SC_BOLD/sc_array_subset.Rdata")
+save(fc_array_subset,file="/Users/jenseale/Dropbox/PhD_Dissertation_Work/CMU_SC_BOLD/fc_array_subset.Rdata")
 
 #Creating network object for first CMU dataset participant
 func_mat <- fc_array[2,1,,]

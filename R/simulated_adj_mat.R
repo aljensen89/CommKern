@@ -89,6 +89,82 @@ ggplot(sim_comm_long,aes(layer,node_id))+
   xlab("Layer")+ylab("Node ID")+ggtitle("Community Assignment by Layer")
 dev.off()
 
+#####PDW Version of community by layer plot
+sim_mat_long <- reshape2::melt(sim_mat)
+sim_comm_long <- 
+  tidyr::gather(comm_layers_tree,
+                key = "layer",
+                value = "comm",
+                layer_1, layer_2, layer_3,
+                factor_key = TRUE)
+
+community_plot <- function(comm_data, node_data) {
+  comm_data$comm1 <- factor(paste0("c", formatC(comm_data$comm, flag = 0, width = 2)))
+  comm_data$comm2 <- factor(paste0("c", formatC(comm_data$comm, flag = 0, width = 2)))
+  comm_data$comm3 <- factor(paste0("c", formatC(comm_data$comm, flag = 0, width = 2)))
+  
+  layers <- list(  l1 = subset(comm_data, layer == "layer_1")
+                   , l2 = subset(comm_data, layer == "layer_2")
+                   , l3 = subset(comm_data, layer == "layer_3"))
+  
+  comms <- lapply(layers, function(x) {unique(x$comm2)})
+  n_comms <- lapply(comms, length)
+  comm_colors <- mapply(function(n, s) { gp <- colorRampPalette(RColorBrewer::brewer.pal(9, s)); gp(n) },
+                        n_comms, s = list("Paired", "Paired", "Paired"))
+  
+  comm_plot <-
+    ggplot2::ggplot() +
+    ggplot2::theme_minimal() +
+    ggplot2::aes_string(x = "node_id", y = "layer") +
+    ggplot2::geom_tile(data = layers[[1]], mapping = ggplot2::aes_string(fill = "comm1"), color = "black") +
+    ggplot2::scale_fill_manual(name = "layer 1 communities", values = comm_colors[[1]]) +
+    ggnewscale::new_scale_fill() +
+    ggplot2::geom_tile(data = layers[[2]], mapping = ggplot2::aes_string(fill = "comm2"), color = "black") +
+    ggplot2::scale_fill_manual(name = "layer 2 communities", values = comm_colors[[2]]) +
+    ggnewscale::new_scale_fill() +
+    ggplot2::geom_tile(data = layers[[3]], mapping = ggplot2::aes_string(fill = "comm3"), color = "black") +
+    ggplot2::scale_fill_manual(name = "layer 3 communities", values = comm_colors[[3]]) +
+    ggplot2::labs(x = "node")  +
+    ggplot2::theme(axis.title.y = ggplot2::element_blank(),
+                   panel.grid.major.y = ggplot2::element_blank(),
+                   plot.margin = grid::unit(c(0.0, 0, 0, 0.10), "in"))
+  
+  node_plot <-
+    ggplot2::ggplot(data = node_data) +
+    ggplot2::theme_minimal() +
+    ggplot2::aes(x = Var1, y = Var2, fill = value) +
+    ggplot2::geom_tile() +
+    ggplot2::scale_fill_gradient2(
+      low  = "navy",
+      high = "goldenrod1",
+      mid  = "darkturquoise", 
+      midpoint = 0.5,
+      limit = c(0, 1),
+      space = "Lab", 
+      name="") +
+    ggplot2::theme(axis.text  = ggplot2::element_blank(),
+                   axis.ticks = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_blank(),
+                   plot.margin = grid::unit(c(0, 0, -0.20, 0.10), "in"))
+  
+  comm_plot <- qwraps2::ggplot2_extract_legend(comm_plot)
+  node_plot <- qwraps2::ggplot2_extract_legend(node_plot)
+  
+  cp_grob <- ggplot2::ggplotGrob(comm_plot$plot)
+  np_grob <- ggplot2::ggplotGrob(node_plot$plot)
+  mxwdth  <- grid::unit.pmax(cp_grob$widths[2:5], np_grob$widths[2:5])
+  cp_grob$widths[2:5] <- mxwdth
+  np_grob$widths[2:5] <- mxwdth
+  
+  gridExtra::grid.arrange(np_grob, cp_grob, ncol = 1)
+  
+}
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Symm_Hier_Comm_PWD.png",
+    width=5,height=5,units="in",res=500)
+community_plot(comm_data = sim_comm_long, node_data = sim_mat_long)
+dev.off()
+#####  
 hamiltonian_plot_sim <- data.frame(index=seq(1:length(hamiltonian_track)),
                                ham=hamiltonian_track)
 
@@ -141,6 +217,20 @@ ggplot(sim_lownoisecomm_long,aes(layer,node_id))+
   xlab("Layer")+ylab("Node ID")+ggtitle("Low Noise Simulation: Community Assignment by Layer")
 dev.off()
 
+#####PWD version of community layer plot#####
+sim_mat_low_long <- reshape2::melt(sim_mat1_lownoise)
+sim_comm_low_long <- 
+  tidyr::gather(comm_layers_tree,
+                key = "layer",
+                value = "comm",
+                layer_1, layer_2, layer_3,
+                factor_key = TRUE)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/LowNoise_Comm_PWD.png",
+    width=5,height=5,units="in",res=500)
+community_plot(comm_data = sim_comm_low_long, node_data = sim_mat_low_long)
+dev.off()
+
 hamiltonian_plot_lownoisesim <- data.frame(index=seq(1:length(hamiltonian_track)),
                                    ham=hamiltonian_track)
 
@@ -150,17 +240,18 @@ ggplot(hamiltonian_plot_lownoisesim,aes(x=index,y=ham))+
   ylab("Hamiltonian Energy Value")+
   ggtitle("Hamiltonian Energy Value across Heatbath Algorithm: Low Noise")
 
-##Adding noise to network - medium noise (sd=0.05)
+##Adding noise to network - medium noise (sd=0.03)
 #Adding random noise
-mednoise_sim1 <- matrix(rnorm(nrow(sim_mat)*ncol(sim_mat),mean=0,sd=0.05),
+mednoise_sim1 <- matrix(rnorm(nrow(sim_mat)*ncol(sim_mat),mean=0,sd=0.03),
                      nrow=nrow(sim_mat))
 
 sim_mat1_mednoise <- abs(sim_mat+mednoise_sim1) #to avoid negative correlation values
+sim_mat1_mednoise[sim_mat1_mednoise > 1] <- 1 #to enforce correlation bounds [0,1]
 
 #Correlation map
 sim_mat_mednoise_melt <- reshape2::melt(sim_mat1_mednoise)
 
-png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/MedNoise_Symm_Hier_Comm.png",
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/MedNoise_Graph.png",
     width=5,height=5,units="in",res=500)
 ggplot(sim_mat_mednoise_melt,aes(x=Var1,y=Var2,fill=value))+geom_tile()+
   scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
@@ -185,13 +276,28 @@ sim_mednoisenet_comm <- comm_layers_tree
 sim_mednoisecomm_long <- sim_mednoisenet_comm %>%
   gather(layer,comm,layer_1:layer_3,factor_key=TRUE)
 
-png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/MedNoise_Symm_Hier_Comm.png",
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/MedNoise_Comm.png",
     width=5,height=5,units="in",res=500)
-ggplot(sim_noisecomm_long,aes(layer,node_id))+
+ggplot(sim_mednoisecomm_long,aes(layer,node_id))+
   geom_raster(aes(fill=as.factor(comm)))+
   scale_fill_discrete(name="Community")+
   xlab("Layer")+ylab("Node ID")+ggtitle("Medium Noise Simulation: Community Assignment by Layer")
 dev.off()
+
+#####PWD version of community layer plot#####
+sim_mat_med_long <- reshape2::melt(sim_mat1_mednoise)
+sim_comm_med_long <- 
+  tidyr::gather(comm_layers_tree,
+                key = "layer",
+                value = "comm",
+                layer_1, layer_2, layer_3,
+                factor_key = TRUE)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/MedNoise_Comm_PWD.png",
+    width=5,height=5,units="in",res=500)
+community_plot(comm_data = sim_comm_med_long, node_data = sim_mat_med_long)
+dev.off()
+
 
 hamiltonian_plot_mednoisesim <- data.frame(index=seq(1:length(hamiltonian_track)),
                                         ham=hamiltonian_track)
@@ -202,6 +308,73 @@ ggplot(hamiltonian_plot_mednoisesim,aes(x=index,y=ham))+
   ylab("Hamiltonian Energy Value")+
   ggtitle("Hamiltonian Energy Value across Heatbath Algorithm: Medium Noise")
 
+##Adding noise to network - high noise (sd=0.05)
+#Adding random noise
+highnoise_sim1 <- matrix(rnorm(nrow(sim_mat)*ncol(sim_mat),mean=0,sd=0.05),
+                        nrow=nrow(sim_mat))
+
+sim_mat1_highnoise <- abs(sim_mat+highnoise_sim1) #to avoid negative correlation values
+sim_mat1_highnoise[sim_mat1_highnoise > 1] <- 1 #to enforce correlation bounds [0,1]
+
+#Correlation map
+sim_mat_highnoise_melt <- reshape2::melt(sim_mat1_highnoise)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/HighNoise_Graph.png",
+    width=5,height=5,units="in",res=500)
+ggplot(sim_mat_highnoise_melt,aes(x=Var1,y=Var2,fill=value))+geom_tile()+
+  scale_fill_gradient2(low="navy",high="goldenrod1",mid="darkturquoise", 
+                       midpoint=0.5,limit=c(0,1),space="Lab", 
+                       name="")+
+  labs(x="Node",y="Node",title="Symmetric, Hierarchical Adjacancy Matrix: High Noise")
+dev.off()
+
+#Running the hier_mult_spin function
+#Creating network object for simulation 1
+rownames(sim_mat1_highnoise) <- seq(1:81)
+colnames(sim_mat1_highnoise) <- seq(1:81)
+
+sim_highnoise_network <- matrix_to_df(sim_mat1_highnoise,sim_mat_str)
+
+sim_mednoisenet_comm <- hms(input_net=sim_highnoise_network,spins=3,alpha=0,coolfact=0.99,
+                            false_pos=0.01,gamma=1,max_layers=3,parallel=FALSE)
+
+#Plot of the communities
+sim_highnoisenet_comm <- comm_layers_tree
+
+sim_highnoisecomm_long <- sim_highnoisenet_comm %>%
+  gather(layer,comm,layer_1:layer_3,factor_key=TRUE)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/HighNoise_Comm.png",
+    width=5,height=5,units="in",res=500)
+ggplot(sim_highnoisecomm_long,aes(layer,node_id))+
+  geom_raster(aes(fill=as.factor(comm)))+
+  scale_fill_discrete(name="Community")+
+  xlab("Layer")+ylab("Node ID")+ggtitle("High Noise Simulation: Community Assignment by Layer")
+dev.off()
+
+#####PWD version of community layer plot#####
+sim_mat_high_long <- reshape2::melt(sim_mat1_highnoise)
+sim_comm_high_long <- 
+  tidyr::gather(comm_layers_tree,
+                key = "layer",
+                value = "comm",
+                layer_1, layer_2, layer_3,
+                factor_key = TRUE)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/HighNoise_Comm_PWD.png",
+    width=5,height=5,units="in",res=500)
+community_plot(comm_data = sim_comm_high_long, node_data = sim_mat_high_long)
+dev.off()
+
+
+hamiltonian_plot_highnoisesim <- data.frame(index=seq(1:length(hamiltonian_track)),
+                                           ham=hamiltonian_track)
+
+ggplot(hamiltonian_plot_highnoisesim,aes(x=index,y=ham))+
+  geom_line()+
+  xlab("Index")+
+  ylab("Hamiltonian Energy Value")+
+  ggtitle("Hamiltonian Energy Value across Heatbath Algorithm: High Noise")
 
 
 ###Extra test: null graph with no hierarchical community structure###
@@ -243,6 +416,19 @@ ggplot(sim_null_comm_long,aes(layer,node_id))+
   xlab("Layer")+ylab("Node ID")+ggtitle("Community Assignment by Layer")
 dev.off()
 
+#####PWD version of community layer plot#####
+sim_mat_null_long <- reshape2::melt(sim_mat_null)
+sim_comm_null_long <- 
+  tidyr::gather(comm_layers_tree,
+                key = "layer",
+                value = "comm",
+                layer_1, layer_2, layer_3,
+                factor_key = TRUE)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Null_Comm_PWD.png",
+    width=5,height=5,units="in",res=500)
+community_plot(comm_data = sim_comm_null_long, node_data = sim_mat_null_long)
+dev.off()
 
 hamiltonian_plot_null <- data.frame(index=seq(1:length(hamiltonian_track)),
                                    ham=hamiltonian_track)
@@ -456,6 +642,21 @@ ggplot(sim3_comm_long,aes(layer,node_id))+
   geom_raster(aes(fill=as.factor(comm)))+
   scale_fill_discrete(name="Community")+
   xlab("Layer")+ylab("Node ID")+ggtitle("Community Assignment by Layer")
+dev.off()
+
+
+#####PWD version of community layer plot#####
+sim_mat3_long <- reshape2::melt(sim_mat3)
+sim_comm3_long <- 
+  tidyr::gather(comm_layers_tree,
+                key = "layer",
+                value = "comm",
+                layer_1, layer_2, layer_3,
+                factor_key = TRUE)
+
+png(filename="/Users/jenseale/Dropbox/PhD_Dissertation_Work/Figures/Uneq_Hier_Comm_PWD.png",
+    width=5,height=5,units="in",res=500)
+community_plot(comm_data = sim_comm3_long, node_data = sim_mat3_long)
 dev.off()
 
 hamiltonian_plot_sim3 <- data.frame(index=seq(1:length(hamiltonian_track)),
