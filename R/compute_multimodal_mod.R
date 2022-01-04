@@ -19,7 +19,7 @@
 #' @param communities vector
 #' @param alpha double
 #' 
-#' @return -1*sum
+#' @return multimodal modularity matrix
 #'   
 #' @export
 
