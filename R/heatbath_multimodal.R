@@ -1,3 +1,28 @@
+#' Multimodal heatbath algorithm
+#' 
+#' Description of the multimodal heatbath algorithm function.  
+#' 
+#' This is one of the two workhorse functions for the algorithm. The heatbath algorithm selects a
+#' network node at random, calculates the multimodal modularity for the current configuration, and
+#' then switches its community assignment to each possible community. If the modularity of this
+#' iterated configuration is less than the current configuration, the new configuration is accepted
+#' and the algorithm moves on to the next randomly chosen node. If this is not the case, the node is
+#' moved to the new community assignment with some probability, which is a function of the current
+#' modularity value, the iterated value, and the system's temperature.
+#' Once the algorithm finishes with the randomly chosen node, this counts as a sweep. A new sweep
+#' occurs, with the same steps taken as above, until the sweep number maxes out (usually set to 50
+#' to balance computation time with robustness).
+#' 
+#' The function returns the acceptance of the heatbath algorithm for the given temperature.
+#' 
+#' @param alpha double
+#' @param temp double
+#' @param max_sweeps integer
+#' 
+#' @return acceptance
+#'   
+#' @export
+
 heatbath_multimodal <- function(alpha,temp,max_sweeps){
   sweep <- 0
   rn <- 0
@@ -26,7 +51,7 @@ heatbath_multimodal <- function(alpha,temp,max_sweeps){
     
     for(spin in 1:q){ #all possible new spins
       if(spin!=old_spin){ #except the old one
-        new_communities[rn] <- spin ##Fix how this is found for lower layers!
+        new_communities[rn] <- spin
         new_hamiltonian <- compute_multimodal_mod(mod_matrix,net,new_communities,alpha)
         
         if (new_hamiltonian<current_hamiltonian){
