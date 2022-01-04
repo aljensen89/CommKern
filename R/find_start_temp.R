@@ -13,10 +13,6 @@
 #' 
 #' @return kT
 #'
-#' @examples 
-#' 
-#' example_function(2, matrix(c(1, 2, 3, 4), ncol = 2))
-#'   
 #' @export
 
 find_start_temp <- function(gamma,alpha,ts) {
