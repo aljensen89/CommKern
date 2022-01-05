@@ -1,4 +1,19 @@
-#Ancillary function: after subsetting network, convert func and str matrices to DF
+#' Convert matrices to dataframe list for subnetworks
+#' 
+#' Description of the convert matrices to dataframe list for subnetworks function.  
+#' 
+#' This is an ancillary function that creates a dataframe list for the subnetworks created using
+#' the multimodal hierarchical spinglass algorithm.
+#'  
+#' The function returns a dataframe of nodes to communities across the layers.
+#' 
+#' @param func_matrix a network object in list form (see the matrix_to_df() function for more details)
+#' @param str_matrix an integer indicating the maximum number of spins, or communities, that can be used
+#' 
+#' @return a list of dataframes for the subnetwork
+#'   
+#' @export
+#' 
 subset_matrix_to_df<-function(func_matrix,str_matrix){
   #Checking to see if both inputs are matrices
   if(!is.matrix(func_matrix) | !is.matrix(str_matrix)){
