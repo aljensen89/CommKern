@@ -1,9 +1,9 @@
-#' Convert matrices to dataframe list for subnetworks
+#' Convert matrices to dataframe list for network
 #' 
-#' Description of the convert matrices to dataframe list for subnetworks function.  
+#' Description of the convert matrices to dataframe list for network function.  
 #' 
-#' This is an ancillary function that creates a dataframe list for the subnetworks created using
-#' the multimodal hierarchical spinglass algorithm.
+#' This is an ancillary function that creates a dataframe list for the initial network. This is the form
+#' of the network used for the spinglass algorithm
 #'  
 #' The function returns a dataframe list containing the functional matrix, structural matrix, a dataframe
 #' of the functional edge weights, a dataframe of the structural edge weights, and nodal information (functional
@@ -12,33 +12,33 @@
 #' @param func_matrix a network object in list form (see the matrix_to_df() function for more details)
 #' @param str_matrix an integer indicating the maximum number of spins, or communities, that can be used
 #' 
-#' @return a list of dataframes for the subnetwork
+#' @return a list of dataframes for the network
 #'   
 #' @export
 #' 
-subset_matrix_to_df<-function(func_matrix,str_matrix){
+matrix_to_df<-function(func_mat,str_mat){
   #Checking to see if both inputs are matrices
-  if(!is.matrix(func_matrix) | !is.matrix(str_matrix)){
-    stop("After subsetting, at least one of the inputs is no longer a matrix")
+  if(!is.matrix(func_mat) | !is.matrix(str_mat)){
+    stop("At least one of the inputs is not a matrix")
   }
   
   #Checking to see if the dimensions of the functional and structural matrices match
-  if(nrow(func_matrix)!=nrow(str_matrix) | ncol(func_matrix)!=ncol(str_matrix)){
-    stop("After subsetting, functional and structural matrices don't have the same dimensions")
+  if(nrow(func_mat)!=nrow(str_mat) | ncol(func_mat)!=ncol(str_mat)){
+    stop("Functional and structural matrices don't have the same dimensions")
   }
   
   #Checking to see if inputs are square matrices
-  if(nrow(func_matrix)!=ncol(func_matrix) | nrow(str_matrix)!=ncol(str_matrix)){
-    stop("After subsetting, at least one of the matrix inputs is not a square matrix")
+  if(nrow(func_mat)!=ncol(func_mat) | nrow(str_mat)!=ncol(str_mat)){
+    stop("At least one of the matrix inputs is not a square matrix")
   }
   
   #Functional matrix
-  func_matrix2<-func_matrix
+  func_mat2<-func_mat
   
   ##Because symmetric matrix, replace upper triangle with something that can be filtered out
-  func_matrix2[upper.tri(func_matrix2)]<-NA
+  func_mat2[upper.tri(func_mat2)]<-NA
   
-  func_df<-reshape2::melt(func_matrix2)
+  func_df<-reshape2::melt(func_mat2)
   
   ##Filter out the upper matrix values, the self correlations, and value=0
   func_df<-filter(func_df,!is.na(value)) %>%
@@ -49,12 +49,12 @@ subset_matrix_to_df<-function(func_matrix,str_matrix){
   names(func_df)<-c("func_start_node","func_end_node","func_weight")
   
   #Structural matrix
-  str_matrix2<-str_matrix
+  str_mat2<-str_mat
   
   ##Because symmetric matrix, replace upper triangle with something that can be filtered out
-  str_matrix2[upper.tri(str_matrix2)]<-NA
+  str_mat2[upper.tri(str_mat2)]<-NA
   
-  str_df<-reshape2::melt(str_matrix2)
+  str_df<-reshape2::melt(str_mat2)
   
   ##Filter out the upper matrix values, the self correlations, and value=0
   str_df<-filter(str_df,!is.na(value)) %>%
@@ -65,16 +65,16 @@ subset_matrix_to_df<-function(func_matrix,str_matrix){
   names(str_df)<-c("str_start_node","str_end_node","str_weight")
   
   #Creating the list object, rfid_final
-  vertex_df<-data.frame(node_id=rownames(func_matrix))
+  vertex_df<-data.frame(node_id=seq(1:nrow(func_mat2)))
   vertex_df$node_label<-NA
   vertex_df$func_degree<-NA
   vertex_df$str_degree<-NA
   vertex_df$community<-NA
   
-  vertex_df<-degree(func_matrix,str_matrix,vertex_df)
+  vertex_df<-degree(func_mat,str_mat,vertex_df)
   
   func_str_df<-list(func_edges=func_df,str_edges=str_df,vertexes=vertex_df,
-                    func_matrix=func_matrix,str_matrix=str_matrix)
+                    func_matrix=func_mat,str_matrix=str_mat)
   
   return(func_str_df)
 }
