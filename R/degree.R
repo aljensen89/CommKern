@@ -5,7 +5,7 @@
 #' This is an ancillary function that calculates the functional and structural degree of each network
 #' node using the functional and structural adjacency matrices, respectively.
 #' 
-#'The function returnsvertex_df dataframe to be incorporated into the network object
+#'The function returns the vertex_df dataframe to be incorporated into the network object
 #' 
 #' @param adj_matrix_func the adjacency matrix for functional connectivity
 #' @param adj_matrix_str the adjacency matrix for structural connectivity
