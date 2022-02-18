@@ -41,9 +41,9 @@ matrix_to_df<-function(func_mat,str_mat){
   func_df<-reshape2::melt(func_mat2)
   
   ##Filter out the upper matrix values, the self correlations, and value=0
-  func_df<-filter(func_df,!is.na(value)) %>%
-    filter(Var1 != Var2) %>%
-    filter(value != 0)
+  func_df<-dplyr::filter(func_df,!is.na(value)) %>%
+    dplyr::filter(Var1 != Var2) %>%
+    dplyr::filter(value != 0)
   
   ##Renaming the columns
   names(func_df)<-c("func_start_node","func_end_node","func_weight")
@@ -57,9 +57,9 @@ matrix_to_df<-function(func_mat,str_mat){
   str_df<-reshape2::melt(str_mat2)
   
   ##Filter out the upper matrix values, the self correlations, and value=0
-  str_df<-filter(str_df,!is.na(value)) %>%
-    filter(Var1 != Var2) %>%
-    filter(value != 0)
+  str_df<-dplyr::filter(str_df,!is.na(value)) %>%
+    dplyr::filter(Var1 != Var2) %>%
+    dplyr::filter(value != 0)
   
   ##Renaming the columns
   names(str_df)<-c("str_start_node","str_end_node","str_weight")
