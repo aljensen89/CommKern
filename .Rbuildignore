@@ -1,3 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^development_scripts/*
+^Makefile$
+^.*\.Rout$
+^.*\.tar\.gz$
