@@ -331,7 +331,7 @@ Binary.Similarity <- function(s1,s2){
   min(which(s1[1:n]!=s2[1:n]))
 }
 
-gen_P <- function(n,d,a.seq,lambda,noise_sd){
+gen_P <- function(n,d,a.seq,lambda){
   K <- 2^d
   ## generate binary strings
   b.list <- list()

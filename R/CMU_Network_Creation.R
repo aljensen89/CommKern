@@ -68,19 +68,19 @@ for (i in 1:length(names(cmu_bold_files$bold[,,1]$avgs[,,1]))){
 }
 
 #Pulling the BOLD time series for each ROI and calculating cross-correlations for adjacency matrices
-# fc_array<-array(dim=c(dim(sc_full_mydata[[1]])[1],dim(sc_full_mydata[[1]])[2],
-#                       length(names(cmu_bold_files$bold[,,1]$avgs[,,1]))))
-# 
-# for (i in 1:length(names(cmu_bold_files$bold[,,1]$avgs[,,1]))){
-#   names<-names(cmu_bold_files$bold[,,1]$avgs[,,1])
-#   for (j in 1:dim(sc_full_mydata[[1]])[1]){
-#     for (k in 1:dim(sc_full_mydata[[1]])[1]){
-#       fc_array[j,k,i]<-ccf(ts(cmu_bold_files$bold[,,1]$avgs[,,1][[names[i]]][,,1]$rois.data[j,]),
-#                              ts(cmu_bold_files$bold[,,1]$avgs[,,1][[names[i]]][,,1]$rois.data[k,]),
-#                              type=c("correlation"),plot=FALSE)$acf[,,1][24]
-#     }
-#   }
-# }
+ fc_array<-array(dim=c(dim(sc_full_mydata[[1]])[1],dim(sc_full_mydata[[1]])[2],
+                       length(names(cmu_bold_files$bold[,,1]$avgs[,,1]))))
+ 
+ for (i in 1:length(names(cmu_bold_files$bold[,,1]$avgs[,,1]))){
+   names<-names(cmu_bold_files$bold[,,1]$avgs[,,1])
+   for (j in 1:dim(sc_full_mydata[[1]])[1]){
+     for (k in 1:dim(sc_full_mydata[[1]])[1]){
+       fc_array[j,k,i]<-ccf(ts(cmu_bold_files$bold[,,1]$avgs[,,1][[names[i]]][,,1]$rois.data[j,]),
+                              ts(cmu_bold_files$bold[,,1]$avgs[,,1][[names[i]]][,,1]$rois.data[k,]),
+                              type=c("correlation"),plot=FALSE)$acf[,,1][24]
+     }
+   }
+ }
 
 # Creating the analytic dataset -------------------------------------------------------------------
 #Finding the subjects who don't have a fMRI scan but do have a structural scan
@@ -266,5 +266,5 @@ tabone_sum <- list("Age (years)" =
                     list("Left (n (%))" = ~qwraps2::n_perc0(handedness_mod=="Left",na_rm=TRUE,show_symbol=TRUE),
                          "Right (n (%))" = ~qwraps2::n_perc0(handedness_mod=="Right",na_rm=TRUE,show_symbol=TRUE)))
 
-table_one <- summary_table(attr_df,tabone_sum)
+table_one <- qwraps2::summary_table(attr_df,tabone_sum)
 knitr::kable(table_one)
