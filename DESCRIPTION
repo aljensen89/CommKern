@@ -16,8 +16,10 @@ Imports:
   ggnewscale,
   ggplot2,
   gridExtra,
+  magrittr,
   RColorBrewer,
   reshape2,
+  rlang,
   qwraps2
 Suggests:
   ape,
