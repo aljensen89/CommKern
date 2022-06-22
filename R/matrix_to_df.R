@@ -9,8 +9,8 @@
 #' of the functional edge weights, a dataframe of the structural edge weights, and nodal information (functional
 #' degree, structural degree, community assignment, and label information)
 #' 
-#' @param func_matrix a network object in list form (see the matrix_to_df() function for more details)
-#' @param str_matrix an integer indicating the maximum number of spins, or communities, that can be used
+#' @param func_mat a network object in list form (see the matrix_to_df() function for more details)
+#' @param str_mat an integer indicating the maximum number of spins, or communities, that can be used
 #' 
 #' @return a list of dataframes for the network
 #'   
