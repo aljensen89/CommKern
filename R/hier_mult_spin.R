@@ -123,11 +123,11 @@ hms <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FAL
       }
     }
     layer_comms %<>% 
-      arrange(node_id) %>%
-      mutate(node_id=as.integer(node_id))
+      dplyr::arrange(.data$node_id) %>%
+      dplyr::mutate(node_id = as.integer(.data$node_id))
     
     comm_layers_tree %<>% 
-      left_join(layer_comms,by="node_id")
+      dplyr::left_join(layer_comms, by = "node_id")
       
     layer_name <- c(paste0("layer_",num_layer))
     names(comm_layers_tree)[num_layer+1] <- paste0("layer_",num_layer)
