@@ -28,7 +28,7 @@ community_plot <- function(comm_data, node_data) {
   
   comms <- lapply(layers, function(x) {unique(x$comm2)})
   n_comms <- lapply(comms, length)
-  comm_colors <- mapply(function(n, s) { gp <- colorRampPalette(RColorBrewer::brewer.pal(9, s)); gp(n) },
+  comm_colors <- mapply(function(n, s) { gp <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, s)); gp(n) },
                         n_comms, s = list("Paired", "Paired", "Paired"))
   
   comm_plot <-
