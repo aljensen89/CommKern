@@ -2,7 +2,7 @@ Package: spinglass
 Version: 0.0.0.9000
 Title: Hierarchical Spinglass
 Authors@R: c(person(given = "Alexandria", family = "Jensen",  email = "alexandria.jensen@cuanschutz.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6337-9079")),
-             person(given = "Peter",      family = "DeWitt",  email = "peter.dewitt@cuanschutz.edu",      role = c("ctb", "dgc"), comment = c(ORCID = "0000-0002-6391-0795")),
+             person(given = "Peter",      family = "DeWitt",  email = "peter.dewitt@cuanschutz.edu",      role = c("ctb"),        comment = c(ORCID = "0000-0002-6391-0795")),
              person(given = "Debashis",   family = "Ghosh",   email = "debashis.ghosh@cuanschutz.edu",    role = c("ths"),        comment = c(ORCID = "0000-0001-6618-1316"))
              )
 Description: A full sentence about the package.  More detail in a short paragraph.
