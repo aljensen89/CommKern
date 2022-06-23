@@ -6,7 +6,7 @@
 #' plot on the top panel, derived from a network adjacency matrix, and a community assignment plot
 #' on the bottom panel, separated by layer.
 #' 
-#'The function returns a 1x2 panel plot.
+#' @return A 1x2 panel plot.
 #' 
 #' @param comm_data is a long dataframe with three columns: node_id, layer, and comm; this can be created from the comm_layers_tree object using the tidyr::gather() function
 #' @param node_data is a melted version of the network adjacency matrix, using the reshape2::melt() function
@@ -14,19 +14,21 @@
 #' @return the vertex_df dataframe to be incorporated into the network object
 #'   
 #' @export
-
 community_plot <- function(comm_data, node_data) {
   comm_data$comm1 <- factor(paste0("c", formatC(comm_data$comm, flag = 0, width = 2)))
   comm_data$comm2 <- factor(paste0("c", formatC(comm_data$comm, flag = 0, width = 2)))
   comm_data$comm3 <- factor(paste0("c", formatC(comm_data$comm, flag = 0, width = 2)))
   
-  layers <- list(  l1 = subset(comm_data, layer == "layer_1")
-                   , l2 = subset(comm_data, layer == "layer_2")
-                   , l3 = subset(comm_data, layer == "layer_3"))
+  layers <-
+    list(
+           l1 = subset(comm_data, comm_data$layer == "layer_1")
+         , l2 = subset(comm_data, comm_data$layer == "layer_2")
+         , l3 = subset(comm_data, comm_data$layer == "layer_3")
+    )
   
   comms <- lapply(layers, function(x) {unique(x$comm2)})
   n_comms <- lapply(comms, length)
-  comm_colors <- mapply(function(n, s) { gp <- colorRampPalette(RColorBrewer::brewer.pal(9, s)); gp(n) },
+  comm_colors <- mapply(function(n, s) { gp <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, s)); gp(n) },
                         n_comms, s = list("Paired", "Paired", "Paired"))
   
   comm_plot <-
@@ -49,7 +51,7 @@ community_plot <- function(comm_data, node_data) {
   node_plot <-
     ggplot2::ggplot(data = node_data) +
     ggplot2::theme_minimal() +
-    ggplot2::aes(x = Var1, y = Var2, fill = value) +
+    ggplot2::aes_string(x = "Var1", y = "Var2", fill = "value") +
     ggplot2::geom_tile() +
     ggplot2::scale_fill_gradient2(
       low  = "navy",

@@ -37,7 +37,7 @@ heatbath_multimodal_tracker <- function(gamma,alpha,temp,max_sweeps){
           #Otherwise, move to it with some probability
           probOfMoving <- exp(-(new_hamiltonian-current_hamiltonian)/temp)
           
-          if(runif(1,min=0,max=1)<probOfMoving){
+          if(stats::runif(1,min=0,max=1)<probOfMoving){
             current_communities <- new_communities
             current_hamiltonian <- new_hamiltonian
             

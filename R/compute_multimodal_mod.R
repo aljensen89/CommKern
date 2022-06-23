@@ -4,7 +4,7 @@
 #' 
 #' Calculates the multimodal version of the modularity matrix, which is detailed in the accompanying
 #' manuscript as the following:
-#' \sum_{i \neg j} M_{ij} \delta(C_i,C_j) - \alpha \sum_{i \neg j} S_{ij} \delta(C_i,C_j).
+#' \deqn{\sum_{i \neq j} M_{ij} \delta(C_i,C_j) - \alpha \sum_{i \neq j} S_{ij} \delta(C_i,C_j).}{sum_{i <> j} M_{ij} delta(C_i,C_j) - alpha sum_{i <> j} S_{ij} delta(C_i,C_j).}
 #' This function incorporates both the modularity matrix calculated from the compute_mod_matrix()
 #' function and adds the additional component of a guidance matrix. The alpha parameter controls
 #' the extent to which the guidance matrix influences the modularity, where alpha=0 means the

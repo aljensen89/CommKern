@@ -1,14 +1,35 @@
 Package: spinglass
 Version: 0.0.0.9000
 Title: Hierarchical Spinglass
-Authors@R: c(person("Alexandria", "Jensen",, "alexandria.jensen@cuanschutz.edu", role = c("aut", "cre")),
-             person("Debashis", "Ghosh", , "debashis.ghosh@cuanschutz.edu", role = c("ths")))
+Authors@R: c(person(given = "Alexandria", family = "Jensen",  email = "alexandria.jensen@cuanschutz.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6337-9079")),
+             person(given = "Peter",      family = "DeWitt",  email = "peter.dewitt@cuanschutz.edu",      role = c("ctb"),        comment = c(ORCID = "0000-0002-6391-0795")),
+             person(given = "Debashis",   family = "Ghosh",   email = "debashis.ghosh@cuanschutz.edu",    role = c("ths"),        comment = c(ORCID = "0000-0001-6618-1316"))
+             )
 Description: A full sentence about the package.  More detail in a short paragraph.
 Depends: R (>= 3.6.0)
 License: GPL (>= 2)
+Encoding: UTF-8
+URL: https://github.com/aljensen89/Hierarchical_Spinglass
 LazyData: true
 Imports:
+  dplyr,
+  ggnewscale,
+  ggplot2,
+  gridExtra,
+  magrittr,
+  RColorBrewer,
+  reshape2,
+  rlang,
+  qwraps2
 Suggests:
+  ape,
+  data.tree,
+  dendextend,
   knitr,
-RoxygenNote: 6.1.1
+  MNS,
+  networkD3,
+  R.matlab,
+  reshape,
+  treemap
+RoxygenNote: 7.2.0
 VignetteBuilder: knitr
