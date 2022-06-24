@@ -6,7 +6,7 @@
 \alias{SBM_net}
 \title{Example Data Set(s) for Hierarchical Spinglass}
 \format{
-An object of class \code{list} of length 5.
+An object of class \code{spinglass_net} of length 5.
 }
 \usage{
 SBM_net

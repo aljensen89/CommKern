@@ -83,6 +83,6 @@ matrix_to_df<-function(func_mat,str_mat){
   func_str_df<-list(func_edges=func_df,str_edges=str_df,vertexes=vertex_df,
                     func_matrix=func_mat,str_matrix=str_mat)
   
-  class(func_str_df) <- "hms_net"
+  class(func_str_df) <- "spinglass_net"
   func_str_df
 }

@@ -10,7 +10,7 @@
 #' 
 #' The function returns a dataframe of nodes to communities across the layers.
 #' 
-#' @param input_net a network object in list form (see the \code{\link{matrix_to_df}} function for more details)
+#' @param input_net a \code{spinglass_net} object (see \code{\link{matrix_to_df}} for more details)
 #' @param spins an integer indicating the maximum number of spins, or communities, that can be used
 #' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
 #' @param coolfact a double parameter that indicates how quickly (or slowly) to cool the heathbath algorithm, typically set to be 0.95-0.99
@@ -28,7 +28,7 @@ hms <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FAL
 }
 
 #' @export
-hms.hms_net <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FALSE) {
+hms.spinglass_net <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FALSE) {
   
   #Checks on the function input values
   if (spins < 2 | spins > length(input_net$vertexes$node_id)) {
