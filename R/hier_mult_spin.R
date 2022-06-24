@@ -10,15 +10,17 @@
 #' 
 #' The function returns a dataframe of nodes to communities across the layers.
 #' 
-#' @param input_net a network object in list form (see the matrix_to_df() function for more details)
+#' @param input_net a network object in list form (see the \code{\link{matrix_to_df}} function for more details)
 #' @param spins an integer indicating the maximum number of spins, or communities, that can be used
 #' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
 #' @param coolfact a double parameter that indicates how quickly (or slowly) to cool the heathbath algorithm, typically set to be 0.95-0.99
 #' @param false_pos a double parameter that indicates the level of false positives to allow the system to make (if ground truth is known), typically set to 0.01-0.05
 #' @param max_layers an integer parameter that specifies the maximum number of layers of communities within the network
 #' @param parallel a boolean operator (not currently used)
-#' 
+#'
 #' @return comm_layers_tree a dataframe consisting of nodes and their community assignments across the layers
+#' 
+#' @seealso \code{\link{matrix_to_df}}
 #'   
 #' @export
 

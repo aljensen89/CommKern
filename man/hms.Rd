@@ -7,7 +7,7 @@
 hms(input_net, spins, alpha, coolfact, false_pos, max_layers, parallel = FALSE)
 }
 \arguments{
-\item{input_net}{a network object in list form (see the matrix_to_df() function for more details)}
+\item{input_net}{a network object in list form (see the \code{\link{matrix_to_df}} function for more details)}
 
 \item{spins}{an integer indicating the maximum number of spins, or communities, that can be used}
 
@@ -35,4 +35,7 @@ of these communities is broken up and become their own subnetworks, on which the
 to get further subnetwork community assignments. This continues until the maximum number of layers is reached.
 
 The function returns a dataframe of nodes to communities across the layers.
+}
+\seealso{
+\code{\link{matrix_to_df}}
 }
