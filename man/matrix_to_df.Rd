@@ -25,3 +25,11 @@ The function returns a dataframe list containing the functional matrix, structur
 of the functional edge weights, a dataframe of the structural edge weights, and nodal information (functional
 degree, structural degree, community assignment, and label information)
 }
+\examples{
+
+# Using the example data SBM_net$func_matrix and SBM_net$str_mat
+net <- matrix_to_df(SBM_net$func_mat, SBM_net$str_mat)
+str(net)
+identical(net, SBM_net)
+
+}

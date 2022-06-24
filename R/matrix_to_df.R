@@ -13,7 +13,14 @@
 #' @param str_mat an integer indicating the maximum number of spins, or communities, that can be used
 #' 
 #' @return a list of dataframes for the network
-#'   
+#'
+#' @examples
+#'
+#' # Using the example data SBM_net$func_matrix and SBM_net$str_mat
+#' net <- matrix_to_df(SBM_net$func_mat, SBM_net$str_mat)
+#' str(net)
+#' identical(net, SBM_net)
+#'
 #' @export
 #' 
 matrix_to_df<-function(func_mat,str_mat){
