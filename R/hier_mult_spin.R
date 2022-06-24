@@ -23,8 +23,12 @@
 #' @seealso \code{\link{matrix_to_df}}
 #'   
 #' @export
+hms <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FALSE) {
+  UseMethod("hms")
+}
 
-hms <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FALSE){
+#' @export
+hms.hms_net <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FALSE) {
   
   #Checks on the function input values
   if (spins < 2 | spins > length(input_net$vertexes$node_id)) {
@@ -36,8 +40,9 @@ hms <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FAL
   if(alpha < 0) {
     stop("Must provide a strictly positive alpha value")
   }
+  max_layers <- floor(max_layers)
   if (max_layers < 1){
-    stop("Must provide a max number of layers greater than one")
+    stop("max_layers by be at least one")
   }
   
   #Initializing the layer counting object
