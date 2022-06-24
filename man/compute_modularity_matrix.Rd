@@ -7,7 +7,7 @@
 compute_modularity_matrix(net)
 }
 \arguments{
-\item{net}{a network object in list form (see the matrix_to_df() function for more details)}
+\item{net}{a \code{spinglass_net} object (see \code{\link{matrix_to_df}} for more details)}
 }
 \value{
 mod_matrix

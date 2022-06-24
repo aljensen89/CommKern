@@ -9,13 +9,17 @@
 #' connectivity aspect of the network object.
 #' The function takes in a network object and returns the modularity matrix.
 #' 
-#' @param net a network object in list form (see the matrix_to_df() function for more details)
+#' @param net a \code{spinglass_net} object (see \code{\link{matrix_to_df}} for more details)
 #' 
 #' @return mod_matrix
 #'   
 #' @export
+compute_modularity_matrix <- function(net) {
+  UseMethod("compute_modularity_matrix")
+}
 
-compute_modularity_matrix <- function(net){
+#' @export
+compute_modularity_matrix.spinglass_net <- function(net) {
   m <- 0.5*sum(net$func_matrix)
   
   mod_matrix <- matrix(0,nrow=nrow(net$func_matrix),ncol=ncol(net$func_matrix))
