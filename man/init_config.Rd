@@ -4,9 +4,11 @@
 \alias{init_config}
 \title{Initial configuration assignment}
 \usage{
-init_config(spin)
+init_config(x, spin)
 }
 \arguments{
+\item{x}{a \code{hms_network} object}
+
 \item{spin}{an integer indicating the maximum number of spins, or communities, that can be used}
 }
 \value{

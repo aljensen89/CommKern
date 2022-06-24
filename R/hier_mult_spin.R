@@ -44,23 +44,29 @@ hms.spinglass_net <- function(input_net,spins,alpha,coolfact,false_pos,max_layer
   if (max_layers < 1){
     stop("max_layers by be at least one")
   }
-  
-  #Initializing the layer counting object
-  num_layer <- 0
-  
-  #Data frame holding the community assignments through the layers
-  comm_layers_tree <- data.frame(node_id=input_net$vertexes$node_id)
-  
-  #Initializing variables that will stay constant through the layers
-  q <- spins
+
+  # define the hms_network object
+  #
+  # * num_layer:        layer counting object
+  # * comm_layers_tree: Data frame holding the community assignments through the layers
+  # * q:                spins
+  hms_network <-
+    list(
+          input_net = input_net
+         , num_layer = 0
+         , comm_layers_tree = data.frame(node_id = input_net$vertexes$node_id)
+         , q = spins        
+         , acc_threshold = (1 - (1 / q)) * false_pos
+         )
+  class(hms_network) <- "hms_network"
   
   #Layer loop
-  while(num_layer < max_layers){
-    num_layer <- num_layer+1
+  while(hms_network$num_layer < max_layers){
+    hms_network$num_layer <- hms_network$num_layer + 1
     
     #Creating layer-specific net list object
     net_layer <- list()
-    if(num_layer==1){
+    if(hms_network$num_layer==1){
       net_layer[[1]] <- input_net
     } else{
       net_layer <- sub_net_layer
@@ -88,17 +94,13 @@ hms.spinglass_net <- function(input_net,spins,alpha,coolfact,false_pos,max_layer
       mod_matrix <- compute_modularity_matrix(net)
       
       ##Finding the initial temperature for the heatbath_multimodal function
-      initial_temp <- find_start_temp(alpha,1)
+      initial_temp <- find_start_temp(alpha, 1)
       temp <- initial_temp
       
       while(changes > 0 & temp > 1e-6){
-        acc <- heatbath_multimodal(alpha,temp,50)
-        if(acc < (1-(1/q))*false_pos){
-          changes <- 0
-        } else{
-          changes <- 1
-        }
-        temp <- temp*coolfact
+        acc <- heatbath_multimodal(alpha, temp, 50)
+        changes <- as.integer(acc >= hms_network$acc_threshold)
+        temp <- temp * coolfact
         net$vertexes$community <- best_communities
       }
       

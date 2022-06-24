@@ -15,6 +15,7 @@
 #' 
 #' The function returns the acceptance of the heatbath algorithm for the given temperature.
 #' 
+#' @param net a \code{hms_network} object
 #' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
 #' @param temp a double parameter found using the find_start_temp() function
 #' @param max_sweeps an integer parameter of the maximum number of sweeps allowed at each temperature
@@ -22,14 +23,18 @@
 #' @return acceptance value of the algorithm for the given temperature
 #'   
 #' @export
+heatbath_multimodal <- function(net, alpha, temp, max_sweeps) {
+  UseMethod("heatbath_multimodal")
+}
 
-heatbath_multimodal <- function(alpha,temp,max_sweeps){
+#' @export
+heatbath_multimodal.hms_network <- function(net, alpha, temp, max_sweeps) {
   sweep <- 0
   rn <- 0
   changes <- 1
   
   current_communities <- net$vertexes$community
-  current_hamiltonian <- compute_multimodal_mod(mod_matrix,net,current_communities,alpha)
+  current_hamiltonian <- compute_multimodal_mod(net, mod_matrix, current_communities, alpha)
   
   while(sweep<max_sweeps){
     sweep <- sweep+1
@@ -43,16 +48,16 @@ heatbath_multimodal <- function(alpha,temp,max_sweeps){
       rn <- sample(1:num_of_nodes,1)
     }
     
-    node <- net$vertexes$node_id[rn]
+    node <- net$network$vertexes$node_id[rn]
     
     #Search optimal spin
-    old_spin <- net$vertexes$community[net$vertexes$node_id==node]
+    old_spin <- net$network$vertexes$community[net$network$vertexes$node_id==node]
     spin_opt <- old_spin
     
-    for(spin in 1:q){ #all possible new spins
+    for(spin in seq(1, net$q, by = 1)){ #all possible new spins
       if(spin!=old_spin){ #except the old one
         new_communities[rn] <- spin
-        new_hamiltonian <- compute_multimodal_mod(mod_matrix,net,new_communities,alpha)
+        new_hamiltonian <- compute_multimodal_mod(net, mod_matrix, new_communities, alpha)
         
         if (new_hamiltonian<current_hamiltonian){
           current_communities <- new_communities
@@ -71,9 +76,9 @@ heatbath_multimodal <- function(alpha,temp,max_sweeps){
       }
     }
   }
-  best_communities <<- current_communities
-  best_hamiltonian <<- current_hamiltonian
-  
-  acceptance <- changes/(max_sweeps*q) #Proportion of changes that occurred divided by total possible changes
-  return(acceptance)
+  net$best_communities <- current_communities
+  net$best_hamiltonian <- current_hamiltonian
+  net$acceptance <- changes/(max_sweeps*net$q) #Proportion of changes that occurred divided by total possible changes
+  return(net)
 }
+

@@ -4,9 +4,11 @@
 \alias{find_start_temp}
 \title{Starting temperature}
 \usage{
-find_start_temp(alpha, ts)
+find_start_temp(x, alpha, ts)
 }
 \arguments{
+\item{x}{a \code{hms_network} object}
+
 \item{alpha}{a double parameter balancing the use of the guidance matrix in modularity calculation}
 
 \item{ts}{the starting temperature for the search, set to 1 within the algorithm}

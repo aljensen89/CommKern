@@ -28,7 +28,7 @@ compute_multimodal_mod <- function(net, mod_matrix, communities, alpha) {
 
 #' @export
 compute_multimodal_mod.hms_network <- function(net, mod_matrix, communities, alpha){
-  mat <- mod_matrix + (alpha * net$str_matrix)
+  mat <- mod_matrix + (alpha * net$input_net$str_matrix)
   diag(mat) <- 0
   rtn <- 0
   for (i in unique(communities)) {
