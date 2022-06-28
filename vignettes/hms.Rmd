@@ -1,0 +1,46 @@
+---
+title: "Hierarchical Multimodal Spinglass"
+output:
+ rmarkdown::html_vignette:
+   toc: true
+   number_sections: true
+vignette: >
+ %\VignetteIndexEntry{hms}
+ %\VignetteEngine{knitr::rmarkdown}
+ %\VignetteEncoding{UTF-8}
+---
+
+```{r label = "format-setup", include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+```{r label = "setup"}
+library(spinglass)
+```
+
+# Provided Data Set(s)
+
+```{r label = "provided-data-sets"}
+data(package = "spinglass")$results[, c("Item", "Title")]
+str(SBM_net)
+```
+The `SBM_net` object is the result of calling `matrix_to_df`.
+```{r}
+net <- matrix_to_df(func_mat = SBM_net$func_mat, str_mat = SBM_net$str_mat)
+identical(net, SBM_net)
+```
+
+# HMS Workflow
+
+```{r}
+hms_object <-
+  hms(
+      input_net = SBM_net
+      , spins = 4
+      , alpha = 0
+      , coolfact = 0.99
+      , false_pos = 0.01
+      , max_layers = 1)
+str(hms_object)
+```
+
