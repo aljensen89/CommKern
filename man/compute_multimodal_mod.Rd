@@ -4,12 +4,12 @@
 \alias{compute_multimodal_mod}
 \title{Compute multimodal modularity matrix}
 \usage{
-compute_multimodal_mod(net, mod_matrix, communities, alpha)
+compute_multimodal_mod(mod_matrix, net, communities, alpha)
 }
 \arguments{
-\item{net}{a network object in list form (see the matrix_to_df() function for more details)}
-
 \item{mod_matrix}{the modularity matrix output from the compute_mod_matrix() function}
+
+\item{net}{a network object in list form (see the matrix_to_df() function for more details)}
 
 \item{communities}{the vector of node assignments to communities}
 

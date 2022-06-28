@@ -22,13 +22,8 @@
 #' @return multimodal modularity matrix
 #'   
 #' @export
-compute_multimodal_mod <- function(net, mod_matrix, communities, alpha) {
-  UseMethod("compute_multimodal_mod")
-}
-
-#' @export
-compute_multimodal_mod.hms_network <- function(net, mod_matrix, communities, alpha){
-  mat <- mod_matrix + (alpha * net$input_net$str_matrix)
+compute_multimodal_mod <- function(mod_matrix, net, communities, alpha) {
+  mat <- mod_matrix + (alpha * net$str_matrix)
   diag(mat) <- 0
   rtn <- 0
   for (i in unique(communities)) {

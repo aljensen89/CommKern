@@ -21,16 +21,29 @@
 #' @return comm_layers_tree a dataframe consisting of nodes and their community assignments across the layers
 #' 
 #' @seealso \code{\link{matrix_to_df}}
+#'
+#' @examples
+#'
+#' hms_object <-
+#'   hms(input_net = SBM_net, 
+#'       spins = 4,
+#'       alpha = 0,
+#'       coolfact = 0.99,
+#'       false_pos = 0.01,
+#'       max_layers = 1)
+#'
+#' str(hms_object)
+#' str(hms_object$comm_layers_tree)
+#' str(hms_object$net)
 #'   
 #' @export
-hms <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FALSE) {
+hms <- function(input_net, spins, alpha, coolfact, false_pos, max_layers, parallel=FALSE) {
   UseMethod("hms")
 }
 
 #' @export
-hms.spinglass_net <- function(input_net,spins,alpha,coolfact,false_pos,max_layers,parallel=FALSE) {
+hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_layers, parallel=FALSE) {
   
-  #Checks on the function input values
   if (spins < 2 | spins > length(input_net$vertexes$node_id)) {
     stop("Must provide a number of spins within [2,number of nodes in network]")
   }
@@ -40,33 +53,23 @@ hms.spinglass_net <- function(input_net,spins,alpha,coolfact,false_pos,max_layer
   if(alpha < 0) {
     stop("Must provide a strictly positive alpha value")
   }
-  max_layers <- floor(max_layers)
   if (max_layers < 1){
-    stop("max_layers by be at least one")
+    stop("Must provide a max number of layers greater than one")
   }
-
-  # define the hms_network object
-  #
-  # * num_layer:        layer counting object
-  # * comm_layers_tree: Data frame holding the community assignments through the layers
-  # * q:                spins
-  hms_network <-
-    list(
-          input_net = input_net
-         , num_layer = 0
-         , comm_layers_tree = data.frame(node_id = input_net$vertexes$node_id)
-         , q = spins        
-         , acc_threshold = (1 - (1 / q)) * false_pos
-         )
-  class(hms_network) <- "hms_network"
+  
+  #Initializing the layer counting object
+  num_layer <- 0
+  
+  #Data frame holding the community assignments through the layers
+  comm_layers_tree <- data.frame(node_id=input_net$vertexes$node_id)
   
   #Layer loop
-  while(hms_network$num_layer < max_layers){
-    hms_network$num_layer <- hms_network$num_layer + 1
+  while(num_layer < max_layers){
+    num_layer <- num_layer+1
     
     #Creating layer-specific net list object
     net_layer <- list()
-    if(hms_network$num_layer==1){
+    if(num_layer==1){
       net_layer[[1]] <- input_net
     } else{
       net_layer <- sub_net_layer
@@ -94,13 +97,21 @@ hms.spinglass_net <- function(input_net,spins,alpha,coolfact,false_pos,max_layer
       mod_matrix <- compute_modularity_matrix(net)
       
       ##Finding the initial temperature for the heatbath_multimodal function
-      initial_temp <- find_start_temp(alpha, 1)
+      net$vertexes$community <- sample.int(spins, size = length(net$vertexes$community), replace = TRUE)
+      initial_temp <- find_start_temp(net = net, mod_matrix = mod_matrix, spins = spins, alpha = alpha, ts = 1)
       temp <- initial_temp
-      
+
       while(changes > 0 & temp > 1e-6){
-        acc <- heatbath_multimodal(alpha, temp, 50)
-        changes <- as.integer(acc >= hms_network$acc_threshold)
-        temp <- temp * coolfact
+        hb <- heatbath_multimodal(net = net, mod_matrix = mod_matrix, spins = spins, alpha = alpha, temp = temp, max_sweeps = 50)
+        acc <- hb$acceptance
+        best_communities <- hb$best_communities
+        best_hamiltonian <- hb$best_hamiltonian
+        if(acc < (1-(1/spins))*false_pos){
+          changes <- 0
+        } else{
+          changes <- 1
+        }
+        temp <- temp*coolfact
         net$vertexes$community <- best_communities
       }
       
@@ -141,5 +152,11 @@ hms.spinglass_net <- function(input_net,spins,alpha,coolfact,false_pos,max_layer
     layer_name <- c(paste0("layer_",num_layer))
     names(comm_layers_tree)[num_layer+1] <- paste0("layer_",num_layer)
   }
-  return(comm_layers_tree)
+
+  rtn <-
+    list(
+         comm_layers_tree = comm_layers_tree,
+         net = net
+    )
+  rtn
 }

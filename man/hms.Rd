@@ -36,6 +36,21 @@ to get further subnetwork community assignments. This continues until the maximu
 
 The function returns a dataframe of nodes to communities across the layers.
 }
+\examples{
+
+hms_object <-
+  hms(input_net = SBM_net, 
+      spins = 4,
+      alpha = 0,
+      coolfact = 0.99,
+      false_pos = 0.01,
+      max_layers = 1)
+
+str(hms_object)
+str(hms_object$comm_layers_tree)
+str(hms_object$net)
+  
+}
 \seealso{
 \code{\link{matrix_to_df}}
 }
