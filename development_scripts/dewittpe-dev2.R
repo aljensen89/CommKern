@@ -30,7 +30,7 @@ find_start_temp <- function(alpha,ts) { # {{{
   
   while(acceptance < (1-(1/q))*0.95){ #want 95% acceptance
     kT <- kT*1.1
-    acceptance <- heatbath_multimodal(alpha,kT,50)
+    acceptance <- heatbath_multimodal(alpha,kT,50)$acceptance
   }
   kT <- kT*1.1
   return(kT)
@@ -84,11 +84,9 @@ heatbath_multimodal <- function(alpha,temp,max_sweeps){ #{{{
       }
     }
   }
-  best_communities <<- current_communities
-  best_hamiltonian <<- current_hamiltonian
   
   acceptance <- changes/(max_sweeps*q) #Proportion of changes that occurred divided by total possible changes
-  return(acceptance)
+  return(list(acceptance = acceptance, best_communities = current_communities, best_hamiltonian = current_hamiltonian))
 } # }}}
 
 ################################################################################
@@ -265,7 +263,10 @@ degree <- function(adj_matrix_func,adj_matrix_str,vertex_df){ # {{{
       temp <- initial_temp
 
       while(changes > 0 & temp > 1e-6){
-        acc <- heatbath_multimodal(alpha,temp,50)
+        hb <- heatbath_multimodal(alpha,temp,50)
+        acc <- hb$acceptance
+        best_communities <- hb$best_communities
+        best_hamiltonian <- hb$best_hamiltonian
         if(acc < (1-(1/q))*false_pos){
           changes <- 0
         } else{
