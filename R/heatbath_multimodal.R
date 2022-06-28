@@ -16,12 +16,19 @@
 #' The function returns the acceptance of the heatbath algorithm for the given temperature.
 #' 
 #' @param net a \code{hms_network} object
+#' @param mod_matrix mod_matrix
+#' @param spins spins
 #' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
 #' @param temp a double parameter found using the find_start_temp() function
 #' @param max_sweeps an integer parameter of the maximum number of sweeps allowed at each temperature
 #' 
 #' @return acceptance value of the algorithm for the given temperature
 #'   
+#' @export
+heatbath_multimodal <- function(net, mod_matrix, spins, alpha, temp, max_sweeps){
+  UseMethod("heatbath_multimodal")
+}
+  
 #' @export
 heatbath_multimodal <- function(net, mod_matrix, spins, alpha, temp, max_sweeps){
   sweep <- 0

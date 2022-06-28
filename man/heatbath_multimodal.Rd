@@ -9,6 +9,10 @@ heatbath_multimodal(net, mod_matrix, spins, alpha, temp, max_sweeps)
 \arguments{
 \item{net}{a \code{hms_network} object}
 
+\item{mod_matrix}{mod_matrix}
+
+\item{spins}{spins}
+
 \item{alpha}{a double parameter balancing the use of the guidance matrix in modularity calculation}
 
 \item{temp}{a double parameter found using the find_start_temp() function}

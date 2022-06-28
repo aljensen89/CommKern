@@ -6,7 +6,8 @@
 #' with at least 95 of all proposed spin changes accepted in 50 sweeps over the network.
 #' The function returns the temperature found.
 #' 
-#' @param net   a spinglass_net
+#' @param net   a \code{spinglass_net} object
+#' @param mod_matrix mod_matrix
 #' @param spins spins
 #' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
 #' @param ts the starting temperature for the search, set to 1 within the algorithm 
@@ -15,6 +16,11 @@
 #'
 #' @export
 find_start_temp <- function(net, mod_matrix, spins, alpha, ts) {
+  UseMethod("find_start_temp")
+}
+
+#' @export
+find_start_temp.spinglass_net <- function(net, mod_matrix, spins, alpha, ts) {
   kT <- ts
   acceptance <- 0
   

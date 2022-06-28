@@ -7,7 +7,9 @@
 find_start_temp(net, mod_matrix, spins, alpha, ts)
 }
 \arguments{
-\item{net}{a spinglass_net}
+\item{net}{a \code{spinglass_net} object}
+
+\item{mod_matrix}{mod_matrix}
 
 \item{spins}{spins}
 

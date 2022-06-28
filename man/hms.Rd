@@ -4,7 +4,7 @@
 \alias{hms}
 \title{Hierarchical multimodal spinglass algorithm}
 \usage{
-hms(input_net, spins, alpha, coolfact, false_pos, max_layers, parallel = FALSE)
+hms(input_net, spins, alpha, coolfact, false_pos, max_layers)
 }
 \arguments{
 \item{input_net}{a \code{spinglass_net} object (see \code{\link{matrix_to_df}} for more details)}
@@ -18,8 +18,6 @@ hms(input_net, spins, alpha, coolfact, false_pos, max_layers, parallel = FALSE)
 \item{false_pos}{a double parameter that indicates the level of false positives to allow the system to make (if ground truth is known), typically set to 0.01-0.05}
 
 \item{max_layers}{an integer parameter that specifies the maximum number of layers of communities within the network}
-
-\item{parallel}{a boolean operator (not currently used)}
 }
 \value{
 comm_layers_tree a dataframe consisting of nodes and their community assignments across the layers
