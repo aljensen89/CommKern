@@ -28,8 +28,6 @@ find_start_temp <- function(alpha,ts) { # {{{
   kT <- ts
   acceptance <- 0
   
-  net$vertexes$community <<- sample.int(spins, size = length(net$vertexes$community), replace = TRUE)
-  
   while(acceptance < (1-(1/q))*0.95){ #want 95% acceptance
     kT <- kT*1.1
     acceptance <- heatbath_multimodal(alpha,kT,50)
@@ -262,6 +260,7 @@ degree <- function(adj_matrix_func,adj_matrix_str,vertex_df){ # {{{
       mod_matrix <- compute_modularity_matrix(net)
       
       ##Finding the initial temperature for the heatbath_multimodal function
+      net$vertexes$community <- sample.int(spins, size = length(net$vertexes$community), replace = TRUE)
       initial_temp <- find_start_temp(alpha,1)
       temp <- initial_temp
 
