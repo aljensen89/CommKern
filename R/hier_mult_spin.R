@@ -16,7 +16,6 @@
 #' @param coolfact a double parameter that indicates how quickly (or slowly) to cool the heathbath algorithm, typically set to be 0.95-0.99
 #' @param false_pos a double parameter that indicates the level of false positives to allow the system to make (if ground truth is known), typically set to 0.01-0.05
 #' @param max_layers an integer parameter that specifies the maximum number of layers of communities within the network
-#' @param parallel a boolean operator (not currently used)
 #'
 #' @return comm_layers_tree a dataframe consisting of nodes and their community assignments across the layers
 #' 
@@ -37,12 +36,12 @@
 #' str(hms_object$net)
 #'   
 #' @export
-hms <- function(input_net, spins, alpha, coolfact, false_pos, max_layers, parallel=FALSE) {
+hms <- function(input_net, spins, alpha, coolfact, false_pos, max_layers) {
   UseMethod("hms")
 }
 
 #' @export
-hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_layers, parallel=FALSE) {
+hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_layers) {
   
   if (spins < 2 | spins > length(input_net$vertexes$node_id)) {
     stop("Must provide a number of spins within [2,number of nodes in network]")
