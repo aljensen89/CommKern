@@ -90,28 +90,7 @@ heatbath_multimodal <- function(alpha,temp,max_sweeps){ #{{{
 } # }}}
 
 ################################################################################
-compute_multimodal_mod_orig <- function(mod_matrix,net,communities,alpha){ # {{{
-  sum <- 0
-  
-  for(i in 1:nrow(mod_matrix)){
-    for(j in 1:ncol(mod_matrix)){
-      if(i==j){
-        next
-      }
-
-      if(communities[i] != communities[j]){
-        next
-      }
-      M_ij <- mod_matrix[i,j]
-      S_ij <- net$str_matrix[i,j]
-      
-      sum <- sum+(M_ij+(alpha*S_ij)) #We're adding instead of subtracting, and will negate later
-    }
-  }
-  return(-1*sum) #Negate the sum, since we're adding instead of subtracting 
-} 
-
-compute_multimodal_mod <- function(mod_matrix, net, communities, alpha){
+compute_multimodal_mod <- function(mod_matrix, net, communities, alpha){ # {{{
   mat <- mod_matrix + (alpha * net$str_matrix)
   diag(mat) <- 0
   rtn <- 0
