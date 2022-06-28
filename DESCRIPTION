@@ -30,6 +30,7 @@ Suggests:
   networkD3,
   R.matlab,
   reshape,
+  rmarkdown,
   treemap
 RoxygenNote: 7.2.0
 VignetteBuilder: knitr
