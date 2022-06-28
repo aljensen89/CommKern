@@ -177,7 +177,6 @@ degree <- function(adj_matrix_func,adj_matrix_str,vertex_df){ # {{{
 
 ################################################################################
 
-
 ####
 #Checks on the function input values
   if (spins < 2 | spins > length(input_net$vertexes$node_id)) {
@@ -292,11 +291,18 @@ degree <- function(adj_matrix_func,adj_matrix_str,vertex_df){ # {{{
     layer_name <- c(paste0("layer_",num_layer))
     names(comm_layers_tree)[num_layer+1] <- paste0("layer_",num_layer)
   }
-  comm_layers_tree
+
+  rtn <-
+    list(
+         comm_layers_tree = comm_layers_tree,
+         net = net
+    )
 
 
 
 ################################################################################
+
+net <- rtn$net
 
 save(
      best_communities,
