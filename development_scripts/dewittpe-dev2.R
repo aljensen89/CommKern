@@ -24,31 +24,10 @@ compute_modularity_matrix.spinglass_net <- function(net) {
 # }}}
 
 ################################################################################
-init_config <- function(spin) { # {{{
-  s <- 0
-  sum_weight <- 0
-  
-  for (i in 1:length(net$vertexes$node_id)){
-    #If the spin is somehow <0, randomly assign s to an integer, otherwise assign as normal
-    if(spin<0){
-      s <- sample(1:q,1)
-    } else{ 
-      s <- spin
-    }
-    
-    sum_weight <- net$vertexes$func_degree[i]
-    
-    net$vertexes$community[i] <- s
-  }
-  return(net)
-} # }}}
-
-################################################################################
 find_start_temp <- function(alpha,ts) { # {{{
   kT <- ts
   acceptance <- 0
   
-  #net<<-init_config(-1) #calling the init_config() function
   net$vertexes$community <<- sample.int(spins, size = length(net$vertexes$community), replace = TRUE)
   
   while(acceptance < (1-(1/q))*0.95){ #want 95% acceptance
