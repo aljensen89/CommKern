@@ -4,17 +4,19 @@
 \alias{find_start_temp}
 \title{Starting temperature}
 \usage{
-find_start_temp(net, alpha, ts)
+find_start_temp(net, mod_matrix, spins, alpha, ts)
 }
 \arguments{
-\item{net}{a \code{hms_network} object}
+\item{net}{a spinglass_net}
+
+\item{spins}{spins}
 
 \item{alpha}{a double parameter balancing the use of the guidance matrix in modularity calculation}
 
 \item{ts}{the starting temperature for the search, set to 1 within the algorithm}
 }
 \value{
-kT the starting temperature that meets the criteria specified above
+the starting temperature that meets the criteria specified above
 }
 \description{
 Description of the starting temperature function.
