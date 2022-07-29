@@ -27,8 +27,8 @@
 #'   hms(input_net = SBM_net, 
 #'       spins = 4,
 #'       alpha = 0,
-#'       coolfact = 0.99,
-#'       false_pos = 0.01,
+#'       coolfact = 0.90,
+#'       false_pos = 0.05,
 #'       max_layers = 1)
 #'
 #' str(hms_object)
