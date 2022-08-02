@@ -23,8 +23,3 @@ application, this function would be computing the modularity matrix for the func
 connectivity aspect of the network object.
 The function takes in a network object and returns the modularity matrix.
 }
-\examples{
-
-compute_modularity_matrix(SBM_net)
-  
-}

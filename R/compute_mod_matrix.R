@@ -13,16 +13,10 @@
 #' 
 #' @return mod_matrix
 #'
-#' @examples
-#'
-#' compute_modularity_matrix(SBM_net)
-#'   
-#' @export
 compute_modularity_matrix <- function(net) {
   UseMethod("compute_modularity_matrix")
 }
 
-#' @export
 compute_modularity_matrix.spinglass_net <- function(net) {
   m <- 0.5 * sum(net$func_matrix)
   d <- outer(net$vertexes$func_degree, net$vertexes$func_degree) / (2 * m)

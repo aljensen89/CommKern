@@ -32,5 +32,5 @@ Suggests:
   reshape,
   rmarkdown,
   treemap
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr
