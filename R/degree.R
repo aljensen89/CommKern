@@ -13,8 +13,6 @@
 #' 
 #' @return the vertex_df dataframe to be incorporated into the network object
 #'   
-#' @export
-
 degree<-function(adj_matrix_func,adj_matrix_str,vertex_df){
   qf<-nrow(adj_matrix_func)
   for (i in 1:qf){
