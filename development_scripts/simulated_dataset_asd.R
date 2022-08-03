@@ -36,6 +36,8 @@ cont_asd$fullscale_IQ <- ceiling(-12+(0.54*cont_asd$nonverbal_IQ)+(0.55*cont_asd
 
 #Combining the two dataframes
 simasd_covars <- rbind(sim_asd,cont_asd) 
+simasd_covars <- simasd_covars[sample(1:nrow(simasd_covars)), ]
+simasd_covars$id <- seq(1:nrow(simasd_covars))
 
-
-
+#Saving dataset
+save(simasd_covars,file="/Users/jenseale/Desktop/Aim2_Work/simasd_covars.RData")
