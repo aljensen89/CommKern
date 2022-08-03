@@ -21,7 +21,6 @@
 #' 
 #' @return multimodal modularity matrix
 #'   
-#' @export
 compute_multimodal_mod <- function(mod_matrix, net, communities, alpha) {
   mat <- mod_matrix + (alpha * net$str_matrix)
   diag(mat) <- 0
