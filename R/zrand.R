@@ -26,7 +26,7 @@ zrand <- function(part1,part2){
   }
   
   #Generate contingency table and calculate row/column marginals
-  res <- aricode::sortPairs(part1,part2)
+  res <- sort_pairs(part1,part2)
   N <- length(part1)
   stot <- sum(choose(res$nij, 2), na.rm = TRUE)
   srow <- sum(choose(res$ni., 2), na.rm = TRUE)
