@@ -22,6 +22,7 @@ Imports:
   RColorBrewer,
   reshape2,
   rlang,
+  tidyr,
   qwraps2
 Suggests:
   ape,
