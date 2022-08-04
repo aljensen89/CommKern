@@ -5,7 +5,7 @@
 #' This is an ancillary function that creates a vector of edge weights sampled from Beta distributions. Within and 
 #' between community edge weights are each sampled from a distinct Beta distribution. If 'fuzzy' communities wish to be created,
 #' a third Beta distribution is specified and the communities for which their distinction is 'fuzzy' also needs to be
-#' specified. This vector of edge weights is then passed to \code{\list{group_network_perturb}} to create the final
+#' specified. This vector of edge weights is then passed to \code{\link{group_network_perturb}} to create the final
 #' simulated network object.
 #' 
 #' The function returns vector of network edge weights associated with the node dyads from the network dataframe.
