@@ -26,4 +26,4 @@ install_github("aljensen/CommKern", build_vignettes = TRUE)
 ```
 
 ## Hierarchical Multimodal Spinglass (HMS) Algorithm
-
+<img src="HMS_Algorithm_Figure.png" align="left"/>
