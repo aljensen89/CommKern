@@ -21,7 +21,7 @@ simnet_df_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop){
   # Create a master dataframe that has IDs for all nodes and 
   # assigns random communities to nodes
   master_node_df <- tidyr::tibble(
-    Node = paste0("node_", str_pad(1:n_nodes, width = nchar(n_nodes), pad = "0")),
+    Node = paste0("node_", stringr::str_pad(1:n_nodes, width = nchar(n_nodes), pad = "0")),
     Comm = sample(x = paste0("comm_", letters[1:n_comm]),
                    size = n_nodes,
                    replace = T))
@@ -44,16 +44,16 @@ simnet_df_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop){
     ind_dataframe <- expand.grid(Node_A = ind_node_df$Node,
                                  Node_B = ind_node_df$Node,
                                  stringsAsFactors = F) %>%
-      dplyr::left_join(select(ind_node_df, Node_A = Node, Node_A_Comm = Comm),
+      dplyr::left_join(dplyr::select(ind_node_df, Node_A = Node, Node_A_Comm = Comm),
                        by = "Node_A") %>% 
-      dplyr::left_join(select(ind_node_df, Node_B = Node, Node_B_Comm = Comm),
+      dplyr::left_join(dplyr::select(ind_node_df, Node_B = Node, Node_B_Comm = Comm),
                        by = "Node_B") %>% 
       dplyr::filter(Node_A != Node_B)
     
     # Limit the dataframe to one row per dyad for an undirected network
     ind_dataframe <- ind_dataframe %>% 
       dplyr::arrange(Node_A, Node_B) %>% 
-      dplyr::mutate(dyad = if_else(Node_A < Node_B, paste0(Node_A, "_", Node_B),
+      dplyr::mutate(dyad = dplyr::if_else(Node_A < Node_B, paste0(Node_A, "_", Node_B),
                                    paste0(Node_B, "_", Node_A))) %>% 
       dplyr::distinct(dyad, .keep_all = T)
     

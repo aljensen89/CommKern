@@ -36,11 +36,11 @@ get_weights <- function(network_df,wcr,bcr,bfcr=NA,fuzzy_comms=NA){
     node_B_comm <- network_df[i, "Node_B_Comm"]
     # Both nodes in same community
     if(node_A_comm == node_B_comm){
-      weights[i] <- rbeta(n = 1, shape1 = wcr[1], shape2 = wcr[2])
+      weights[i] <- stats::rbeta(n = 1, shape1 = wcr[1], shape2 = wcr[2])
     }
     # Nodes in different community
     if(node_A_comm != node_B_comm){
-      weights[i] <- rbeta(n = 1, shape1 = bcr[1], shape2 = bcr[2])
+      weights[i] <- stats::rbeta(n = 1, shape1 = bcr[1], shape2 = bcr[2])
     }
     
     # If some communities have a 'fuzzier' relationship with each other, use specified distributions for
@@ -49,7 +49,7 @@ get_weights <- function(network_df,wcr,bcr,bfcr=NA,fuzzy_comms=NA){
        node_A_comm != node_B_comm &
        node_A_comm %in% fuzzy_comms & 
        node_B_comm %in% fuzzy_comms){
-      weights[i] <- rbeta(n = 1, shape1 = bfcr[1], shape2 = bfcr[2])
+      weights[i] <- stats::rbeta(n = 1, shape1 = bfcr[1], shape2 = bfcr[2])
     }
   }
   return(weights)
