@@ -12,11 +12,13 @@ Encoding: UTF-8
 URL: https://github.com/aljensen89/Hierarchical_Spinglass
 LazyData: true
 Imports:
+  aricode,
   dplyr,
   ggnewscale,
   ggplot2,
   gridExtra,
   magrittr,
+  Matrix,
   RColorBrewer,
   reshape2,
   rlang,
