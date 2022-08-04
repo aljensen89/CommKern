@@ -44,18 +44,18 @@ simnet_df_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop){
     ind_dataframe <- expand.grid(Node_A = ind_node_df$Node,
                                  Node_B = ind_node_df$Node,
                                  stringsAsFactors = F) %>%
-      dplyr::left_join(dplyr::select(ind_node_df, Node_A = Node, Node_A_Comm = Comm),
+      dplyr::left_join(dplyr::select(ind_node_df, Node_A = .data$Node, Node_A_Comm = .data$Comm),
                        by = "Node_A") %>% 
-      dplyr::left_join(dplyr::select(ind_node_df, Node_B = Node, Node_B_Comm = Comm),
+      dplyr::left_join(dplyr::select(ind_node_df, Node_B = .data$Node, Node_B_Comm = .data$Comm),
                        by = "Node_B") %>% 
-      dplyr::filter(Node_A != Node_B)
+      dplyr::filter(.data$Node_A != .data$Node_B)
     
     # Limit the dataframe to one row per dyad for an undirected network
     ind_dataframe <- ind_dataframe %>% 
-      dplyr::arrange(Node_A, Node_B) %>% 
-      dplyr::mutate(dyad = dplyr::if_else(Node_A < Node_B, paste0(Node_A, "_", Node_B),
-                                   paste0(Node_B, "_", Node_A))) %>% 
-      dplyr::distinct(dyad, .keep_all = T)
+      dplyr::arrange(.data$Node_A, .data$Node_B) %>% 
+      dplyr::mutate(dyad = dplyr::if_else(.data$Node_A < .data$Node_B, paste0(.data$Node_A, "_", .data$Node_B),
+                                   paste0(.data$Node_B, "_", .data$Node_A))) %>% 
+      dplyr::distinct(.data$dyad, .keep_all = T)
     
     net_list[[i]] <- ind_dataframe
   }
