@@ -22,6 +22,7 @@ Imports:
   reshape2,
   rlang,
   stats,
+  stringr,
   tidyr,
   qwraps2
 Suggests:
