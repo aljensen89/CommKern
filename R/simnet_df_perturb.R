@@ -22,7 +22,7 @@ simnet_df_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop){
   # assigns random communities to nodes
   master_node_df <- tidyr::tibble(
     Node = paste0("node_", str_pad(1:n_nodes, width = nchar(n_nodes), pad = "0")),
-    Group = sample(x = paste0("comm_", letters[1:n_comm]),
+    Comm = sample(x = paste0("comm_", letters[1:n_comm]),
                    size = n_nodes,
                    replace = T))
   
@@ -31,13 +31,13 @@ simnet_df_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop){
   
   for (i in 1:n_nets){
     rows <- sample(1:n_nodes,perturb_num)
-    new_groups <- sample(x = paste0("comm_", letters[1:n_comm]),
+    new_comms <- sample(x = paste0("comm_", letters[1:n_comm]),
                          size = perturb_num, replace = T)
     
     ind_node_df <- master_node_df
     
     for (j in 1:length(rows)){
-      ind_node_df[rows[j],][2] <- new_comm[j]
+      ind_node_df[rows[j],][2] <- new_comms[j]
     }
     
     # Create a dataframe with all possible combinations of nodes except 'self-relationships'
