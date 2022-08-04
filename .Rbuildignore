@@ -5,3 +5,4 @@
 ^.*\.Rout$
 ^.*\.tar\.gz$
 ^.github/*
+^.*\.png$
