@@ -28,7 +28,7 @@
 #' 
 #' @export
 #' 
-group_network_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop,wcr,bcr,bfcr=NA,fuzzy_comms=NA){
+group_network_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop,wcr,bcr,bfcr,fuzzy_comms){
   
   # Creating the group-perturbed network list
   net_perturb_list <- simnet_df_perturb(n_nodes,n_comm,n_nets,perturb_prop)
