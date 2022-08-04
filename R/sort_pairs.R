@@ -39,8 +39,8 @@ sort_pairs <- function(a,b){
     b <- b - min(b)
     
     if (!(max(a) <= n-1 & max(b) <= n-1)) {
-      a <- as.integer(factor(a, levels = mylevels$a)) - 1L
-      b <- as.integer(factor(b, levels = mylevels$b)) - 1L
+      a <- as.integer(factor(a, levels = my_levels$a)) - 1L
+      b <- as.integer(factor(b, levels = my_levels$b)) - 1L
     }
   } else if (is.factor(a) & is.factor(b)){
     my_levels <- list(a=levels(a), b=levels(b))
