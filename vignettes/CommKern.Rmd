@@ -1,11 +1,11 @@
 ---
-title: "Hierarchical Multimodal Spinglass"
+title: "CommKern"
 output:
  rmarkdown::html_vignette:
    toc: true
    number_sections: true
 vignette: >
- %\VignetteIndexEntry{hms}
+ %\VignetteIndexEntry{CommKern}
  %\VignetteEngine{knitr::rmarkdown}
  %\VignetteEncoding{UTF-8}
 ---
