@@ -17,14 +17,14 @@
 #' @param bcr between community edge weights, sampled from a beta distribution; for example, c(1,8) will ask for the between
 #' community edge weights to be sampled from a Beta(1,8) distribution
 #' @param bfcr fuzzy community edge weights, sampled from a beta distribution; for example, c(4,8) will ask for the
-#' fuzzy coommunity edge weights to be sampled from a Beta (4,8) distribution
+#' fuzzy community edge weights to be sampled from a Beta (4,8) distribution
 #' @param fuzzy_comms the communities for which their distinction is 'fuzzy,' or not as distinct; fuzzy communities tend to have
 #' higher between community edge weights; for example, c("comm_a","comm_c") will create a fuzzy distinction between
 #' communities a and c
 #' 
 #' @return weights, a vector of edge weights associated with the node dyads from the network dataframe
 #'  
-get_weights <- function(network_df,wcr,bcr,bfcr=NA,fuzzy_comms=NA){
+get_weights <- function(network_df,wcr,bcr,bfcr,fuzzy_comms){
   
   # Create empty vector for all weights
   weights = rep(NA_real_, time = nrow(network_df))
