@@ -12,7 +12,7 @@ purity(a, b)
 \item{b}{a vector of classifications}
 }
 \value{
-harmonic_mean, a scalar with the harmonic mean of the purity
+a scalar with the harmonic mean of the purity
 }
 \description{
 Description of the purity function.
@@ -22,4 +22,17 @@ In information theory, purity is an external evaluation criterion of cluster qua
 the total number of objects (data points) that were classified in the range of [0,1]. Because we lack a
 ground truth partition, a harmonic mean is calculated, where we consider partition a to be the ground truth and
 then consider partition b to be the ground truth.
+}
+\examples{
+set.seed(7)
+x <- sample(x = rep(1:3, 4), 12)
+
+set.seed(18)
+y <- sample(x = rep(1:3, 4), 12)
+
+purity(x,y)
+
+}
+\seealso{
+\code{\link{adj_RI}}, \code{\link{NMI}}
 }

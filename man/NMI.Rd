@@ -15,7 +15,7 @@ NMI(a, b, variant = c("max", "min", "sqrt", "sum", "joint"))
 The default use is 'max'.}
 }
 \value{
-res, a scalar with the normalized mutual information (NMI).
+a scalar with the normalized mutual information (NMI).
 }
 \description{
 Description of the normalized mutual information function.
@@ -25,4 +25,17 @@ In information theory, the mutual information (MI) of two random variables is a 
 mutual dependence between two variables, or the quantification of the 'amount of information' obtained
 about one random variable by observing the other random variable. The normalization of the MI score scales
 the resuts between 0 (no mutual information) and 1 (perfect correlation).
+}
+\examples{
+set.seed(7)
+x <- sample(x = rep(1:3, 4), 12)
+
+set.seed(18)
+y <- sample(x = rep(1:3, 4), 12)
+
+NMI(x,y,variant="max")
+
+}
+\seealso{
+\code{\link{adj_RI}}, \code{\link{purity}}
 }

@@ -12,7 +12,7 @@ sort_pairs(a, b)
 \item{b}{a vector of classifications}
 }
 \value{
-res a list of six objects used asthe basis to calculate many cluster evaluation metrics,
+a list of six objects used asthe basis to calculate many cluster evaluation metrics,
 like NMI, ARI, and the Rand z-score
 }
 \description{

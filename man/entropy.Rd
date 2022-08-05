@@ -12,7 +12,7 @@ entropy(a, b)
 \item{b}{a vector of classifications}
 }
 \value{
-res, a list of four objects, including the two conditional entropies, the joint entropy, and the output
+a list of four objects, including the two conditional entropies, the joint entropy, and the output
 of sort_pairs
 }
 \description{

@@ -17,6 +17,7 @@ Imports:
   ggplot2,
   gridExtra,
   magrittr,
+  mathjaxr,
   Matrix,
   RColorBrewer,
   reshape2,
@@ -39,3 +40,5 @@ Suggests:
   treemap
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
+RdMacros:
+  mathjaxr

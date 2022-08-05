@@ -1,16 +1,24 @@
 #' Semiparametric score function for distance-based kernel
 #'
 #' Description of the semiparametric score function for distance-based kernel function.
-#'
+#' 
 #' This is the main function that calculates the p-value associated with a semiparametric kernel test
 #' of association between the kernel and binary outcome variable. A null model (where the kernel is not
-#' associated with the outcome) is initially fit. Then, the variance of Y_{i}|X_{i} is used as the basis for the
-#' score test, S\left(\rho\right) = \dfrac{Q_{\tau}\left(\hat{\beta_0},\rho\right)-\mu_Q}{\sigma_Q}. However,
-#' because \rho disappears under the null hypothesis, we run a grid search over a range of values of \rho (the bounds
+#' associated with the outcome) is initially fit. Then, the variance of
+#' \loadmathjax
+#' \mjeqn{Y_{i}|X_{i}}{Yi | Xi}
+#' is used as the basis for the score test,
+#' \mjdeqn{S\left(\rho\right) = \frac{Q_{\tau}\left(\hat{\beta_0},\rho\right)-\mu_Q}{\sigma_Q}}{S (rho) = ( Q_tau (beta0, rho) ) / sigma_Q}.
+#' However, because \mjeqn{\rho}{rho} disappears under the null hypothesis, we
+#' run a grid search over a range of values of \mjeqn{\rho}{rho} (the bounds
 #' of which were derived by Liu et al. in 2008). This grid search gets the upper bound for the score test's p-value.
-#' This function is tailored for the underlying model y_{i} = x_{i}^{T}\beta + h\left(z_{i}\right) + e_{i}, where h\left(\cdot\right) is
-#' the kernel function, z_{i} is a multidimensional array of variables, x_{i} is a vector or matrix of covariates, \beta is a vector
-#' of regression coefficients, and y_{i} is a binary outcome taking values in \left\{0,1\right\}.
+#' This function is tailored for the underlying model 
+#' \mjdeqn{y_{i} = x_{i}^{T}\beta + h\left(z_{i}\right) + e_{i},}{y_i = x_i ^ T beta + h(z_i)}
+#' where \mjeqn{h\left(\cdot\right)}{h(.)} is
+#' the kernel function, \mjeqn{z_{i}}{z_i} is a multidimensional array of variables,
+#' \mjeqn{x_{i}}{x_i} is a vector or matrix of covariates, \mjeqn{\beta}{beta} is a vector
+#' of regression coefficients, and \mjeqn{y_{i}}{y_i} is a binary outcome taking
+#' values in \mjeqn{\left\{0, 1\right\}}.
 #'
 #' The function returns an numeric p-value for the kernel score test of association.
 #'

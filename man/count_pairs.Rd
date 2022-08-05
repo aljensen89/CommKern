@@ -14,7 +14,7 @@ count_pairs(a, b, order)
 \item{order}{a vector of permutations (coming from the order() function in base R)}
 }
 \value{
-A list of five different vectors:
+a list of five different vectors:
 \itemize{
   \item{pair_nb}{a vector containing counts of nodes within all possible
   classification pairs from partitions a and b}
