@@ -11,7 +11,7 @@
 #'
 #' @param hamil_df a dataframe containing two clumns, one for network ID and another containing Hamiltonian values
 #'
-#' @seealso \code{\link{hier_mult_spin}}
+#' @seealso \code{\link{hms}}
 #'
 #' @return the Hamiltonian distance matrix to be used as input for the kernel function
 #'

@@ -14,7 +14,7 @@
 #' @param n_nets the number of networks to simulate
 #' @param perturb_prop the proportion of network nodes to randomly alter their community assignment within each network
 #' 
-#' @return net_list, a list of network dataframes containing nodes, their community assignment, and node dyads
+#' @return a list of network dataframes containing nodes, their community assignment, and node dyads
 #'  
 simnet_df_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop){
   

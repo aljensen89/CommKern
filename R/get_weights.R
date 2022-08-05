@@ -22,7 +22,7 @@
 #' higher between community edge weights; for example, c("comm_a","comm_c") will create a fuzzy distinction between
 #' communities a and c
 #' 
-#' @return weights, a vector of edge weights associated with the node dyads from the network dataframe
+#' @return a vector of edge weights associated with the node dyads from the network dataframe
 #'  
 get_weights <- function(network_df,wcr,bcr,bfcr=NA,fuzzy_comms=NA){
   
