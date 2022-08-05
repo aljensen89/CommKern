@@ -4,18 +4,23 @@
 #'
 #' A function to count pairs of integers or factors and identify the pair counts
 #'
-#' The function returns a list of five different vectors:
-#' pair_nb (a vector containing counts of nodes within all possible classification pairs from partitions a and b)
-#' pair_a (a vector of the same length as pair_nb, specifying the order of classifications in pair_nb from parition a)
-#' pair_b (a vector of the same length as pair_nb, specifying the order of classifications in pair_nb from parition b)
-#' a_nb (a vector containing counts of nodes within each class for partition a)
-#' b_nb (a vector containing counts of nodes within each class for partition b)
-#'
 #' @param a a vector of classifications
 #' @param b a vector of classifications
 #' @param order a vector of permutations (coming from the order() function in base R)
 #'
-#' @return ListOut a list of five objects used within the \code{\list{sort_pairs}} function
+#' @return A list of five different vectors:
+#' \itemize{
+#'   \item{pair_nb}{a vector containing counts of nodes within all possible
+#'   classification pairs from partitions a and b}
+#'   \item{pair_a}{a vector of the same length as pair_nb, specifying the order
+#'   of classifications in pair_nb from parition a}
+#'   \item{pair_b}{a vector of the same length as pair_nb, specifying the order
+#'   of classifications in pair_nb from parition b}
+#'   \item{a_nb}{a vector containing counts of nodes within each class for
+#'   partition a}
+#'   \item{b_nb}{a vector containing counts of nodes within each class for
+#'   partition b}
+#' }
 #'
 count_pairs <- function(a,b,order){
   n <- length(a)

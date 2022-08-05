@@ -4,25 +4,28 @@
 \alias{group_adj_perturb}
 \title{Group adjacency matrices}
 \usage{
-group_adj_perturb(group_network_perturb, n_nets, n_nodes)
+group_adj_perturb(group_network_list, n_nets, n_nodes)
 }
 \arguments{
+\item{group_network_list}{the output from \code{\link{group_network_perturb}}, which is a list of dataframes
+detailing nodes, community assignments of each node, and edge weights between each dyad of nodes}
+
 \item{n_nets}{the number of networks simulated}
 
 \item{n_nodes}{the number of nodes in each simulated network (will be the same across all networks)}
-
-\item{group_network_pertub}{the output from \code{\link{group_network_perturb}}, which is a list of dataframes
-detailing nodes, community assignments of each node, and edge weights between each dyad of nodes}
 }
 \value{
-adj_array, an array of adjacency matrices of dimension (n_nets x n_nodes x n_nodes)
+an array of adjacency matrices of dimension (n_nets x n_nodes x n_nodes)
 }
 \description{
 Description of the simulated group adjacency matrices function.
 }
 \details{
-
+This function takes the output from the \code{\link{group_network_perturb}} function, which is a list of
+dataframes summarizing each simulated network, and creates an array of adjacency matrices. These adjacency
+matrices can then be used as input to any community detection algorithm (such
+as the hierarchcial multimodal spinglass algorithm, \code{\link{hms}}).
 }
 \seealso{
-\code{\link{group_network_perturb}}
+\code{\link{group_network_perturb}}, \code{\link{hms}}
 }
