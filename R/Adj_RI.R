@@ -19,7 +19,7 @@
 #'
 #' @export
 
-Adj_RI <- function(a,b){
+adj_RI <- function(a,b){
   res <- sort_pairs(a,b)
 
   N <- length(a)
