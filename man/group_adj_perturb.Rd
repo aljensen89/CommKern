@@ -15,14 +15,17 @@ detailing nodes, community assignments of each node, and edge weights between ea
 \item{n_nodes}{the number of nodes in each simulated network (will be the same across all networks)}
 }
 \value{
-adj_array, an array of adjacency matrices of dimension (n_nets x n_nodes x n_nodes)
+an array of adjacency matrices of dimension (n_nets x n_nodes x n_nodes)
 }
 \description{
 Description of the simulated group adjacency matrices function.
 }
 \details{
-
+This function takes the output from the \code{\link{group_network_perturb}} function, which is a list of
+dataframes summarizing each simulated network, and creates an array of adjacency matrices. These adjacency
+matrices can then be used as input to any community detection algorithm (such
+as the hierarchcial multimodal spinglass algorithm, \code{\link{hms}}).
 }
 \seealso{
-\code{\link{group_network_perturb}}
+\code{\link{group_network_perturb}}, \code{\link{hms}}
 }
