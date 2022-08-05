@@ -6,3 +6,4 @@
 ^.*\.tar\.gz$
 ^.github/*
 ^.*\.png$
+^covr-report\.html$

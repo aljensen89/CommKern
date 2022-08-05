@@ -13,7 +13,7 @@ VIGNETTES = $(wildcard $(PKG_ROOT)/vignettes/*.Rmd)
 ################################################################################
 # Recipes
 
-.PHONY: all check check-as-cran install uninstall clean
+.PHONY: all check check-as-cran install uninstall clean covr-report.html
 
 all: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
@@ -37,6 +37,10 @@ check: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 check-as-cran: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R CMD check --as-cran $(PKG_NAME)_$(PKG_VERSION).tar.gz
+
+covr-report.html : $(PKG_NAME)_$(PKG_VERSION).tar.gz
+	R --vanilla --quiet -e 'x <- covr::package_coverage(type = c("tests"))'\
+		-e 'covr::report(x, file = "covr-report.html")'
 
 install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz
