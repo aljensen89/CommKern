@@ -6,3 +6,5 @@
 *.Rout
 *.tar.gz
 *.Rcheck/
+covr-report.html
+lib/*

@@ -8,22 +8,12 @@ CRAN = "https://cran.rstudio.com"
 SRC       = $(wildcard $(PKG_ROOT)/src/*.cpp)
 RFILES    = $(wildcard $(PKG_ROOT)/R/*.R)
 TESTS     = $(wildcard $(PKG_ROOT)/tests/*.R)
-
-# Targets
-#
-## Vignettes
-# These are both targets for building and dependencies for the package tar.gz
-# file
-# VIGNETTES  = $(PKG_ROOT)/vignettes/
-
-## Data targets
-#DATATARGETS  = $(PKG_ROOT)/data/mtcars2.rda
-#DATATARGETS += $(PKG_ROOT)/data/pefr.rda
+VIGNETTES = $(wildcard $(PKG_ROOT)/vignettes/*.Rmd)
 
 ################################################################################
 # Recipes
 
-.PHONY: all check install clean
+.PHONY: all check check-as-cran install uninstall clean covr-report.html
 
 all: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
@@ -37,7 +27,7 @@ $(PKG_NAME)_$(PKG_VERSION).tar.gz: .install_dev_deps.Rout .document.Rout $(VIGNE
 		-e "devtools::install_dev_deps()"
 	touch $@
 
-.document.Rout: $(SRC) $(RFILES) $(DATATARGETS) $(EXAMPLES) $(PKG_ROOT)/DESCRIPTION
+.document.Rout: $(SRC) $(RFILES) $(DATATARGETS) $(PKG_ROOT)/DESCRIPTION
 	Rscript --vanilla --quiet -e "options(warn = 2)" \
 		-e "devtools::document('$(PKG_ROOT)')"
 	touch $@
@@ -47,6 +37,10 @@ check: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 check-as-cran: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R CMD check --as-cran $(PKG_NAME)_$(PKG_VERSION).tar.gz
+
+covr-report.html : $(PKG_NAME)_$(PKG_VERSION).tar.gz
+	R --vanilla --quiet -e 'x <- covr::package_coverage(type = "test")'\
+		-e 'covr::report(x, file = "$@")'
 
 install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz

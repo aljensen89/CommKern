@@ -1,4 +1,4 @@
-library(spinglass)
+library(CommKern)
 
 ################################################################################
 # Test that the provided SBM_net data set regenerates itself
