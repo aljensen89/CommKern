@@ -11,8 +11,8 @@ group_network_perturb(
   perturb_prop,
   wcr,
   bcr,
-  bfcr = NA,
-  close_comms = NA
+  bfcr,
+  fuzzy_comms
 )
 }
 \arguments{
@@ -31,7 +31,7 @@ community edge weights to be sampled from a Beta(8,8) distribution}
 community edge weights to be sampled from a Beta(1,8) distribution}
 
 \item{bfcr}{fuzzy community edge weights, sampled from a beta distribution; for example, c(4,8) will ask for the
-fuzzy coommunity edge weights to be sampled from a Beta (4,8) distribution}
+fuzzy community edge weights to be sampled from a Beta (4,8) distribution}
 
 \item{fuzzy_comms}{the communities for which their distinction is 'fuzzy,' or not as distinct; fuzzy communities tend to have
 higher between community edge weights; for example, c("comm_a","comm_c") will create a fuzzy distinction between

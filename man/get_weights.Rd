@@ -4,7 +4,7 @@
 \alias{get_weights}
 \title{Simulated network edge weights}
 \usage{
-get_weights(network_df, wcr, bcr, bfcr = NA, fuzzy_comms = NA)
+get_weights(network_df, wcr, bcr, bfcr, fuzzy_comms)
 }
 \arguments{
 \item{network_df}{a dataframe containing information about network nodes, their community assignment, and all node dyads,
@@ -17,7 +17,7 @@ community edge weights to be sampled from a Beta(8,8) distribution}
 community edge weights to be sampled from a Beta(1,8) distribution}
 
 \item{bfcr}{fuzzy community edge weights, sampled from a beta distribution; for example, c(4,8) will ask for the
-fuzzy coommunity edge weights to be sampled from a Beta (4,8) distribution}
+fuzzy community edge weights to be sampled from a Beta (4,8) distribution}
 
 \item{fuzzy_comms}{the communities for which their distinction is 'fuzzy,' or not as distinct; fuzzy communities tend to have
 higher between community edge weights; for example, c("comm_a","comm_c") will create a fuzzy distinction between

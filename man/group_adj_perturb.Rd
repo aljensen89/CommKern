@@ -4,15 +4,15 @@
 \alias{group_adj_perturb}
 \title{Group adjacency matrices}
 \usage{
-group_adj_perturb(group_network_perturb, n_nets, n_nodes)
+group_adj_perturb(group_network_list, n_nets, n_nodes)
 }
 \arguments{
+\item{group_network_list}{the output from \code{\link{group_network_perturb}}, which is a list of dataframes
+detailing nodes, community assignments of each node, and edge weights between each dyad of nodes}
+
 \item{n_nets}{the number of networks simulated}
 
 \item{n_nodes}{the number of nodes in each simulated network (will be the same across all networks)}
-
-\item{group_network_pertub}{the output from \code{\link{group_network_perturb}}, which is a list of dataframes
-detailing nodes, community assignments of each node, and edge weights between each dyad of nodes}
 }
 \value{
 adj_array, an array of adjacency matrices of dimension (n_nets x n_nodes x n_nodes)
