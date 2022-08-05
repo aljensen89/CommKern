@@ -7,3 +7,4 @@
 ^.github/*
 ^.*\.png$
 ^covr-report\.html$
+^lib/*
