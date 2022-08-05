@@ -4,7 +4,7 @@
 \alias{get_weights}
 \title{Simulated network edge weights}
 \usage{
-get_weights(network_df, wcr, bcr, bfcr, fuzzy_comms)
+get_weights(network_df, wcr, bcr, bfcr = NA, fuzzy_comms = NA)
 }
 \arguments{
 \item{network_df}{a dataframe containing information about network nodes, their community assignment, and all node dyads,

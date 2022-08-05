@@ -16,7 +16,7 @@
 #' @export
 
 ham_distance <- function(hamil_df){
-  hamil_expand <- expand_grid(hamil_df$id,hamil_df$id)
+  hamil_expand <- tidyr::expand_grid(hamil_df$id,hamil_df$id)
   colnames(hamil_expand) <- c("id_a","id_b")
   hamil_expand$hamil_diff <- NA
 
@@ -24,6 +24,6 @@ ham_distance <- function(hamil_df){
     hamil_expand$hamil_diff[i] <- sqrt(abs(hamil_df$hamil[hamil_expand$id_a[i]]-hamil_df$hamil[hamil_expand$id_b[i]])^2)
   }
 
-  hamil_dist <- as.matrix(dcast(data=hamil_expand,formula=id_a~id_b,value.var='hamil_diff'))[,-1]
+  hamil_dist <- as.matrix(reshape2::dcast(data=hamil_expand,formula=id_a~id_b,value.var='hamil_diff'))[,-1]
   return(hamil_dist)
 }
