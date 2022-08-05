@@ -24,7 +24,7 @@
 #' 
 #' @return weights, a vector of edge weights associated with the node dyads from the network dataframe
 #'  
-get_weights <- function(network_df,wcr,bcr,bfcr,fuzzy_comms){
+get_weights <- function(network_df,wcr,bcr,bfcr=NA,fuzzy_comms=NA){
   
   # Create empty vector for all weights
   weights = rep(NA_real_, time = nrow(network_df))
