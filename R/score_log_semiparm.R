@@ -1,6 +1,6 @@
 #' Semiparametric score function for distance-based kernel
 #'
-#' Description of the semiparametric score function for distance-based kernel function.
+#' Description of the semiparametric score function for distance-based kernel function and binary outcome.
 #' 
 #' This is the main function that calculates the p-value associated with a semiparametric kernel test
 #' of association between the kernel and binary outcome variable. A null model (where the kernel is not
@@ -18,7 +18,7 @@
 #' the kernel function, \mjeqn{z_{i}}{z_i} is a multidimensional array of variables,
 #' \mjeqn{x_{i}}{x_i} is a vector or matrix of covariates, \mjeqn{\beta}{beta} is a vector
 #' of regression coefficients, and \mjeqn{y_{i}}{y_i} is a binary outcome taking
-#' values in \mjeqn{\left\{0, 1\right\}}.
+#' values in {0, 1}.
 #'
 #' The function returns an numeric p-value for the kernel score test of association.
 #'
@@ -28,6 +28,13 @@
 #' @param grid_gran a numeric value specifying the grid search length, preset to 5000
 #'
 #' @return the score function p-value
+#'
+#' @references Liu et.al. (2008)
+#'
+#' @seealso
+#' \code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
+#' \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
+#' \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.
 #'
 #' @export
 
