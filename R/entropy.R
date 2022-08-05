@@ -13,7 +13,7 @@
 #' @param a a vector of classifications; this must be a vector of characters, integers, numerics, or a factor, but not a list.
 #' @param b a vector of classifications
 #'
-#' @return res, a list of four objects, including the two conditional entropies, the joint entropy, and the output
+#' @return a list of four objects, including the two conditional entropies, the joint entropy, and the output
 #' of sort_pairs
 #'
 entropy <- function(a,b){

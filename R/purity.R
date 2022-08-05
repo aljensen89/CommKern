@@ -9,9 +9,20 @@
 #'
 #' @param a a vector of classifications; this must be a vector of characters, integers, numerics, or a factor, but not a list.
 #' @param b a vector of classifications
+#' 
+#' @seealso \code{\link{adj_RI}}, \code{\link{NMI}}
 #'
-#' @return harmonic_mean, a scalar with the harmonic mean of the purity
+#' @return a scalar with the harmonic mean of the purity
 #'
+#' @examples
+#' set.seed(7)
+#' x <- sample(x = rep(1:3, 4), 12)
+#' 
+#' set.seed(18)
+#' y <- sample(x = rep(1:3, 4), 12)
+#' 
+#' purity(x,y)
+#' 
 #' @export
 
 purity <- function(a,b){

@@ -8,14 +8,25 @@
 #' subset in Y; (b) the number of pairs of elements in N that are in different subsets in X and differents subsets in Y; (c)
 #' the number of pairs of elements in N that are in the same subset in X but different subsets in Y; and (d) the number of
 #' pairs of elements in N that are in different subsets in X but the same subset in Y.
-#' The adjusted Rand Index istyhe corrected-for-chance version of the Rand Index, which establishes a baseline by using the expected
-#' similarity of all pairwise comparisions between clusterings specified by a random model. The ARI can yield negative results if the
+#' The adjusted Rand Index is the corrected-for-chance version of the Rand Index, which establishes a baseline by using the expected
+#' similarity of all pairwise comparisons between clusterings specified by a random model. The ARI can yield negative results if the
 #' index is less than the expected index.
 #'
 #' @param a a vector of classifications; this must be a vector of characters, integers, numerics, or a factor, but not a list.
 #' @param b a vector of classifications
+#' 
+#' @seealso \code{\link{NMI}}, \code{\link{purity}}
 #'
-#' @return res, a scalar with the adjusted Rand Index (ARI).
+#' @return a scalar with the adjusted Rand Index (ARI)
+#' 
+#' @examples
+#' set.seed(7)
+#' x <- sample(x = rep(1:3, 4), 12)
+#' 
+#' set.seed(18)
+#' y <- sample(x = rep(1:3, 4), 12)
+#' 
+#' adj_RI(x,y)
 #'
 #' @export
 

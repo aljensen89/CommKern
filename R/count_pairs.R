@@ -8,7 +8,7 @@
 #' @param b a vector of classifications
 #' @param order a vector of permutations (coming from the order() function in base R)
 #'
-#' @return A list of five different vectors:
+#' @return a list of five different vectors:
 #' \itemize{
 #'   \item{pair_nb}{a vector containing counts of nodes within all possible
 #'   classification pairs from partitions a and b}

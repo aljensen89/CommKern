@@ -15,7 +15,7 @@
 #' @param a a vector of classifications
 #' @param b a vector of classifications
 #'
-#' @return res a list of six objects used asthe basis to calculate many cluster evaluation metrics,
+#' @return a list of six objects used asthe basis to calculate many cluster evaluation metrics,
 #' like NMI, ARI, and the Rand z-score
 #'
 sort_pairs <- function(a,b){

@@ -12,7 +12,18 @@
 #' @param variant a string in ('max', 'min', 'sqrt', 'sum', 'joint') that calculates different variants of the NMI.
 #' The default use is 'max'.
 #'
-#' @return res, a scalar with the normalized mutual information (NMI).
+#' @seealso \code{\link{adj_RI}}, \code{\link{purity}}
+#'
+#' @return a scalar with the normalized mutual information (NMI).
+#' 
+#' @examples
+#' set.seed(7)
+#' x <- sample(x = rep(1:3, 4), 12)
+#' 
+#' set.seed(18)
+#' y <- sample(x = rep(1:3, 4), 12)
+#' 
+#' NMI(x,y,variant="max")
 #'
 #' @export
 
