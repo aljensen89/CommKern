@@ -36,7 +36,8 @@ group_network_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop,wcr,bcr,bfc
   # Creating and adding the weights for each network to the network list
   for (i in 1:n_nets){
     newcolname <- paste0("S",i)
-    net_perturb_list[[i]][[newcolname]] <- get_weights(net_perturb_list[[i]],wcr=wcr,bcr=bcr,bfcr=bfcr,fuzzy_comms=fuzzy_comms)
+    col_weights <- get_weights(net_perturb_list[[i]],wcr,bcr,bfcr,fuzzy_comms)
+    net_perturb_list[[i]][[newcolname]] <- col_weights
   }
   return(net_perturb_list)
 }
