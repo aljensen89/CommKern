@@ -24,7 +24,7 @@
 #' @param outcome a numeric vector containing the binary outcome variable, 0/1 (in the same ID order as dist_mat)
 #' @param grid_gran a numeric value specifying the grid search length, preset to 5000
 #'
-#' @seealso \code{\link{HMS}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
+#' @seealso \code{\link{hms}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
 #' \code{\link{score_log_semiparam}} for semiparametric score function of distance-based kernal functions and binary outcome.
 #' \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
 #' \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.

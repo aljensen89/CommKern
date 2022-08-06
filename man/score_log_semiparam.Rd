@@ -57,7 +57,7 @@ score_log_semiparam(outcome=simasd_covars$dx_group,covars=covars_df,dist_mat=ham
 Liu et.al. (2008)
 }
 \seealso{
-\code{\link{HMS}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
+\code{\link{hms}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
 \code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
 \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
 \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.

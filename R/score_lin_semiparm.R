@@ -27,7 +27,7 @@
 #'
 #' @return the score function p-value for the kernel score test of association.
 #'
-#' @seealso \code{\link{HMS}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
+#' @seealso \code{\link{hms}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
 #' \code{\link{score_log_semiparam}} for semiparametric score function of distance-based kernal functions and binary outcome.
 #' \code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
 #' \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
