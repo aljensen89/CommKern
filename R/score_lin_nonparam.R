@@ -18,7 +18,17 @@
 #' @param dist_mat a square distance matrix
 #' @param grid_gran a numeric value specifying the grid search length, preset to 5000
 #'
+#' @seealso \code{\link{HMS}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
+#'
 #' @return the score function p-value
+#'
+#' @examples 
+#' 
+#' data(simasd_ham_df)
+#' data(simasd_covars)
+#'
+#' hamil_matrix <- ham_distance(hamiltonian_df)
+#' score_cont_nonparam(dist_mat=hamil_matrix,outcome=simasd_covars$verbal_IQ,grid_gran=5000)
 #'
 #' @export
 
