@@ -6,3 +6,9 @@ NULL
 
 #' @rdname datasets
 "SBM_net"
+
+#' @rdname datasets
+"simasd_covars"
+
+#' @rdname datasets
+"simasd_ham_df"
