@@ -11,8 +11,39 @@
 #' 
 #' @param comm_matrix a matrix whose first column is the node label/id and all subsequent columns are different partitions
 #' 
-#' @return alleg_matrix_norm, a matrix whose values are bounded in [0,1], where higher values indicate that a node belongs to a
+#' @return a matrix whose values are bounded in [0,1], where higher values indicate that a node belongs to a
 #' single community over a higher proporition of runs
+#' 
+#' @examples
+#' 
+#' set.seed(7)
+#' x <- sample(x = rep(1:3, 4), 12)
+#' 
+#' set.seed(18)
+#' y <- sample(x = rep(1:3, 4), 12)
+#' 
+#' set.seed(3)
+#' z <- sample(x = rep(1:3, 4), 12)
+#' 
+#' xyz_comms <- data.frame(id=seq(1:length(x)),x_comm=x,y_comm=y,z_comm=z)
+#' xyz_alleg <- community_allegiance(xyz_comms)
+#' 
+#' xyz_melt <- reshape2::melt(xyz_alleg)
+#'
+#' ggplot2::ggplot(data = xyz_melt) +
+#'  ggplot2::theme_minimal() +
+#'  ggplot2::aes(x = as.factor(Var1), y = as.factor(Var2), fill = value) +
+#'  ggplot2::geom_tile() +
+#'  ggplot2::xlab("Node") + ggplot2::ylab("Node") +
+#'  ggplot2::ggtitle("Community Allegiance Example") +
+#'  ggplot2::scale_fill_gradient2(
+#'    low  = "navy",
+#'    high = "goldenrod1",
+#'    mid  = "darkturquoise", 
+#'    midpoint = 0.5,
+#'    limit = c(0, 1),
+#'    space = "Lab", 
+#'    name="")
 #' 
 #' @export
 #' 
@@ -22,7 +53,7 @@ community_allegiance <- function(comm_matrix){
   for (k in 2:ncol(comm_matrix)){
     for (i in 1:nrow(alleg_matrix)){
       for (j in 1:ncol(alleg_matrix)){
-        if (comm_matrix[comm_matrix$node_id==i,k]==comm_matrix[comm_matrix$node_id==j,k]){
+        if (comm_matrix[comm_matrix[,1]==i,k]==comm_matrix[comm_matrix[,1]==j,k]){
           alleg_matrix[i,j] <- alleg_matrix[i,j] + 1
         } else{
           alleg_matrix[i,j] <- alleg_matrix[i,j] + 0

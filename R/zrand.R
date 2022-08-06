@@ -10,7 +10,7 @@
 #' @param part1 a partition of nodes to communities or clusters
 #' @param part2 a partition of nodes to communities or clusters
 #' 
-#' @return zRand, the Rand z-score between two paritions
+#' @return the Rand z-score between two paritions
 #' 
 zrand <- function(part1,part2){
   if (length(part1)==1) {
