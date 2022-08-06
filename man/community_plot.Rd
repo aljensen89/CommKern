@@ -24,3 +24,11 @@ This is an ancillary function that creates the plots seen in the manuscript, wit
 plot on the top panel, derived from a network adjacency matrix, and a community assignment plot
 on the bottom panel, separated by layer.
 }
+\examples{
+
+data(SBM_net)
+SBM_netcomm <- hms(input_net=SBM_net,spins=4,alpha=0,coolfact=0.90,false_pos=0.05,max_layers=3)
+
+community_plot(SBM_netcomm$comm_layers_tree,SBM_netcomm$func_matrix)
+
+}

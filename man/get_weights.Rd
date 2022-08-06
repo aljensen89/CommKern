@@ -24,7 +24,7 @@ higher between community edge weights; for example, c("comm_a","comm_c") will cr
 communities a and c}
 }
 \value{
-weights, a vector of edge weights associated with the node dyads from the network dataframe
+a vector of edge weights associated with the node dyads from the network dataframe
 }
 \description{
 Description of the simulated network edge weights function.

@@ -12,7 +12,7 @@ zrand(part1, part2)
 \item{part2}{a partition of nodes to communities or clusters}
 }
 \value{
-zRand, the Rand z-score between two paritions
+the Rand z-score between two paritions
 }
 \description{
 Description of the Rand z-score function.

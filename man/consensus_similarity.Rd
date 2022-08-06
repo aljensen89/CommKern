@@ -21,3 +21,18 @@ similar to the all others. Here, similarity is taken to be the z-score of the Ra
 
 The function returns the consensus partition, which is determined by the maximum average pairwise similarity.
 }
+\examples{
+
+#' set.seed(7)
+x <- sample(x = rep(1:3, 4), 12)
+
+set.seed(18)
+y <- sample(x = rep(1:3, 4), 12)
+
+set.seed(3)
+z <- sample(x = rep(1:3, 4), 12)
+
+xyz_comms_mat <- matrix(c(x,y,z),nrow=length(x),ncol=3)
+consensus_similarity(xyz_comms_mat)
+
+}

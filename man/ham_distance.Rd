@@ -7,10 +7,10 @@
 ham_distance(hamil_df)
 }
 \arguments{
-\item{hamil_df}{a dataframe containing a column for network ID and another column containing Hamiltonian values}
+\item{hamil_df}{a dataframe containing two clumns, one for network ID and another containing Hamiltonian values}
 }
 \value{
-hamil_dist, the Hamiltonian distance matrix to be used as input for the kernel function
+the Hamiltonian distance matrix to be used as input for the kernel function
 }
 \description{
 Description of the Hamiltonian distance matrix creation function.
@@ -22,4 +22,13 @@ semidefinite matrix (as required for the kernel function), the absolute differen
 
 The function returns an m x m matrix (where m is the number of networks) to be used as input for
 the kernel function.
+}
+\examples{
+hamil_df <- data.frame(id=seq(1:8),ham=c(-160.5375,-167.8426,-121.7128,-155.7245,-113.9834,-112.5262,-117.9724,-171.374))
+
+ham_distance(hamil_df)
+
+}
+\seealso{
+\code{\link{hms}}
 }

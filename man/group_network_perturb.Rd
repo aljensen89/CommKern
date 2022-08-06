@@ -11,8 +11,8 @@ group_network_perturb(
   perturb_prop,
   wcr,
   bcr,
-  bfcr,
-  fuzzy_comms
+  bfcr = NA,
+  fuzzy_comms = NA
 )
 }
 \arguments{
@@ -38,7 +38,7 @@ higher between community edge weights; for example, c("comm_a","comm_c") will cr
 communities a and c}
 }
 \value{
-net_perturb_list, a list of network dataframes containing nodes, their community assignment, node dyads, and edge weights
+a list of network dataframes containing nodes, their community assignment, node dyads, and edge weights
 }
 \description{
 Description of the simulated group networks function.
@@ -51,4 +51,12 @@ between different communities, but designated as 'fuzzy' in their distinction fr
 
 The function returns a list of dataframes detailing the nodes, node dyads, community assignments,
 and edge weights for all dyads in each simulated network
+}
+\examples{
+sim_nofuzzy <- group_network_perturb(n_nodes=45,n_comm=3,n_nets=3,perturb_prop=0.1,wcr=c(8,8),bcr=c(1.5,8))
+head(sim_nofuzzy[[1]])
+
+sim_fuzzy <- group_network_perturb(n_nodes=45,n_comm=3,n_nets=3,perturb_prop=0.1,wcr=c(8,8),bcr=c(1.5,8),bfcr=c(3,8),fuzzy_comms=c("comm_b","comm_c"))
+head(sim_fuzzy[[2]])
+
 }

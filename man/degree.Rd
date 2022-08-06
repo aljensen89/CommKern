@@ -14,7 +14,7 @@ degree(adj_matrix_func, adj_matrix_str, vertex_df)
 \item{vertex_df}{a dataframe of node (or vertex) information}
 }
 \value{
-the vertex_df dataframe to be incorporated into the network object
+a dataframe to be incorporated into the network object
 }
 \description{
 Description of the node degree calculation function.

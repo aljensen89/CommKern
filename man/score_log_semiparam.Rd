@@ -42,10 +42,22 @@ values in {0, 1}.
 
 The function returns an numeric p-value for the kernel score test of association.
 }
+\examples{
+
+data(simasd_ham_df)
+data(simasd_covars)
+
+hamil_matrix <- ham_distance(hamiltonian_df)
+covars_df <- simasd_covars[,3:4]
+
+score_log_semiparam(outcome=simasd_covars$dx_group,covars=covars_df,dist_mat=hamil_matrix,grid_gran=5000)
+
+}
 \references{
 Liu et.al. (2008)
 }
 \seealso{
+\code{\link{HMS}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
 \code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
 \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
 \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.

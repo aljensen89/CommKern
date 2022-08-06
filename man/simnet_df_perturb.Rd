@@ -16,7 +16,7 @@ simnet_df_perturb(n_nodes, n_comm, n_nets, perturb_prop)
 \item{perturb_prop}{the proportion of network nodes to randomly alter their community assignment within each network}
 }
 \value{
-net_list, a list of network dataframes containing nodes, their community assignment, and node dyads
+a list of network dataframes containing nodes, their community assignment, and node dyads
 }
 \description{
 Description of the simulated network dataframe function.
