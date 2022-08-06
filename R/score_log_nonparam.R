@@ -79,6 +79,6 @@ score_log_nonparam <- function(dist_mat,outcome,grid_gran=5000){
   for (j in 1:(grid_gran-1)){
     W <- W+abs(S[j+1]-S[j]) #Total variation of S in grid
   }
-  p_value <- pnorm(-M)+W*exp(-M^2/2)/sqrt(8*pi) #(12) in Liu et al. (2008)
+  p_value <- stats::pnorm(-M)+W*exp(-M^2/2)/sqrt(8*pi) #(12) in Liu et al. (2008)
   return(p_value)
 }

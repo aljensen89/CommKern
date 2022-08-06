@@ -60,13 +60,13 @@ score_cont_semiparam <- function(outcome,covars,dist_mat,grid_gran=5000){
   n <- ncol(dist_mat)
   xnam <- colnames(covars)
   y <- outcome
-  flma <- as.formula(paste("y ~ ",paste(xnam,collapse="+")))
+  flma <- stats::as.formula(paste("y ~ ",paste(xnam,collapse="+")))
 
   null_mod <- stats::glm(formula=flma,family="gaussian",data=covars) #Fitting the null model without the kernel
   pred_null <- stats::predict(null_mod,type="response") #Pulls the predicted values from the logistic regression
 
   D_0 <- diag((y-pred_null)^2)
-  X <- as.matrix(model.matrix(null_mod))
+  X <- as.matrix(stats::model.matrix(null_mod))
   P_0 <- D_0-D_0%*%X%*%solve(t(X)%*%D_0%*%X)%*%t(X)%*%D_0
 
   bounds <- up_low(dist_mat)
@@ -87,6 +87,6 @@ score_cont_semiparam <- function(outcome,covars,dist_mat,grid_gran=5000){
   for (j in 1:(grid_gran-1)){
     W <- W+abs(S[j+1]-S[j]) #Total variation of S in grid
   }
-  p_value <- pnorm(-M)+W*exp(-M^2/2)/sqrt(8*pi) #(12) in Liu et al. (2008)
+  p_value <- stats::pnorm(-M)+W*exp(-M^2/2)/sqrt(8*pi) #(12) in Liu et al. (2008)
   return(p_value)
 }
