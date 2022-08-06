@@ -19,6 +19,7 @@ Imports:
   magrittr,
   mathjaxr,
   Matrix,
+  pheatmap,
   RColorBrewer,
   reshape2,
   rlang,
