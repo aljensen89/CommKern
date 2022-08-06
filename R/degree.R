@@ -11,7 +11,7 @@
 #' @param adj_matrix_str the adjacency matrix for structural connectivity
 #' @param vertex_df a dataframe of node (or vertex) information
 #' 
-#' @return the vertex_df dataframe to be incorporated into the network object
+#' @return a dataframe to be incorporated into the network object
 #'   
 degree<-function(adj_matrix_func,adj_matrix_str,vertex_df){
   qf<-nrow(adj_matrix_func)

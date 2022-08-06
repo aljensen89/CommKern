@@ -1,7 +1,7 @@
 #' Semiparametric score function for distance-based kernel
 #'
 #' Description of the semiparametric score function for distance-based kernel function and binary outcome.
-#' 
+#'
 #' This is the main function that calculates the p-value associated with a semiparametric kernel test
 #' of association between the kernel and binary outcome variable. A null model (where the kernel is not
 #' associated with the outcome) is initially fit. Then, the variance of
@@ -27,14 +27,24 @@
 #' @param dist_mat a square distance matrix
 #' @param grid_gran a numeric value specifying the grid search length, preset to 5000
 #'
+#' @seealso \code{\link{HMS}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
+#' \code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
+#' \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
+#' \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.
+#'
 #' @return the score function p-value
 #'
 #' @references Liu et.al. (2008)
 #'
-#' @seealso
-#' \code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
-#' \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
-#' \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.
+#' @examples 
+#' 
+#' data(simasd_ham_df)
+#' data(simasd_covars)
+#'
+#' hamil_matrix <- ham_distance(hamiltonian_df)
+#' covars_df <- simasd_covars[,3:4]
+#' 
+#' score_log_semiparam(outcome=simasd_covars$dx_group,covars=covars_df,dist_mat=hamil_matrix,grid_gran=5000)
 #'
 #' @export
 
@@ -81,9 +91,19 @@ score_log_semiparam <- function(outcome,covars,dist_mat,grid_gran=5000){
   S <- rep(0,grid_gran) #Row vector of zeros of grid length
   for (i in 1:grid_gran){
     k <- kernel(dist_mat,rho[i])
+<<<<<<< HEAD
     Q <- t(outcome-mu_0)%*%k%*%(outcome-mu_0) #Test statistic
     mu <- tr(P_0%*%k)
     sigma <- sqrt(2*tr(P_0%*%k%*%P_0%*%k))
+||||||| 66567fa
+    Q <- t(outcome-mu_0)%*%k%*%(outcome-mu_0) #Test statistic
+    mu <- psych::tr(P_0%*%k)
+    sigma <- sqrt(2*psych::tr(P_0%*%k%*%P_0%*%k))
+=======
+    Q <- t(outcome-pred_null)%*%k%*%(outcome-pred_null) #Test statistic
+    mu <- psych::tr(P_0%*%k)
+    sigma <- sqrt(2*psych::tr(P_0%*%k%*%P_0%*%k))
+>>>>>>> dev
     S[i]<-(Q-mu)/sigma #Standardized version of test statistic for each value of kernel
   }
   M <- max(S) #Max value of standardized test statistic

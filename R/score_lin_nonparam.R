@@ -25,14 +25,22 @@
 #' @param dist_mat a square distance matrix
 #' @param grid_gran a numeric value specifying the grid search length, preset to 5000
 #'
+#' @seealso \code{\link{HMS}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
+#' \code{\link{score_log_semiparam}} for semiparametric score function of distance-based kernal functions and binary outcome.
+#' \code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
+#' \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.
+#'
 #' @return the score function p-value
 #'
 #' @references Liu et.al. (2008)
 #'
-#' @seealso
-#' \code{\link{score_log_semiparam}} for semiparametric score function of distance-based kernal functions and binary outcome.
-#' \code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
-#' \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.
+#' @examples 
+#' 
+#' data(simasd_ham_df)
+#' data(simasd_covars)
+#'
+#' hamil_matrix <- ham_distance(hamiltonian_df)
+#' score_cont_nonparam(dist_mat=hamil_matrix,outcome=simasd_covars$verbal_IQ,grid_gran=5000)
 #'
 #' @export
 

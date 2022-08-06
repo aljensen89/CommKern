@@ -13,6 +13,13 @@
 #' 
 #' @return the vertex_df dataframe to be incorporated into the network object
 #'   
+#' @examples 
+#' 
+#' data(SBM_net)
+#' SBM_netcomm <- hms(input_net=SBM_net,spins=4,alpha=0,coolfact=0.90,false_pos=0.05,max_layers=3)
+#' 
+#' community_plot(SBM_netcomm$comm_layers_tree,SBM_netcomm$func_matrix)
+#' 
 #' @export
 community_plot <- function(comm_data, node_data) {
   comm_data$comm1 <- factor(paste0("c", formatC(comm_data$comm, flag = 0, width = 2)))
@@ -76,6 +83,5 @@ community_plot <- function(comm_data, node_data) {
   np_grob$widths[2:5] <- mxwdth
   
   gridExtra::grid.arrange(np_grob, cp_grob, ncol = 1)
-  
 }
 

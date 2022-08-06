@@ -24,11 +24,18 @@
 #' higher between community edge weights; for example, c("comm_a","comm_c") will create a fuzzy distinction between
 #' communities a and c
 #' 
-#' @return net_perturb_list, a list of network dataframes containing nodes, their community assignment, node dyads, and edge weights
+#' @return a list of network dataframes containing nodes, their community assignment, node dyads, and edge weights
+#' 
+#' @examples
+#' sim_nofuzzy <- group_network_perturb(n_nodes=45,n_comm=3,n_nets=3,perturb_prop=0.1,wcr=c(8,8),bcr=c(1.5,8))
+#' head(sim_nofuzzy[[1]])
+#' 
+#' sim_fuzzy <- group_network_perturb(n_nodes=45,n_comm=3,n_nets=3,perturb_prop=0.1,wcr=c(8,8),bcr=c(1.5,8),bfcr=c(3,8),fuzzy_comms=c("comm_b","comm_c"))
+#' head(sim_fuzzy[[2]])
 #' 
 #' @export
 #' 
-group_network_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop,wcr,bcr,bfcr,fuzzy_comms){
+group_network_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop,wcr,bcr,bfcr=NA,fuzzy_comms=NA){
   
   # Creating the group-perturbed network list
   net_perturb_list <- simnet_df_perturb(n_nodes,n_comm,n_nets,perturb_prop)

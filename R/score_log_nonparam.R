@@ -24,18 +24,26 @@
 #' @param outcome a numeric vector containing the binary outcome variable, 0/1 (in the same ID order as dist_mat)
 #' @param grid_gran a numeric value specifying the grid search length, preset to 5000
 #'
-#' @return the score function p-value
-#'
-#' @references Liu et.al. (2008)
-#'
-#' @seealso
+#' @seealso \code{\link{HMS}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
 #' \code{\link{score_log_semiparam}} for semiparametric score function of distance-based kernal functions and binary outcome.
 #' \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
 #' \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.
 #'
+#' @return the score function p-value
+#'
+#' @references Liu et.al. (2008)
+#'
+#' @examples 
+#' 
+#' data(simasd_ham_df)
+#' data(simasd_covars)
+#'
+#' hamil_matrix <- ham_distance(hamiltonian_df)
+#' score_log_nonparam(outcome=simasd_covars$dx_group,dist_mat=hamil_matrix,grid_gran=5000)
+#'
 #' @export
 
-score_log_nonparam <- function(dist_mat,outcome,grid_gran=5000){
+score_log_nonparam <- function(outcome,dist_mat,grid_gran=5000){
   if(grid_gran<=1){
     stop("Need to specify a grid search length of at least 2")
   }
