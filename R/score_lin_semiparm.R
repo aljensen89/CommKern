@@ -78,8 +78,8 @@ score_cont_semiparam <- function(outcome,covars,dist_mat,grid_gran=5000){
   for (i in 1:grid_gran){
     k <- kernel(dist_mat,rho[i])
     Q <- t(y-pred_null)%*%k%*%(y-pred_null) #Test statistic
-    mu <- psych::tr(P_0%*%k)
-    sigma <- sqrt(2*psych::tr(P_0%*%k%*%P_0%*%k))
+    mu <- tr(P_0%*%k)
+    sigma <- sqrt(2*tr(P_0%*%k%*%P_0%*%k))
     S[i]<-(Q-mu)/sigma #Standardized version of test statistic for each value of kernel
   }
   M <- max(S) #Max value of standardized test statistic
