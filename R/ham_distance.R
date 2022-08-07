@@ -28,9 +28,9 @@ ham_distance <- function(hamil_df){
   hamil_expand$hamil_diff <- NA
 
   for (i in 1:nrow(hamil_expand)){
-    hamil_expand$hamil_diff[i] <- sqrt(abs(hamil_df[,2][hamil_expand$id_a[i]]-hamil_df[,2][hamil_expand$id_b[i]])^2)
+    hamil_expand$hamil_diff[i] <- sqrt(abs(hamil_df[hamiltonian_df$id==hamil_expand$id_a[i],][,2]-hamil_df[hamil_df$id==hamil_expand$id_b[i],][,2])^2)
   }
 
-  hamil_dist <- as.matrix(reshape2::dcast(data=hamil_expand,formula=id_a~id_b,value.var='hamil_diff'))[,-1]
+  hamil_dist <- as.matrix(reshape2::dcast(data=hamil_expand,formula=id_a~id_b,value.var='hamil_diff')[,-1])
   return(hamil_dist)
 }
