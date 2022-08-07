@@ -17,14 +17,20 @@
 #' @return an array of adjacency matrices of dimension (n_nets x n_nodes x n_nodes)
 #'
 #' @examples
-#' sim_nofuzzy <- group_network_perturb(n_nodes=45,n_comm=3,n_nets=3,perturb_prop=0.1,wcr=c(8,8),bcr=c(1.5,8))
-#' nofuzzy_adj <- group_adj_perturb(sim_nofuzzy,n_nets=3,n_nodes=45)
-#' pheatmap::pheatmap(nofuzzy_adj[1,,],treeheight_row=FALSE,treeheight_col=FALSE)
+#' sim_nofuzzy <- group_network_perturb(n_nodes=45, n_comm=3, n_nets=3, perturb_prop=0.1, wcr=c(8,8), bcr=c(1.5,8))
+#' nofuzzy_adj <- group_adj_perturb(sim_nofuzzy, n_nets=3, n_nodes=45)
+#'
+#' if (require(pheatmap)) {
+#'   pheatmap::pheatmap(nofuzzy_adj[1,,], treeheight_row = FALSE, treeheight_col = FALSE)
+#' }
 #' 
-#' sim_fuzzy <- group_network_perturb(n_nodes=45,n_comm=3,n_nets=3,perturb_prop=0.1,wcr=c(8,8),bcr=c(1.5,8),bfcr=c(3,8),fuzzy_comms=c("comm_b","comm_c"))
-#' fuzzy_adj <- group_adj_perturb(sim_fuzzy,n_nets=3,n_nodes=45)
-#' pheatmap::pheatmap(fuzzy_adj[2,,],treeheight_row=FALSE,treeheight_col=FALSE)
-#' 
+#' sim_fuzzy <- group_network_perturb(n_nodes=45, n_comm=3, n_nets=3, perturb_prop=0.1, wcr=c(8,8), bcr=c(1.5,8), bfcr=c(3,8), fuzzy_comms=c("comm_b","comm_c"))
+#' fuzzy_adj <- group_adj_perturb(sim_fuzzy, n_nets=3, n_nodes=45)
+#'
+#' if (require(pheatmap)) {
+#'   pheatmap::pheatmap(fuzzy_adj[2,,], treeheight_row = FALSE, treeheight_col=FALSE)
+#' }
+#'
 #' @export
 #'
 group_adj_perturb <- function(group_network_list,n_nets,n_nodes){

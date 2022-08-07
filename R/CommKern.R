@@ -10,6 +10,7 @@
 #' This package was part of Alexandria Jensen's Ph.D. dissertation which was overseen
 #' by her advisor Debashis Ghosh. Peter DeWitt provided extensive mentorship on the creation of this package.
 #'
+#' @import mathjaxr
 #' @importFrom rlang .data
 #' @importFrom magrittr "%>%"
 #' @importFrom magrittr "%<>%"
