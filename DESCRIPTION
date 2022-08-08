@@ -11,6 +11,7 @@ Depends:
 License: GPL (>= 2)
 Encoding: UTF-8
 URL: https://github.com/aljensen89/CommKern
+Language: en-us
 LazyData: true
 Imports:
   dplyr,
