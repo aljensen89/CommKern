@@ -5,7 +5,10 @@ Authors@R: c(person(given = "Alexandria", family = "Jensen",  email = "alexandri
              person(given = "Peter",      family = "DeWitt",  email = "peter.dewitt@cuanschutz.edu",      role = c("ctb"),        comment = c(ORCID = "0000-0002-6391-0795")),
              person(given = "Debashis",   family = "Ghosh",   email = "debashis.ghosh@cuanschutz.edu",    role = c("ths"),        comment = c(ORCID = "0000-0001-6618-1316"))
              )
-Description: Analysis of network community objects with applications to neuroimaging data.
+Description: Analysis of network community objects with applications to neuroimaging data. There are two main components to this package.
+The first is the hierarchical multimodal spinglass (HMS) algorithm, which is a novel community detection algorithm specifically tailored to the
+unique issues within brain connectivity. The other is a suit of semiparametric kernel machine methods that allow for statistical inference to be
+performed to test for potential associations between these community structures and an outcome of interest (binary or continuous).
 Depends: 
   R (>= 4.0.0)
 License: GPL (>= 2)
