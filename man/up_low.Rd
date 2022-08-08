@@ -10,16 +10,16 @@ up_low(dist_mat)
 \item{dist_mat}{a square distance matrix}
 }
 \value{
-a square matrix of the same dimensions of the input matrix, comprised of the sum
-square differences.
+a square matrix of the same dimensions of the input matrix, comprised
+of the sum square differences.
 }
 \description{
 Description of the bounds of grid search function.
 }
 \details{
-This ancillary function finds the upper and lower bounds of the grid search implemented in the
-kernel score test.
+This ancillary function finds the upper and lower bounds of the grid search
+implemented in the kernel score test.
 
-The function returns an m x m matrix (where m is the number of networks) to be used as input for
-the kernel function.
+The function returns an m x m matrix (where m is the number of networks) to
+be used as input for the kernel function.
 }

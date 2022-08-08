@@ -32,7 +32,7 @@ is used as the basis for the score test,
 However, because \mjeqn{\rho}{rho} disappears under the null hypothesis, we
 run a grid search over a range of values of \mjeqn{\rho}{rho} (the bounds
 of which were derived by Liu et al. in 2008). This grid search gets the upper bound for the score test's p-value.
-This function is tailored for the underlying model 
+This function is tailored for the underlying model
 \mjdeqn{y_{i} = x_{i}^{T}\beta + h\left(z_{i}\right) + e_{i},}{y_i = x_i ^ T beta + h(z_i)}
 where \mjeqn{h\left(\cdot\right)}{h(.)} is
 the kernel function, \mjeqn{z_{i}}{z_i} is a multidimensional array of variables,
@@ -58,7 +58,7 @@ Liu et.al. (2008)
 }
 \seealso{
 \code{\link{hms}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
-\code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
+\code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernel functions and binary outcome.
 \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
 \code{\link{score_cont_semiparam}} for semiparametric score function of distance-based kernel function and continuous outcome.
 }

@@ -9,7 +9,7 @@ community_plot(comm_data, node_data)
 \arguments{
 \item{comm_data}{is a long data frame with three columns: node_id, layer, and
 comm; this can be created from the \code{link{comm_layers_tree}} object using
-the \code{\link[tidyr]{tidyr::gather}} function.}
+the \code{\link[tidyr]{gather}} function.}
 
 \item{node_data}{is a melted version of the network adjacency matrix, using
 the reshape2::melt() function}

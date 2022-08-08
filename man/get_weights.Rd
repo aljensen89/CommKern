@@ -7,34 +7,40 @@
 get_weights(network_df, wcr, bcr, bfcr = NA, fuzzy_comms = NA)
 }
 \arguments{
-\item{network_df}{a dataframe containing information about network nodes, their community assignment, and all node dyads,
-coming from \code{\link{simnet_df_perturb}}}
+\item{network_df}{a data frame containing information about network nodes,
+their community assignment, and all node dyads, coming from
+\code{\link{simnet_df_perturb}}}
 
-\item{wcr}{within community edge weights, sampled from a beta distribution; for example, c(8,8) will ask for the within
-community edge weights to be sampled from a Beta(8,8) distribution}
+\item{wcr}{within community edge weights, sampled from a beta distribution;
+for example, c(8,8) will ask for the within community edge weights to be
+sampled from a Beta(8,8) distribution}
 
-\item{bcr}{between community edge weights, sampled from a beta distribution; for example, c(1,8) will ask for the between
-community edge weights to be sampled from a Beta(1,8) distribution}
+\item{bcr}{between community edge weights, sampled from a beta distribution;
+for example, c(1,8) will ask for the between community edge weights to be
+sampled from a Beta(1,8) distribution}
 
-\item{bfcr}{fuzzy community edge weights, sampled from a beta distribution; for example, c(4,8) will ask for the
-fuzzy community edge weights to be sampled from a Beta (4,8) distribution}
+\item{bfcr}{fuzzy community edge weights, sampled from a beta distribution;
+for example, c(4,8) will ask for the fuzzy community edge weights to be
+sampled from a Beta (4,8) distribution}
 
-\item{fuzzy_comms}{the communities for which their distinction is 'fuzzy,' or not as distinct; fuzzy communities tend to have
-higher between community edge weights; for example, c("comm_a","comm_c") will create a fuzzy distinction between
-communities a and c}
+\item{fuzzy_comms}{the communities for which their distinction is 'fuzzy,' or
+not as distinct; fuzzy communities tend to have higher between community edge
+weights; for example, c('comm_a','comm_c') will create a fuzzy distinction
+between communities a and c}
 }
 \value{
-a vector of edge weights associated with the node dyads from the network dataframe
+a vector of edge weights associated with the node dyads from the
+network data frame
 }
 \description{
 Description of the simulated network edge weights function.
 }
 \details{
-This is an ancillary function that creates a vector of edge weights sampled from Beta distributions. Within and 
-between community edge weights are each sampled from a distinct Beta distribution. If 'fuzzy' communities wish to be created,
-a third Beta distribution is specified and the communities for which their distinction is 'fuzzy' also needs to be
-specified. This vector of edge weights is then passed to \code{\link{group_network_perturb}} to create the final
-simulated network object.
-
-The function returns vector of network edge weights associated with the node dyads from the network dataframe.
+This is an ancillary function that creates a vector of edge weights sampled
+from Beta distributions. Within and between community edge weights are each
+sampled from a distinct Beta distribution. If 'fuzzy' communities wish to be
+created, a third Beta distribution is specified and the communities for which
+their distinction is 'fuzzy' also needs to be specified. This vector of edge
+weights is then passed to \code{\link{group_network_perturb}} to create the
+final simulated network object.
 }

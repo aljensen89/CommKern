@@ -12,20 +12,20 @@ sort_pairs(a, b)
 \item{b}{a vector of classifications}
 }
 \value{
-a list of six objects used asthe basis to calculate many cluster evaluation metrics,
-like NMI, ARI, and the Rand z-score
+a list of six objects used as the basis to calculate many cluster evaluation metrics,
+like NMI, ARI, and the Rand z-score.
+\itemize{
+  \item{levels}{a list of the classes within each of the partitions a and b}
+  \item{n_ij}{a vector containing counts of nodes within all possible classification pairs from partitions a and b}
+  \item{n_i.}{a vector of the same length as pair_nb, specifying the order of classifications in pair_nb from partition a}
+  \item{n_.j}{a vector of the same length as pair_nb, specifying the order of classifications in pair_nb from partition b}
+  \item{pair_a}{a vector containing counts of nodes within each class for partition a}
+  \item{pair_b}{a vector containing counts of nodes within each class for partition b}
+}
 }
 \description{
 Description of the sort pairs function.
 }
 \details{
 A function to sort pairs of integers or factors and identify the pairs
-
-The function returns a list of six different objects:
-levels (a list of the classes within each of the partitions a and b)
-n_ij (a vector containing counts of nodes within all possible classification pairs from partitions a and b)
-n_i. (a vector of the same length as pair_nb, specifying the order of classifications in pair_nb from parition a)
-n_.j (a vector of the same length as pair_nb, specifying the order of classifications in pair_nb from parition b)
-pair_a (a vector containing counts of nodes within each class for partition a)
-pair_b (a vector containing counts of nodes within each class for partition b)
 }

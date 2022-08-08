@@ -7,7 +7,7 @@
 ham_distance(hamil_df)
 }
 \arguments{
-\item{hamil_df}{a dataframe containing two clumns, one for network ID and
+\item{hamil_df}{a data frame containing two columns, one for network ID and
 another containing Hamiltonian values}
 }
 \value{
@@ -20,7 +20,7 @@ Description of the Hamiltonian distance matrix creation function.
 This function creates a distance matrix using the Hamiltonian output values
 from a community detection algorithm that implements a Hamiltonian value,
 such as the hierarchical multimodal spinglass algorithm. To ensure a
-positive, semidefinite matrix (as required for the kernel function), the
+positive, semi-definite matrix (as required for the kernel function), the
 absolute difference between Hamiltonian values is calculated.
 
 The function returns an m x m matrix (where m is the number of networks) to

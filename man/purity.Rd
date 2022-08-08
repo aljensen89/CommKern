@@ -7,7 +7,8 @@
 purity(a, b)
 }
 \arguments{
-\item{a}{a vector of classifications; this must be a vector of characters, integers, numerics, or a factor, but not a list.}
+\item{a}{a vector of classifications; this must be a vector of characters,
+integers, numerics, or a factor, but not a list.}
 
 \item{b}{a vector of classifications}
 }
@@ -18,10 +19,11 @@ a scalar with the harmonic mean of the purity
 Description of the purity function.
 }
 \details{
-In information theory, purity is an external evaluation criterion of cluster quality. It is the percent of
-the total number of objects (data points) that were classified in the range of [0,1]. Because we lack a
-ground truth partition, a harmonic mean is calculated, where we consider partition a to be the ground truth and
-then consider partition b to be the ground truth.
+In information theory, purity is an external evaluation criterion of cluster
+quality. It is the percent of the total number of objects (data points) that
+were classified in the range of [0,1]. Because we lack a ground truth
+partition, a harmonic mean is calculated, where we consider partition a to be
+the ground truth and then consider partition b to be the ground truth.
 }
 \examples{
 set.seed(7)

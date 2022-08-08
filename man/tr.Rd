@@ -9,7 +9,7 @@ tr(x, ...)
 \arguments{
 \item{x}{a square matrix}
 
-\item{...}{arguments passed to other methods, notably \code{\link{sum}}}
+\item{...}{arguments passed to \code{\link{sum}}}
 }
 \value{
 The trace, the sum of the diagonal elements, of the square matrix

@@ -41,7 +41,7 @@ sampled from a Beta (4,8) distribution}
 
 \item{fuzzy_comms}{the communities for which their distinction is 'fuzzy,' or
 not as distinct; fuzzy communities tend to have higher between community edge
-weights; for example, c("comm_a","comm_c") will create a fuzzy distinction
+weights; for example, c('comm_a','comm_c') will create a fuzzy distinction
 between communities a and c}
 }
 \value{
@@ -84,7 +84,7 @@ sim_fuzzy <-
     wcr = c(8, 8),
     bcr = c(1.5, 8),
     bfcr = c(3, 8),
-    fuzzy_comms = c("comm_b", "comm_c")
+    fuzzy_comms = c('comm_b', 'comm_c')
   )
 head(sim_fuzzy[[2]])
 

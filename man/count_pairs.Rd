@@ -19,9 +19,9 @@ a list of five different vectors:
   \item{pair_nb}{a vector containing counts of nodes within all possible
   classification pairs from partitions a and b}
   \item{pair_a}{a vector of the same length as pair_nb, specifying the order
-  of classifications in pair_nb from parition a}
+  of classifications in pair_nb from partition a}
   \item{pair_b}{a vector of the same length as pair_nb, specifying the order
-  of classifications in pair_nb from parition b}
+  of classifications in pair_nb from partition b}
   \item{a_nb}{a vector containing counts of nodes within each class for
   partition a}
   \item{b_nb}{a vector containing counts of nodes within each class for

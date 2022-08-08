@@ -7,12 +7,15 @@
 group_adj_perturb(group_network_list, n_nets, n_nodes)
 }
 \arguments{
-\item{group_network_list}{the output from \code{\link{group_network_perturb}}, which is a list of dataframes
-detailing nodes, community assignments of each node, and edge weights between each dyad of nodes}
+\item{group_network_list}{the output from
+\code{\link{group_network_perturb}}, which is a list of data frames detailing
+nodes, community assignments of each node, and edge weights between each dyad
+of nodes}
 
 \item{n_nets}{the number of networks simulated}
 
-\item{n_nodes}{the number of nodes in each simulated network (will be the same across all networks)}
+\item{n_nodes}{the number of nodes in each simulated network (will be the
+same across all networks)}
 }
 \value{
 an array of adjacency matrices of dimension (n_nets x n_nodes x n_nodes)
@@ -21,24 +24,58 @@ an array of adjacency matrices of dimension (n_nets x n_nodes x n_nodes)
 Description of the simulated group adjacency matrices function.
 }
 \details{
-This function takes the output from the \code{\link{group_network_perturb}} function, which is a list of
-dataframes summarizing each simulated network, and creates an array of adjacency matrices. These adjacency
-matrices can then be used as input to any community detection algorithm (such
-as the hierarchcial multimodal spinglass algorithm, \code{\link{hms}}).
+This function takes the output from the \code{\link{group_network_perturb}}
+function, which is a list of data frames summarizing each simulated network,
+and creates an array of adjacency matrices. These adjacency matrices can then
+be used as input to any community detection algorithm (such as the
+hierarchical multimodal spinglass algorithm, \code{\link{hms}}).
 }
 \examples{
-sim_nofuzzy <- group_network_perturb(n_nodes=45, n_comm=3, n_nets=3, perturb_prop=0.1, wcr=c(8,8), bcr=c(1.5,8))
-nofuzzy_adj <- group_adj_perturb(sim_nofuzzy, n_nets=3, n_nodes=45)
+
+# Example 1
+sim_nofuzzy <-
+  group_network_perturb(
+    n_nodes = 45,
+    n_comm = 3,
+    n_nets = 3,
+    perturb_prop = 0.1,
+    wcr = c(8, 8),
+    bcr = c(1.5, 8)
+  )
+
+nofuzzy_adj <-
+  group_adj_perturb(sim_nofuzzy, n_nets = 3, n_nodes = 45)
 
 if (require(pheatmap)) {
-  pheatmap::pheatmap(nofuzzy_adj[1,,], treeheight_row = FALSE, treeheight_col = FALSE)
+  pheatmap::pheatmap(
+    nofuzzy_adj[1,,],
+    treeheight_row = FALSE,
+    treeheight_col = FALSE
+  )
 }
 
-sim_fuzzy <- group_network_perturb(n_nodes=45, n_comm=3, n_nets=3, perturb_prop=0.1, wcr=c(8,8), bcr=c(1.5,8), bfcr=c(3,8), fuzzy_comms=c("comm_b","comm_c"))
-fuzzy_adj <- group_adj_perturb(sim_fuzzy, n_nets=3, n_nodes=45)
+# Example 2
+sim_fuzzy <-
+  group_network_perturb(
+    n_nodes = 45,
+    n_comm = 3,
+    n_nets = 3,
+    perturb_prop = 0.1,
+    wcr = c(8, 8),
+    bcr = c(1.5, 8),
+    bfcr = c(3, 8),
+    fuzzy_comms = c('comm_b','comm_c')
+  )
+
+fuzzy_adj <-
+  group_adj_perturb(sim_fuzzy, n_nets = 3, n_nodes = 45)
 
 if (require(pheatmap)) {
-  pheatmap::pheatmap(fuzzy_adj[2,,], treeheight_row = FALSE, treeheight_col=FALSE)
+  pheatmap::pheatmap(
+    fuzzy_adj[2,,],
+    treeheight_row = FALSE,
+    treeheight_col = FALSE
+  )
 }
 
 }

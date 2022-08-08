@@ -9,7 +9,8 @@ kernel(mat, rho)
 \arguments{
 \item{mat}{a distance-based matrix}
 
-\item{rho}{a bandwidth/scaling parameter whose optimal value is solved for within the larger score function}
+\item{rho}{a bandwidth/scaling parameter whose optimal value is solved for
+within the larger score function}
 }
 \value{
 the value of the kernel
@@ -18,9 +19,9 @@ the value of the kernel
 Description of the distance-based kernel function
 }
 \details{
-This is an ancillary function that is passed into the score function, used for calculating the
-distance-based kernel.
+This is an ancillary function that is passed into the score function, used
+for calculating the distance-based kernel.
 
-The function returns an m x m matrix (where m is the number of networks) to be used as input for
-the kernel function.
+The function returns an m x m matrix (where m is the number of networks) to
+be used as input for the kernel function.
 }

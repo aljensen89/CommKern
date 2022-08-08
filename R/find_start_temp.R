@@ -6,7 +6,7 @@
 #' with at least 95 of all proposed spin changes accepted in 50 sweeps over the network.
 #' The function returns the temperature found.
 #' 
-#' @param net   a \code{spinglass_net} object
+#' @param net a \code{spinglass_net} object
 #' @param mod_matrix mod_matrix
 #' @param spins spins
 #' @param alpha a double parameter balancing the use of the guidance matrix in modularity calculation
@@ -15,20 +15,22 @@
 #' @return the starting temperature that meets the criteria specified above
 #'
 find_start_temp <- function(net, mod_matrix, spins, alpha, ts) {
-  UseMethod("find_start_temp")
+    UseMethod("find_start_temp")
 }
 
 find_start_temp.spinglass_net <- function(net, mod_matrix, spins, alpha, ts) {
-  kT <- ts
-  acceptance <- 0
-  
-  while(acceptance < (1 - (1 / spins)) * 0.95) { #want 95% acceptance
-    kT <- kT*1.1
-    acceptance <- heatbath_multimodal(net = net, mod_matrix = mod_matrix, spins = spins, alpha = alpha, temp = kT, max_sweeps = 50)$acceptance
-  }
+    kT <- ts
+    acceptance <- 0
 
-  kT <- kT * 1.1
+    while (acceptance < (1 - (1/spins)) * 0.95) {
+        # want 95% acceptance
+        kT <- kT * 1.1
+        acceptance <- heatbath_multimodal(net = net, mod_matrix = mod_matrix, spins = spins,
+            alpha = alpha, temp = kT, max_sweeps = 50)$acceptance
+    }
 
-  kT
+    kT <- kT * 1.1
+
+    kT
 }
 

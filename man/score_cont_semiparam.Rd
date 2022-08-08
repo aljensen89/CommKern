@@ -9,7 +9,7 @@ score_cont_semiparam(outcome, covars, dist_mat, grid_gran = 5000)
 \arguments{
 \item{outcome}{a numeric vector containing the continuous outcome variable (in the same ID order as dist_mat)}
 
-\item{covars}{a dataframe containing the covariates to be modeled parametrically (should NOT include an ID variable)}
+\item{covars}{a data frame containing the covariates to be modeled parametrically (should NOT include an ID variable)}
 
 \item{dist_mat}{a square distance matrix}
 
@@ -24,15 +24,15 @@ Description of the semiparametric score function for distance-based kernel funct
 \details{
 This is the main function that calculates the p-value associated with a semiparametric kernel test
 of association between the kernel and continuous outcome variable. A null model (where the kernel is not
-associated with the outcome) is initially fit. Then, the variance of 
+associated with the outcome) is initially fit. Then, the variance of
 \loadmathjax
 \mjeqn{Y_{i}|X_{i}}{Y_i | X_i} is used as the basis for the
-score test, 
+score test,
 \mjdeqn{S\left(\rho\right) = \frac{Q_{\tau}\left(\hat{\beta_0},\rho\right)-\mu_Q}{\sigma_Q}.}{S(rho) = (Q_tau(beta_0, rho)-mu_Q) / (sigma_Q).}
 However,
 because \mjeqn{\rho}{rho} disappears under the null hypothesis, we run a grid search over a range of values of \mjeqn{\rho}{rho} (the bounds
 of which were derived by Liu et al. in 2008). This grid search gets the upper bound for the score test's p-value.
-This function is tailored for the underlying model 
+This function is tailored for the underlying model
 \mjdeqn{y_{i} = x_{i}^{T}\beta + h\left(z_{i}\right) + e_{i},}{y_i = x_i^T beta + h(z_i) + e_i,}
 where \mjeqn{h\left(\cdot\right)}{h(.)} is
 the kernel function, \mjeqn{z_{i}}{z_i} is a multidimensional array of variables, \mjeqn{x_{i}}{x_i} is a vector or matrix of covariates, \mjeqn{\beta}{beta} is a vector
@@ -53,7 +53,7 @@ Liu et.al. (2008)
 }
 \seealso{
 \code{\link{hms}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}
-\code{\link{score_log_semiparam}} for semiparametric score function of distance-based kernal functions and binary outcome.
-\code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernal functions and binary outcome.
+\code{\link{score_log_semiparam}} for semiparametric score function of distance-based kernel functions and binary outcome.
+\code{\link{score_log_nonparam}} for nonparametric score function of distance-based kernel functions and binary outcome.
 \code{\link{score_cont_nonparam}} for nonparametric score function of distance-based kernel function and continuous outcome.
 }

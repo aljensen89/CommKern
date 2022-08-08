@@ -12,16 +12,15 @@ subset_matrix_to_df(func_matrix, str_matrix)
 \item{str_matrix}{an integer indicating the maximum number of spins, or communities, that can be used}
 }
 \value{
-a list of data frames for the subnetwork
+A list of data frame containing the functional matrix,
+structural matrix, a data frame of the functional edge weights, a data frame
+of the structural edge weights, and nodal information (functional degree,
+structural degree, community assignment, and label information)
 }
 \description{
 Description of the convert matrices to data frame list for subnetworks function.
 }
 \details{
-This is an ancillary function that creates a data frame list for the subnetworks created using
-the multimodal hierarchical spinglass algorithm.
- 
-The function returns a data frame list containing the functional matrix, structural matrix, a data frame
-of the functional edge weights, a data frame of the structural edge weights, and nodal information (functional
-degree, structural degree, community assignment, and label information)
+This is an ancillary function that creates a data frame list for the
+subnetworks created using the multimodal hierarchical spinglass algorithm.
 }

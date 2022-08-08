@@ -11,10 +11,10 @@ degree(adj_matrix_func, adj_matrix_str, vertex_df)
 
 \item{adj_matrix_str}{the adjacency matrix for structural connectivity}
 
-\item{vertex_df}{a dataframe of node (or vertex) information}
+\item{vertex_df}{a data frame of node (or vertex) information}
 }
 \value{
-a dataframe to be incorporated into the network object
+a data frame to be incorporated into the network object
 }
 \description{
 Description of the node degree calculation function.
@@ -22,6 +22,4 @@ Description of the node degree calculation function.
 \details{
 This is an ancillary function that calculates the functional and structural degree of each network
 node using the functional and structural adjacency matrices, respectively.
-
-The function returns the vertex_df dataframe to be incorporated into the network object
 }

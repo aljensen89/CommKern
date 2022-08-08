@@ -31,7 +31,7 @@
 #' sampled from a Beta (4,8) distribution
 #' @param fuzzy_comms the communities for which their distinction is 'fuzzy,' or
 #' not as distinct; fuzzy communities tend to have higher between community edge
-#' weights; for example, c("comm_a","comm_c") will create a fuzzy distinction
+#' weights; for example, c('comm_a','comm_c') will create a fuzzy distinction
 #' between communities a and c
 #'
 #' @return a list of network data.frames containing nodes, their community
@@ -58,22 +58,23 @@
 #'     wcr = c(8, 8),
 #'     bcr = c(1.5, 8),
 #'     bfcr = c(3, 8),
-#'     fuzzy_comms = c("comm_b", "comm_c")
+#'     fuzzy_comms = c('comm_b', 'comm_c')
 #'   )
 #' head(sim_fuzzy[[2]])
 #'
 #' @export
-group_network_perturb <- function(n_nodes, n_comm, n_nets, perturb_prop, wcr, bcr, bfcr = NA, fuzzy_comms = NA) {
+group_network_perturb <- function(n_nodes, n_comm, n_nets, perturb_prop, wcr, bcr,
+    bfcr = NA, fuzzy_comms = NA) {
 
-  # Creating the group-perturbed network list
-  net_perturb_list <- simnet_df_perturb(n_nodes,n_comm,n_nets,perturb_prop)
+    # Creating the group-perturbed network list
+    net_perturb_list <- simnet_df_perturb(n_nodes, n_comm, n_nets, perturb_prop)
 
-  # Creating and adding the weights for each network to the network list
-  for (i in 1:n_nets){
-    newcolname <- paste0("S",i)
-    col_weights <- get_weights(net_perturb_list[[i]],wcr,bcr,bfcr,fuzzy_comms)
-    net_perturb_list[[i]][[newcolname]] <- col_weights
-  }
+    # Creating and adding the weights for each network to the network list
+    for (i in 1:n_nets) {
+        newcolname <- paste0("S", i)
+        col_weights <- get_weights(net_perturb_list[[i]], wcr, bcr, bfcr, fuzzy_comms)
+        net_perturb_list[[i]][[newcolname]] <- col_weights
+    }
 
-  net_perturb_list
+    net_perturb_list
 }

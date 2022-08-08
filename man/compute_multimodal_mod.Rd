@@ -7,9 +7,10 @@
 compute_multimodal_mod(mod_matrix, net, communities, alpha)
 }
 \arguments{
-\item{mod_matrix}{the modularity matrix output from the compute_mod_matrix() function}
+\item{mod_matrix}{the modularity matrix output from the
+\code{\link{compute_modularity_matrix}} function}
 
-\item{net}{a network object in list form (see the matrix_to_df() function for more details)}
+\item{net}{a network object in list form (see the \code{\link{matrix_to_df}} function for more details)}
 
 \item{communities}{the vector of node assignments to communities}
 
@@ -25,12 +26,16 @@ Description of the compute multimodal modularity matrix function.
 Calculates the multimodal version of the modularity matrix, which is detailed in the accompanying
 manuscript as the following:
 \deqn{\sum_{i \neq j} M_{ij} \delta(C_i,C_j) - \alpha \sum_{i \neq j} S_{ij} \delta(C_i,C_j).}{sum_{i <> j} M_{ij} delta(C_i,C_j) - alpha sum_{i <> j} S_{ij} delta(C_i,C_j).}
-This function incorporates both the modularity matrix calculated from the compute_mod_matrix()
+This function incorporates both the modularity matrix calculated from the \code{\link{compute_modularity_matrix}}
 function and adds the additional component of a guidance matrix. The alpha parameter controls
 the extent to which the guidance matrix influences the modularity, where alpha=0 means the
 function reverts to the typical modularity calculation and alpha > 0 allows for some influence
 of the guidance matrix. The guidance matrix will not penalize the modularity if two nodes are not
 connected within it; it will only decrease the modularity if the two nodes have guidance information.
-The function takes in a network object, the mod_matrix output from compute_mod_matrix(),
-a vector of communities, and a parameter alpha and returns the multimodal modularity matrix.
+The function takes in a network object, the mod_matrix output from
+\code{\link{compute_modularity_matrix}}, a vector of communities, and a parameter
+alpha and returns the multimodal modularity matrix.
+}
+\seealso{
+\code{\link{matrix_to_df}}, \code{\link{compute_modularity_matrix}}
 }

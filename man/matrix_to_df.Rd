@@ -7,23 +7,24 @@
 matrix_to_df(func_mat, str_mat)
 }
 \arguments{
-\item{func_mat}{a network object in list form (see the matrix_to_df() function for more details)}
+\item{func_mat}{a network object in list form (see the matrix_to_df()
+function for more details)}
 
-\item{str_mat}{an integer indicating the maximum number of spins, or communities, that can be used}
+\item{str_mat}{an integer indicating the maximum number of spins, or
+communities, that can be used}
 }
 \value{
-a list of dataframes for the network
+A list containing the functional matrix, structural matrix, a data
+frame of the functional edge weights, a data frame of the structural edge
+weights, and nodal information (functional degree, structural degree,
+community assignment, and label information)
 }
 \description{
-Description of the convert matrices to dataframe list for network function.
+Description of the convert matrices to data frame list for network function.
 }
 \details{
-This is an ancillary function that creates a dataframe list for the initial network. This is the form
-of the network used for the spinglass algorithm
- 
-The function returns a dataframe list containing the functional matrix, structural matrix, a dataframe
-of the functional edge weights, a dataframe of the structural edge weights, and nodal information (functional
-degree, structural degree, community assignment, and label information)
+This is an ancillary function that creates a data frame list for the initial
+network. This is the form of the network used for the spinglass algorithm
 }
 \examples{
 

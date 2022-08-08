@@ -7,23 +7,26 @@
 entropy(a, b)
 }
 \arguments{
-\item{a}{a vector of classifications; this must be a vector of characters, integers, numerics, or a factor, but not a list.}
+\item{a}{a vector of classifications; this must be a vector of characters,
+integers, numerics, or a factor, but not a list.}
 
 \item{b}{a vector of classifications}
 }
 \value{
-a list of four objects, including the two conditional entropies, the joint entropy, and the output
-of sort_pairs
+a list of four objects:
+\itemize{
+  \item{\code{uv}}{the joint entropy}
+  \item{\code{u}}{the conditional entropy of partition \code{a}}
+  \item{\code{v}}{the conditional entropy of partition \code{b}}
+  \item{\code{sortPairs}}{the output from the sort_pairs function}
+}
 }
 \description{
 Description of the entropy function.
 }
 \details{
 A function to compute the empirical entropy for two vectors of classifications and the joint entropy
-
-The function returns a list of four different objects:
-uv the joint entropy
-u the conditional entropy of partition a
-v the conditional entropy of partition b
-sortPairs the output from the sort_pairs function ((see \code{\link{sort_pairs}} for more details))
+}
+\seealso{
+\code{\link{sort_pairs}}
 }
