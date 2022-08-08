@@ -2,39 +2,59 @@
 #'
 #' Description of the normalized mutual information function.
 #'
-#' In information theory, the mutual information (MI) of two random variables is a measure of the
-#' mutual dependence between two variables, or the quantification of the 'amount of information' obtained
-#' about one random variable by observing the other random variable. The normalization of the MI score scales
-#' the resuts between 0 (no mutual information) and 1 (perfect correlation).
+#' In information theory, the mutual information (MI) of two random variables is
+#' a measure of the mutual dependence between two variables, or the
+#' quantification of the 'amount of information' obtained about one random
+#' variable by observing the other random variable. The normalization of the MI
+#' score scales the results between 0 (no mutual information) and 1 (perfect
+#' correlation).
 #'
-#' @param a a vector of classifications; this must be a vector of characters, integers, numerics, or a factor, but not a list.
+#' @param a a vector of classifications; this must be a vector of characters,
+#' integers, numerics, or a factor, but not a list.
 #' @param b a vector of classifications
-#' @param variant a string in ('max', 'min', 'sqrt', 'sum', 'joint') that calculates different variants of the NMI.
-#' The default use is 'max'.
+#' @param variant a string in ('max', 'min', 'sqrt', 'sum', 'joint') that
+#' calculates different variants of the NMI. The default use is 'max'.
 #'
 #' @seealso \code{\link{adj_RI}}, \code{\link{purity}}
 #'
 #' @return a scalar with the normalized mutual information (NMI).
-#' 
+#'
 #' @examples
 #' set.seed(7)
 #' x <- sample(x = rep(1:3, 4), 12)
-#' 
+#'
 #' set.seed(18)
 #' y <- sample(x = rep(1:3, 4), 12)
-#' 
-#' NMI(x,y,variant="max")
+#'
+#' NMI(x, y, variant = 'max')
+#' NMI(x, y, variant = 'min')
+#' NMI(x, y, variant = 'sqrt')
+#' NMI(x, y, variant = 'sum')
+#' NMI(x, y, variant = 'joint')
+#'
+#' x <- rnorm(100)
+#' y <- rexp(100)
+#' NMI(x, y, variant = 'max')
+#' NMI(x, y, variant = 'min')
+#' NMI(x, y, variant = 'sqrt')
+#' NMI(x, y, variant = 'sum')
+#' NMI(x, y, variant = 'joint')
 #'
 #' @export
 
-NMI <- function(a,b,variant=c("max","min","sqrt","sum","joint")){
-  variant <- match.arg(variant)
-  H <- entropy(a,b)
-  MI <- -H$uv + H$u + H$v
+NMI <- function(a, b, variant = c("max", "min", "sqrt", "sum", "joint")) {
+    variant <- match.arg(variant)
+    H <- entropy(a, b)
+    MI <- -H$uv + H$u + H$v
 
-  D <- switch(variant,max=max(H$u,H$v),min=min(H$u,H$v),
-              sqrt=sqrt(H$u*H$v),sum=0.5*(H$u+H$v),
-              join=H$uv)
-  res <- MI/D
-  res
+    D <- switch(
+                variant,
+                max = max(H$u, H$v),
+                min = min(H$u, H$v),
+                sqrt = sqrt(H$u * H$v),
+                sum = 0.5 * (H$u + H$v),
+                join = H$uv
+               )
+    res <- MI / D
+    res
 }

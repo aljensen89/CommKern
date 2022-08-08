@@ -7,12 +7,13 @@
 NMI(a, b, variant = c("max", "min", "sqrt", "sum", "joint"))
 }
 \arguments{
-\item{a}{a vector of classifications; this must be a vector of characters, integers, numerics, or a factor, but not a list.}
+\item{a}{a vector of classifications; this must be a vector of characters,
+integers, numerics, or a factor, but not a list.}
 
 \item{b}{a vector of classifications}
 
-\item{variant}{a string in ('max', 'min', 'sqrt', 'sum', 'joint') that calculates different variants of the NMI.
-The default use is 'max'.}
+\item{variant}{a string in ('max', 'min', 'sqrt', 'sum', 'joint') that
+calculates different variants of the NMI. The default use is 'max'.}
 }
 \value{
 a scalar with the normalized mutual information (NMI).
@@ -21,10 +22,12 @@ a scalar with the normalized mutual information (NMI).
 Description of the normalized mutual information function.
 }
 \details{
-In information theory, the mutual information (MI) of two random variables is a measure of the
-mutual dependence between two variables, or the quantification of the 'amount of information' obtained
-about one random variable by observing the other random variable. The normalization of the MI score scales
-the resuts between 0 (no mutual information) and 1 (perfect correlation).
+In information theory, the mutual information (MI) of two random variables is
+a measure of the mutual dependence between two variables, or the
+quantification of the 'amount of information' obtained about one random
+variable by observing the other random variable. The normalization of the MI
+score scales the results between 0 (no mutual information) and 1 (perfect
+correlation).
 }
 \examples{
 set.seed(7)
@@ -33,7 +36,19 @@ x <- sample(x = rep(1:3, 4), 12)
 set.seed(18)
 y <- sample(x = rep(1:3, 4), 12)
 
-NMI(x,y,variant="max")
+NMI(x, y, variant = 'max')
+NMI(x, y, variant = 'min')
+NMI(x, y, variant = 'sqrt')
+NMI(x, y, variant = 'sum')
+NMI(x, y, variant = 'joint')
+
+x <- rnorm(100)
+y <- rexp(100)
+NMI(x, y, variant = 'max')
+NMI(x, y, variant = 'min')
+NMI(x, y, variant = 'sqrt')
+NMI(x, y, variant = 'sum')
+NMI(x, y, variant = 'joint')
 
 }
 \seealso{
