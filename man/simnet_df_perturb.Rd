@@ -2,7 +2,7 @@
 % Please edit documentation in R/simnet_df_perturb.R
 \name{simnet_df_perturb}
 \alias{simnet_df_perturb}
-\title{Simulated network dataframe}
+\title{Simulated network data frame}
 \usage{
 simnet_df_perturb(n_nodes, n_comm, n_nets, perturb_prop)
 }
@@ -16,16 +16,14 @@ simnet_df_perturb(n_nodes, n_comm, n_nets, perturb_prop)
 \item{perturb_prop}{the proportion of network nodes to randomly alter their community assignment within each network}
 }
 \value{
-a list of network dataframes containing nodes, their community assignment, and node dyads
+a list of network data frames containing nodes, their community assignment, and node dyads
 }
 \description{
-Description of the simulated network dataframe function.
+Description of the simulated network data frame function.
 }
 \details{
-This is an ancillary function that creates a list of dataframes, of which each dataframe describes
-the community assignment for each node in the network. These dataframes are used as a starting
+This is an ancillary function that creates a list of data frames, of which each data frame describes
+the community assignment for each node in the network. These data frames are used as a starting
 point for the edge weights to be added between nodes (see \code{\link{group_network_perturb}} and
 \code{\link{get_weights}} for more information).
-
-The function returns a list of dataframes detailing the nodes, node dyads, and community assignments.
 }

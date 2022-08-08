@@ -1,24 +1,22 @@
-#' Simulated network dataframe
+#' Simulated network data frame
 #' 
-#' Description of the simulated network dataframe function.  
+#' Description of the simulated network data frame function.  
 #' 
-#' This is an ancillary function that creates a list of dataframes, of which each dataframe describes
-#' the community assignment for each node in the network. These dataframes are used as a starting
+#' This is an ancillary function that creates a list of data frames, of which each data frame describes
+#' the community assignment for each node in the network. These data frames are used as a starting
 #' point for the edge weights to be added between nodes (see \code{\link{group_network_perturb}} and
 #' \code{\link{get_weights}} for more information).
-#' 
-#'The function returns a list of dataframes detailing the nodes, node dyads, and community assignments.
 #' 
 #' @param n_nodes the number of nodes in each simulated network (will be the same across all networks)
 #' @param n_comm the number of communities to be simulated in each network (will be the same across all networks)
 #' @param n_nets the number of networks to simulate
 #' @param perturb_prop the proportion of network nodes to randomly alter their community assignment within each network
 #' 
-#' @return a list of network dataframes containing nodes, their community assignment, and node dyads
+#' @return a list of network data frames containing nodes, their community assignment, and node dyads
 #'  
-simnet_df_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop){
+simnet_df_perturb <- function(n_nodes, n_comm, n_nets, perturb_prop) {
   
-  # Create a master dataframe that has IDs for all nodes and 
+  # Create a master data frame that has IDs for all nodes and 
   # assigns random communities to nodes
   master_node_df <- tidyr::tibble(
     Node = paste0("node_", stringr::str_pad(1:n_nodes, width = nchar(n_nodes), pad = "0")),
@@ -40,7 +38,7 @@ simnet_df_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop){
       ind_node_df[rows[j],][2] <- new_comms[j]
     }
     
-    # Create a dataframe with all possible combinations of nodes except 'self-relationships'
+    # Create a data frame with all possible combinations of nodes except 'self-relationships'
     ind_dataframe <- expand.grid(Node_A = ind_node_df$Node,
                                  Node_B = ind_node_df$Node,
                                  stringsAsFactors = F) %>%
@@ -50,7 +48,7 @@ simnet_df_perturb <- function(n_nodes,n_comm,n_nets,perturb_prop){
                        by = "Node_B") %>% 
       dplyr::filter(.data$Node_A != .data$Node_B)
     
-    # Limit the dataframe to one row per dyad for an undirected network
+    # Limit the data frame to one row per dyad for an undirected network
     ind_dataframe <- ind_dataframe %>% 
       dplyr::arrange(.data$Node_A, .data$Node_B) %>% 
       dplyr::mutate(dyad = dplyr::if_else(.data$Node_A < .data$Node_B, paste0(.data$Node_A, "_", .data$Node_B),

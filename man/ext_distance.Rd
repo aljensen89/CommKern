@@ -21,10 +21,12 @@ the extrinsic evaluation distance matrix to be used as input for the kernel func
 Description of the extrinsic evaluation distance matrix creation function.
 }
 \details{
-This function creates a distance matrix using the community output values from any community detection algorithim,
-such as the hierarchical multimodal spinglass algorithm. Because extrinsic evaluation metrics for clustering algorithms 
-use the underlying idea of similarity, distance is calculated as (1-similarity). The use of distance ensures
-that the distance matrix will be positive and semi-definite, a requirement for its use in the kernel function.
+This function creates a distance matrix using the community output values
+from any community detection algorithm, such as the hierarchical multimodal
+spinglass algorithm. Because extrinsic evaluation metrics for clustering
+algorithms use the underlying idea of similarity, distance is calculated as
+(1-similarity). The use of distance ensures that the distance matrix will be
+positive and semi-definite, a requirement for its use in the kernel function.
 
 The function returns an m x m matrix (where m is the number of partitions) to be used as input for
 the kernel function.

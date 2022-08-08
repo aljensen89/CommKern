@@ -2,7 +2,7 @@
 % Please edit documentation in R/subset_matrix_to_df.R
 \name{subset_matrix_to_df}
 \alias{subset_matrix_to_df}
-\title{Convert matrices to dataframe list for subnetworks}
+\title{Convert matrices to list of data frames for subnetworks}
 \usage{
 subset_matrix_to_df(func_matrix, str_matrix)
 }
@@ -12,16 +12,16 @@ subset_matrix_to_df(func_matrix, str_matrix)
 \item{str_matrix}{an integer indicating the maximum number of spins, or communities, that can be used}
 }
 \value{
-a list of dataframes for the subnetwork
+a list of data frames for the subnetwork
 }
 \description{
-Description of the convert matrices to dataframe list for subnetworks function.
+Description of the convert matrices to data frame list for subnetworks function.
 }
 \details{
-This is an ancillary function that creates a dataframe list for the subnetworks created using
+This is an ancillary function that creates a data frame list for the subnetworks created using
 the multimodal hierarchical spinglass algorithm.
  
-The function returns a dataframe list containing the functional matrix, structural matrix, a dataframe
-of the functional edge weights, a dataframe of the structural edge weights, and nodal information (functional
+The function returns a data frame list containing the functional matrix, structural matrix, a data frame
+of the functional edge weights, a data frame of the structural edge weights, and nodal information (functional
 degree, structural degree, community assignment, and label information)
 }
