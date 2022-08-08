@@ -16,17 +16,13 @@
 up_low <- function(dist_mat) {
   stopifnot(is.matrix(dist_mat))
   stopifnot(nrow(dist_mat) == ncol(dist_mat))
-    p <- nrow(dist_mat)
-    q <- ncol(dist_mat)
-    sq_diff <- diag(p)
-    for (i in 1:p) {
-        for (j in 1:p) {
-            sum <- 0
-            for (k in 1:q) {
-                sum <- sum + ((dist_mat[i, k] - dist_mat[j, k])^2)
-            }
-            sq_diff[i, j] <- sum
-        }
+  sq_diff <- diag(nrow(dist_mat))
+  for (i in 1:nrow(dist_mat)) {
+    for (j in 1:nrow(dist_mat)) {
+      sq_diff[i, j] <- sum((dist_mat[i, ] - dist_mat[j, ])^2)
     }
-    return(sq_diff)
+  }
+  sq_diff
 }
+
+
