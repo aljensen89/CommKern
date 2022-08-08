@@ -14,6 +14,8 @@
 #' of the sum square differences.
 #'
 up_low <- function(dist_mat) {
+  stopifnot(is.matrix(dist_mat))
+  stopifnot(nrow(dist_mat) == ncol(dist_mat))
     p <- nrow(dist_mat)
     q <- ncol(dist_mat)
     sq_diff <- diag(p)
