@@ -20,11 +20,8 @@
 #' @return a scalar with the normalized mutual information (NMI).
 #'
 #' @examples
-#' set.seed(7)
-#' x <- sample(x = rep(1:3, 4), 12)
-#'
-#' set.seed(18)
-#' y <- sample(x = rep(1:3, 4), 12)
+#' x <- c(1L, 3L, 1L, 2L, 3L, 3L, 3L, 2L, 1L, 2L, 1L, 2L)
+#' y <- c(1L, 1L, 2L, 3L, 2L, 1L, 3L, 1L, 2L, 3L, 3L, 2L)
 #'
 #' NMI(x, y, variant = 'max')
 #' NMI(x, y, variant = 'min')
@@ -53,7 +50,7 @@ NMI <- function(a, b, variant = c("max", "min", "sqrt", "sum", "joint")) {
                 min = min(H$u, H$v),
                 sqrt = sqrt(H$u * H$v),
                 sum = 0.5 * (H$u + H$v),
-                join = H$uv
+                joint = H$uv
                )
     res <- MI / D
     res
