@@ -40,6 +40,7 @@ check-as-cran: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 covr-report.html : $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R --vanilla --quiet -e 'x <- covr::package_coverage(type = "test")'\
+		-e 'print(x)'\
 		-e 'covr::report(x, file = "$@")'
 
 install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
