@@ -23,7 +23,10 @@
 #' @param dist_mat a square distance matrix
 #' @param grid_gran a numeric value specifying the grid search length, preset to 5000
 #'
-#' @references Liu et.al. (2008)
+#' @references Liu D, Ghosh D, and Lin X (2008) "Estimation and testing for the effect of a
+#' genetic pathway on a disease outcome using logistic kernel machine regression via
+#' logistic mixed models." BMC Bioinformatics, 9(1), 292. ISSSN 1471-2105.
+#' doi:10.1186/1471-2105-9-292.
 #'
 #' @return the score function p-value for the kernel score test of association.
 #'
