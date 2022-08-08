@@ -12,11 +12,11 @@ numeric_rtn <- CommKern:::sort_pairs(x, y)
 stopifnot(identical(
             numeric_rtn,
             list(levels = list(a = 1:5, b = c(1, 2, 5)),
-                               nij = c(1, 1, 1, 1, 1),
-                               ni. = c(1, 1, 1, 1, 1),
-                               n.j = c(2, 2, 1),
-                               pair_a = c(0, 1, 2, 3, 4),
-                               pair_b = c(0, 0, 1, 1, 2))
+                 nij    = c(1, 1, 1, 1, 1),
+                 ni.    = c(1, 1, 1, 1, 1),
+                 n.j    = c(2, 2, 1),
+                 pair_a = c(0, 1, 2, 3, 4),
+                 pair_b = c(0, 0, 1, 1, 2))
            )
          )
 
@@ -30,9 +30,9 @@ stopifnot(!identical(numeric_rtn, integer_rtn))
 stopifnot(identical(
             integer_rtn,
             list(levels = list(a = 1:5, b = c(1L, 2L, 5L)),
-                 nij = c(1, 1, 1, 1, 1),
-                 ni. = c(1, 1, 1, 1, 1),
-                 n.j = c(2, 2, 1),
+                 nij    = c(1, 1, 1, 1, 1),
+                 ni.    = c(1, 1, 1, 1, 1),
+                 n.j    = c(2, 2, 1),
                  pair_a = c(0, 1, 2, 3, 4),
                  pair_b = c(0, 0, 1, 1, 4))
             )
