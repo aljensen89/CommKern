@@ -2,24 +2,25 @@
 % Please edit documentation in R/consensus_similarity.R
 \name{consensus_similarity}
 \alias{consensus_similarity}
-\title{Consensus similarity}
+\title{Consensus Similarity}
 \usage{
 consensus_similarity(comm_matrix)
 }
 \arguments{
-\item{comm_matrix}{a matrix whose columns are different partition and whose rows are nodes within a network}
+\item{comm_matrix}{a matrix whose columns are different partition and whose
+rows are nodes within a network}
 }
 \value{
-consensus_part, the consensus partition determined by the maximum average pairwise similarity
+the consensus partition determined by the maximum
+average pairwise similarity
 }
 \description{
 Description of the consensus similarity function.
 }
 \details{
-This function identifies a single representative partition from a set of partitions that is the most
-similar to the all others. Here, similarity is taken to be the z-score of the Rand coefficient.
-
-The function returns the consensus partition, which is determined by the maximum average pairwise similarity.
+This function identifies a single representative partition from a set of
+partitions that is the most similar to the all others. Here, similarity is
+taken to be the z-score of the Rand coefficient.
 }
 \examples{
 

@@ -1,18 +1,23 @@
-#' Community allegiance
+#' Community Allegiance
 #' 
 #' Description of the community allegiance function.  
 #' 
-#' This function calculates the community allegiance of each node in a network. For node i, the stability of its 
-#' allegiance to community A is calculated as the number of times where node i belongs to community A, divided by
-#' the total number of runs. This measure is bounded in [0,1], where higher values of stability indicate
-#' that a node belong to a single community across a greater number of runs.
+#' This function calculates the community allegiance of each node in a network.
+#' For node i, the stability of its allegiance to community A is calculated as
+#' the number of times where node i belongs to community A, divided by the total
+#' number of runs. This measure is bounded in [0,1], where higher values of
+#' stability indicate that a node belong to a single community across a greater
+#' number of runs.
 #' 
-#' The function returns the consensus partition, which is determined by the maximum average pairwise similarity.
+#' The function returns the consensus partition, which is determined by the
+#' maximum average pairwise similarity.
 #' 
-#' @param comm_matrix a matrix whose first column is the node label/id and all subsequent columns are different partitions
+#' @param comm_matrix a matrix whose first column is the node label/id and all
+#' subsequent columns are different partitions
 #' 
-#' @return a matrix whose values are bounded in [0,1], where higher values indicate that a node belongs to a
-#' single community over a higher proporition of runs
+#' @return a matrix whose values are bounded in [0,1], where higher values
+#' indicate that a node belongs to a single community over a higher proporition
+#' of runs
 #' 
 #' @examples
 #' 
@@ -34,33 +39,34 @@
 #'  ggplot2::theme_minimal() +
 #'  ggplot2::aes(x = as.factor(Var1), y = as.factor(Var2), fill = value) +
 #'  ggplot2::geom_tile() +
-#'  ggplot2::xlab("Node") + ggplot2::ylab("Node") +
-#'  ggplot2::ggtitle("Community Allegiance Example") +
+#'  ggplot2::xlab('Node') + ggplot2::ylab('Node') +
+#'  ggplot2::ggtitle('Community Allegiance Example') +
 #'  ggplot2::scale_fill_gradient2(
-#'    low  = "navy",
-#'    high = "goldenrod1",
-#'    mid  = "darkturquoise", 
+#'    low  = 'navy',
+#'    high = 'goldenrod1',
+#'    mid  = 'darkturquoise', 
 #'    midpoint = 0.5,
 #'    limit = c(0, 1),
-#'    space = "Lab", 
-#'    name="")
+#'    space = 'Lab', 
+#'    name='')
 #' 
 #' @export
 #' 
-community_allegiance <- function(comm_matrix){
-  alleg_matrix <- matrix(data=0,nrow=nrow(comm_matrix),ncol=nrow(comm_matrix))
-  
-  for (k in 2:ncol(comm_matrix)){
-    for (i in 1:nrow(alleg_matrix)){
-      for (j in 1:ncol(alleg_matrix)){
-        if (comm_matrix[comm_matrix[,1]==i,k]==comm_matrix[comm_matrix[,1]==j,k]){
-          alleg_matrix[i,j] <- alleg_matrix[i,j] + 1
-        } else{
-          alleg_matrix[i,j] <- alleg_matrix[i,j] + 0
+community_allegiance <- function(comm_matrix) {
+    alleg_matrix <- matrix(data = 0, nrow = nrow(comm_matrix), ncol = nrow(comm_matrix))
+
+    for (k in 2:ncol(comm_matrix)) {
+        for (i in 1:nrow(alleg_matrix)) {
+            for (j in 1:ncol(alleg_matrix)) {
+                if (comm_matrix[comm_matrix[, 1] == i, k] == comm_matrix[comm_matrix[,
+                  1] == j, k]) {
+                  alleg_matrix[i, j] <- alleg_matrix[i, j] + 1
+                } else {
+                  alleg_matrix[i, j] <- alleg_matrix[i, j] + 0
+                }
+            }
         }
-      }
     }
-  }
-  alleg_matrix_norm <- alleg_matrix/(ncol(comm_matrix)-1)
-  return(alleg_matrix_norm)
+    alleg_matrix_norm <- alleg_matrix/(ncol(comm_matrix) - 1)
+    return(alleg_matrix_norm)
 }

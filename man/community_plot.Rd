@@ -7,9 +7,12 @@
 community_plot(comm_data, node_data)
 }
 \arguments{
-\item{comm_data}{is a long dataframe with three columns: node_id, layer, and comm; this can be created from the comm_layers_tree object using the tidyr::gather() function}
+\item{comm_data}{is a long data frame with three columns: node_id, layer, and
+comm; this can be created from the \code{link{comm_layers_tree}} object using
+the \code{\link[tidyr]{tidyr::gather}} function.}
 
-\item{node_data}{is a melted version of the network adjacency matrix, using the reshape2::melt() function}
+\item{node_data}{is a melted version of the network adjacency matrix, using
+the reshape2::melt() function}
 }
 \value{
 A 1x2 panel plot.
@@ -20,9 +23,10 @@ the vertex_df dataframe to be incorporated into the network object
 Description of the communities by layer plot function.
 }
 \details{
-This is an ancillary function that creates the plots seen in the manuscript, with a heatmap-style
-plot on the top panel, derived from a network adjacency matrix, and a community assignment plot
-on the bottom panel, separated by layer.
+This is an ancillary function that creates the plots seen in the manuscript,
+with a heatmap-style plot on the top panel, derived from a network adjacency
+matrix, and a community assignment plot on the bottom panel, separated by
+layer.
 }
 \examples{
 

@@ -2,27 +2,32 @@
 % Please edit documentation in R/community_allegiance.R
 \name{community_allegiance}
 \alias{community_allegiance}
-\title{Community allegiance}
+\title{Community Allegiance}
 \usage{
 community_allegiance(comm_matrix)
 }
 \arguments{
-\item{comm_matrix}{a matrix whose first column is the node label/id and all subsequent columns are different partitions}
+\item{comm_matrix}{a matrix whose first column is the node label/id and all
+subsequent columns are different partitions}
 }
 \value{
-a matrix whose values are bounded in [0,1], where higher values indicate that a node belongs to a
-single community over a higher proporition of runs
+a matrix whose values are bounded in [0,1], where higher values
+indicate that a node belongs to a single community over a higher proporition
+of runs
 }
 \description{
 Description of the community allegiance function.
 }
 \details{
-This function calculates the community allegiance of each node in a network. For node i, the stability of its 
-allegiance to community A is calculated as the number of times where node i belongs to community A, divided by
-the total number of runs. This measure is bounded in [0,1], where higher values of stability indicate
-that a node belong to a single community across a greater number of runs.
+This function calculates the community allegiance of each node in a network.
+For node i, the stability of its allegiance to community A is calculated as
+the number of times where node i belongs to community A, divided by the total
+number of runs. This measure is bounded in [0,1], where higher values of
+stability indicate that a node belong to a single community across a greater
+number of runs.
 
-The function returns the consensus partition, which is determined by the maximum average pairwise similarity.
+The function returns the consensus partition, which is determined by the
+maximum average pairwise similarity.
 }
 \examples{
 
@@ -44,15 +49,15 @@ ggplot2::ggplot(data = xyz_melt) +
  ggplot2::theme_minimal() +
  ggplot2::aes(x = as.factor(Var1), y = as.factor(Var2), fill = value) +
  ggplot2::geom_tile() +
- ggplot2::xlab("Node") + ggplot2::ylab("Node") +
- ggplot2::ggtitle("Community Allegiance Example") +
+ ggplot2::xlab('Node') + ggplot2::ylab('Node') +
+ ggplot2::ggtitle('Community Allegiance Example') +
  ggplot2::scale_fill_gradient2(
-   low  = "navy",
-   high = "goldenrod1",
-   mid  = "darkturquoise", 
+   low  = 'navy',
+   high = 'goldenrod1',
+   mid  = 'darkturquoise', 
    midpoint = 0.5,
    limit = c(0, 1),
-   space = "Lab", 
-   name="")
+   space = 'Lab', 
+   name='')
 
 }

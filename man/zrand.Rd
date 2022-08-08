@@ -12,14 +12,12 @@ zrand(part1, part2)
 \item{part2}{a partition of nodes to communities or clusters}
 }
 \value{
-the Rand z-score between two paritions
+the Rand z-score between two partitions
 }
 \description{
 Description of the Rand z-score function.
 }
 \details{
-This is an ancillary function that calculates the Rand z-score between two partitions, which is
-used in the consensus simularity function
-
-The function returns a z-score, which is used in the calculation of the consensus paritition
+This is an ancillary function that calculates the Rand z-score between two
+partitions, which is used in the consensus similarity function
 }
