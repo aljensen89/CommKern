@@ -19,5 +19,5 @@
 #' @importFrom magrittr '%<>%'
 #'
 #' @docType package
-#' @name spinglass
+#' @name CommKern
 NULL
