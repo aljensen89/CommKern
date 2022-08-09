@@ -31,32 +31,23 @@ sort_pairs <- function(a, b) {
         stop("a and b must have the same length")
     }
 
-    # Take length of one vector/factor since length(a)=length(b)
-    n <- length(a)
-
-    if (is.integer(a) & is.integer(b)) {
-        my_levels <- list(a = unique(a), b = unique(b))
-        a <- a - min(a)
-        b <- b - min(b)
-
-        if (!(max(a) <= n - 1 & max(b) <= n - 1)) {
-            a <- as.integer(factor(a, levels = my_levels$a)) - 1L
-            b <- as.integer(factor(b, levels = my_levels$b)) - 1L
-        }
-    } else if (is.factor(a) & is.factor(b)) {
-        my_levels <- list(a = levels(a), b = levels(b))
-        a <- as.integer(a) - 1L
-        b <- as.integer(b) - 1L
-    } else {
-        my_levels <- list(a = unique(a), b = unique(b))
-        a <- as.integer(factor(a, levels = my_levels$a)) - 1L
-        b <- as.integer(factor(b, levels = my_levels$b)) - 1L
-    }
-
-    i_order <- order(a, b, method = "radix") - 1L
-    out <- count_pairs(a, b, i_order)
-
-    res <- list(levels = my_levels, nij = out$pair_nb, ni. = out$a_nb, n.j = out$b_nb,
-        pair_a = out$pair_a, pair_b = out$pair_b)
-    res
+  # Take length of one vector/factor since length(a)=length(b)
+  n <- length(a)
+  
+  if (is.factor(a) & is.factor(b)) {
+    my_levels <- list(a = levels(a), b = levels(b))
+    a <- as.integer(a) - 1L
+    b <- as.integer(b) - 1L
+  } else {
+    my_levels <- list(a = unique(a), b = unique(b))
+    a <- as.integer(factor(a, levels = my_levels$a)) - 1L
+    b <- as.integer(factor(b, levels = my_levels$b)) - 1L
+  }
+  
+  i_order <- order(a, b, method = "radix") - 1L
+  out <- count_pairs(a, b, i_order)
+  
+  res <- list(levels = my_levels, nij = out$pair_nb, ni. = out$a_nb, n.j = out$b_nb,
+              pair_a = out$pair_a, pair_b = out$pair_b)
+  res
 }
