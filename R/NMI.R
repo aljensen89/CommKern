@@ -7,7 +7,8 @@
 #' quantification of the 'amount of information' obtained about one random
 #' variable by observing the other random variable. The normalization of the MI
 #' score scales the results between 0 (no mutual information) and 1 (perfect
-#' correlation).
+#' correlation). When the number of clusters/communities is the same between
+#' the two partitions, all variants except 'joint' will be equivalent.
 #'
 #' @param a a vector of classifications; this must be a vector of characters,
 #' integers, numerics, or a factor, but not a list.
@@ -20,8 +21,8 @@
 #' @return a scalar with the normalized mutual information (NMI).
 #'
 #' @examples
-#' x <- c(1L, 3L, 1L, 2L, 3L, 3L, 3L, 2L, 1L, 2L, 1L, 2L)
-#' y <- c(1L, 1L, 2L, 3L, 2L, 1L, 3L, 1L, 2L, 3L, 3L, 2L)
+#' x <- c(1, 3, 1, 2, 3, 3, 3, 2, 1, 2, 1, 2)
+#' y <- c(1, 1, 2, 3, 2, 1, 3, 1, 2, 3, 3, 2)
 #'
 #' NMI(x, y, variant = 'max')
 #' NMI(x, y, variant = 'min')
@@ -29,8 +30,8 @@
 #' NMI(x, y, variant = 'sum')
 #' NMI(x, y, variant = 'joint')
 #'
-#' x <- rnorm(100)
-#' y <- rexp(100)
+#' x <- c("A", "A", "A", "A", "B", "C", "A", "B", "B", "C")
+#' y <- c("B", "A", "A", "A", "C", "C", "B", "C", "D", "D")
 #' NMI(x, y, variant = 'max')
 #' NMI(x, y, variant = 'min')
 #' NMI(x, y, variant = 'sqrt')
