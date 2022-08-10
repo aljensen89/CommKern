@@ -7,8 +7,8 @@
 #' quantification of the 'amount of information' obtained about one random
 #' variable by observing the other random variable. The normalization of the MI
 #' score scales the results between 0 (no mutual information) and 1 (perfect
-#' correlation). When the number of clusters/communities is the same between
-#' the two partitions, all variants except 'joint' will be equivalent.
+#' correlation). The five options for the variant - max, min, square root, sum,
+#' and joint - all relate to the denominator of the NMI = MI / D. 
 #'
 #' @param a a vector of classifications; this must be a vector of characters,
 #' integers, numerics, or a factor, but not a list.
