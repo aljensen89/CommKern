@@ -21,6 +21,7 @@ Imports:
   magrittr,
   mathjaxr,
   Matrix,
+  matrixcalc,
   RColorBrewer,
   reshape2,
   rlang,
