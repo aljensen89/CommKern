@@ -18,6 +18,9 @@ zrand <- function(part1, part2) {
     if (length(part2) == 1) {
         part2 <- t(part2)
     }
+    if (anyNA(part1) | anyNA(part2)) {
+        stop("NAs are not supported")
+     }
 
     if (length(part1) != length(part2)) {
         stop("Partitions must be of the same length")
