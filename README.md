@@ -23,7 +23,7 @@ You can install CommKern from GitHub. This will require you to have [devtools](h
 
 ```
 library(devtools)
-install_github("aljensen/CommKern", build_vignettes = TRUE)
+install_github("aljensen89/CommKern", build_vignettes = TRUE)
 ```
 
 ## Hierarchical Multimodal Spinglass (HMS) Algorithm
