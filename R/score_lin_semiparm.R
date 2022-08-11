@@ -65,9 +65,6 @@ score_cont_semiparam <- function(outcome, covars, dist_mat, grid_gran = 5000) {
     if (nrow(dist_mat) != nrow(covars)) {
         stop("The number of rows in the distance matrix must be equal to the number of rows of the covariate dataframe")
     }
-    if (nrow(covars) != length(outcome)) {
-        stop("The number of rows covariate dataframe musst be equal to the length of the outcome vector")
-    }
 
     n <- ncol(dist_mat)
     xnam <- colnames(covars)
