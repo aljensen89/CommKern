@@ -20,7 +20,7 @@
 #'     func_degree, str_degree, and community. The degree of a node is the sum of all edge
 #'      weights connected to the node. In this simulated network, node_label is left as NA
 #'      but, for other networks, a specific label may be used to denote additional information
-#'      about the node. The community variable is left blank but is used by the \code{\link{HMS}}
+#'      about the node. The community variable is left blank but is used by the \code{\link{hms}}
 #'      algorithm.}
 #'   \item{func_matrix}{an 80 x 80 matrix in the style of a network adjacency matrix. It
 #'      contains the same information as func_edges, just in a wide, rather than long, format.}
@@ -86,5 +86,5 @@
 #' nodes within the simulated networks and columns correspond to the subject ID.
 "simasd_comm_df"
 
-#' @rdname datasets
+#' Simulated Array
 "simasd_array"
