@@ -5,7 +5,9 @@
 \alias{datasets}
 \alias{SBM_net}
 \alias{simasd_covars}
-\alias{simasd_ham_df}
+\alias{simasd_hamil_df}
+\alias{simasd_array}
+\alias{simasd_comm_df}
 \title{Example Data Set(s) for Hierarchical Spinglass}
 \format{
 An object of class \code{spinglass_net} of length 5.
@@ -13,13 +15,21 @@ An object of class \code{spinglass_net} of length 5.
 An object of class \code{data.frame} with 49 rows and 8 columns.
 
 An object of class \code{data.frame} with 49 rows and 2 columns.
+
+An object of class \code{array} of dimension 49 x 80 x 80.
+
+An object of class \code{data.frame} with 80 rows and 49 columns.
 }
 \usage{
 SBM_net
 
 simasd_covars
 
-simasd_ham_df
+simasd_hamil_df
+
+simasd_array
+
+simasd_comm_df
 }
 \description{
 Example Data Set(s) for Hierarchical Spinglass

@@ -54,7 +54,6 @@
 #' }
 "simasd_covars"
 
-
 #' Simulated Hamiltonian values from HMS algorithm
 #'
 #' A dataset of Hamiltonian values from simulated group-level networks with
@@ -70,11 +69,11 @@
 #'   \item{hamil}{Hamiltonian value calculated from running the simulated network through the
 #'     HMS algorithm, a numeric value}
 #' }
-"simasd_ham_df"
+"simasd_hamil_df"
 
 
 
-#' Simulated paritions of nodes to communities from HMS algorithm
+#' Simulated partitions of nodes to communities from HMS algorithm
 #'
 #' A dataset of partitions of nodes to communited from simulated group-level
 #' networks with community structures. This dataset is complementary to the
@@ -86,3 +85,6 @@
 #' @format A dataframe with 80 rows and 49 columns, where rows correspond to
 #' nodes within the simulated networks and columns correspond to the subject ID.
 "simasd_comm_df"
+
+#' @rdname datasets
+"simasd_array"

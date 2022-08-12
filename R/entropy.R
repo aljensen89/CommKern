@@ -13,7 +13,7 @@
 #'   \item{\code{uv}}{the joint entropy}
 #'   \item{\code{u}}{the conditional entropy of partition \code{a}}
 #'   \item{\code{v}}{the conditional entropy of partition \code{b}}
-#'   \item{\code{sortPairs}}{the output from the sort_pairs function}
+#'   \item{\code{sort_pairs}}{the output from the sort_pairs function}
 #' }
 #'
 #' @seealso \code{\link{sort_pairs}}
@@ -25,6 +25,6 @@ entropy <- function(a, b) {
     h.u <- -sum(res$ni. * log(res$ni.))/N + log(N)
     h.v <- -sum(res$n.j * log(res$n.j))/N + log(N)
 
-    res <- list(uv = h.uv, u = h.u, v = h.v, sortPairs = res)
+    res <- list(uv = h.uv, u = h.u, v = h.v, sort_pairs = res)
     res
 }

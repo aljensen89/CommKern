@@ -34,14 +34,17 @@
 #'
 #' @return the score function p-value
 #'
-#' @references Liu et.al. (2008)
+#' @references Liu D, Ghosh D, and Lin X (2008) "Estimation and testing for the effect of a
+#' genetic pathway on a disease outcome using logistic kernel machine regression via
+#' logistic mixed models." BMC Bioinformatics, 9(1), 292. ISSSN 1471-2105.
+#' doi:10.1186/1471-2105-9-292.
 #'
 #' @examples
 #'
-#' data(simasd_ham_df)
+#' data(simasd_hamil_df)
 #' data(simasd_covars)
 #'
-#' hamil_matrix <- ham_distance(simasd_ham_df)
+#' hamil_matrix <- ham_distance(simasd_hamil_df)
 #' covars_df <- simasd_covars[,3:4]
 #'
 #' score_log_semiparam(outcome=simasd_covars$dx_group,covars=covars_df,dist_mat=hamil_matrix,grid_gran=5000)
@@ -65,9 +68,6 @@ score_log_semiparam <- function(outcome, covars, dist_mat, grid_gran = 5000) {
     }
     if (nrow(dist_mat) != nrow(covars)) {
         stop("The number of rows in the distance matrix must be equal to the number of rows of the covariate dataframe")
-    }
-    if (nrow(covars) != length(outcome)) {
-        stop("The number of rows covariate dataframe musst be equal to the length of the outcome vector")
     }
 
     n <- ncol(dist_mat)

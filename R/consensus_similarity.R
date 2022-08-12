@@ -27,7 +27,6 @@
 #' consensus_similarity(xyz_comms_mat)
 #'
 #' @export
-#'
 consensus_similarity <- function(comm_matrix) {
     t_comm_matrix <- t(comm_matrix)
 
@@ -49,7 +48,6 @@ consensus_similarity <- function(comm_matrix) {
     average_pairwise_sim <- rowSums(pairwise_sim)/(npart - 1)
 
     # Extract partition most similar to others
-    consensus_similarity <- max(average_pairwise_sim)
     consensus_part <- t_comm_matrix[which.max(average_pairwise_sim), ]
 
     return(consensus_part)

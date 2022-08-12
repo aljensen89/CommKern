@@ -34,7 +34,7 @@ stopifnot(identical(
                  ni.    = c(1, 1, 1, 1, 1),
                  n.j    = c(2, 2, 1),
                  pair_a = c(0, 1, 2, 3, 4),
-                 pair_b = c(0, 0, 1, 1, 4))
+                 pair_b = c(0, 0, 1, 1, 2))
             )
            )
 
