@@ -49,7 +49,10 @@ score_cont_semiparam(outcome=simasd_covars$verbal_IQ,covars=covars_df,dist_mat=h
 
 }
 \references{
-Liu et.al. (2008)
+Liu D, Ghosh D, and Lin X (2008) "Estimation and testing for the effect of a
+genetic pathway on a disease outcome using logistic kernel machine regression via
+logistic mixed models." BMC Bioinformatics, 9(1), 292. ISSSN 1471-2105.
+doi:10.1186/1471-2105-9-292.
 }
 \seealso{
 \code{\link{hms}}, \code{\link{ext_distance}}, \code{\link{ham_distance}}

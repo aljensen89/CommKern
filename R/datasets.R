@@ -11,4 +11,4 @@ NULL
 "simasd_covars"
 
 #' @rdname datasets
-"simasd_ham_df"
+"simasd_hamil_df"

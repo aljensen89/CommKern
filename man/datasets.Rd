@@ -5,7 +5,7 @@
 \alias{datasets}
 \alias{SBM_net}
 \alias{simasd_covars}
-\alias{simasd_ham_df}
+\alias{simasd_hamil_df}
 \title{Example Data Set(s) for Hierarchical Spinglass}
 \format{
 An object of class \code{spinglass_net} of length 5.
@@ -19,7 +19,7 @@ SBM_net
 
 simasd_covars
 
-simasd_ham_df
+simasd_hamil_df
 }
 \description{
 Example Data Set(s) for Hierarchical Spinglass

@@ -27,14 +27,12 @@ a measure of the mutual dependence between two variables, or the
 quantification of the 'amount of information' obtained about one random
 variable by observing the other random variable. The normalization of the MI
 score scales the results between 0 (no mutual information) and 1 (perfect
-correlation).
+correlation). The five options for the variant - max, min, square root, sum,
+and joint - all relate to the denominator of the NMI = MI / D.
 }
 \examples{
-set.seed(7)
-x <- sample(x = rep(1:3, 4), 12)
-
-set.seed(18)
-y <- sample(x = rep(1:3, 4), 12)
+x <- c(1, 3, 1, 2, 3, 3, 3, 2, 1, 2, 1, 2)
+y <- c(1, 1, 2, 3, 2, 1, 3, 1, 2, 3, 3, 2)
 
 NMI(x, y, variant = 'max')
 NMI(x, y, variant = 'min')
@@ -42,8 +40,8 @@ NMI(x, y, variant = 'sqrt')
 NMI(x, y, variant = 'sum')
 NMI(x, y, variant = 'joint')
 
-x <- rnorm(100)
-y <- rexp(100)
+x <- c("A", "A", "A", "A", "B", "C", "A", "B", "B", "C")
+y <- c("B", "A", "A", "A", "C", "C", "B", "C", "D", "D")
 NMI(x, y, variant = 'max')
 NMI(x, y, variant = 'min')
 NMI(x, y, variant = 'sqrt')

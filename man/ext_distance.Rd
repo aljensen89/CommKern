@@ -30,14 +30,9 @@ algorithms use the underlying idea of similarity, distance is calculated as
 positive and semi-definite, a requirement for its use in the kernel function.
 }
 \examples{
-set.seed(7)
-x <- sample(x = rep(1:3, 4), 12)
-
-set.seed(18)
-y <- sample(x = rep(1:3, 4), 12)
-
-set.seed(3)
-z <- sample(x = rep(1:3, 4), 12)
+x <- c(2,2,3,1,3,1,3,3,2,2,1,1)
+y <- c(3,3,2,1,1,1,1,2,2,3,2,3)
+z <- c(1,1,2,3,2,3,2,1,1,2,3,3)
 
 xyz_comms <- data.frame(x_comm = x, y_comm = y, z_comm = z)
 ext_distance(xyz_comms, variant = 'NMI')
