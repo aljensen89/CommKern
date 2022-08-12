@@ -40,4 +40,4 @@ simasd_covars <- simasd_covars[sample(1:nrow(simasd_covars)), ]
 simasd_covars$id <- seq(1:nrow(simasd_covars))
 
 #Saving dataset
-save(simasd_covars,file="/Users/jenseale/Desktop/Aim2_Work/simasd_covars.RData")
+save(simasd_covars,file="/Users/jenseale/Documents/GitHub/Hierarchical_Spinglass/data/simasd_covars.rda")

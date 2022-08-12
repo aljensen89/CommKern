@@ -18,7 +18,7 @@
 #' @param alpha a double parameter balancing the use of the guidance matrix in
 #' modularity calculation
 #' @param coolfact a double parameter that indicates how quickly (or slowly) to
-#' cool the heathbath algorithm, typically set to be 0.95-0.99
+#' cool the heatbath algorithm, typically set to be 0.95-0.99
 #' @param false_pos a double parameter that indicates the level of false
 #' positives to allow the system to make (if ground truth is known), typically
 #' set to 0.01-0.05

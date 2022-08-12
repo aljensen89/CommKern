@@ -16,7 +16,7 @@
 #' subsequent columns are different partitions
 #' 
 #' @return a matrix whose values are bounded in [0,1], where higher values
-#' indicate that a node belongs to a single community over a higher proporition
+#' indicate that a node belongs to a single community over a higher proportion
 #' of runs
 #' 
 #' @examples
