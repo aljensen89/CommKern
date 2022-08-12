@@ -6,7 +6,7 @@ Authors@R: c(person(given = "Alexandria", family = "Jensen",  email = "alexandri
              person(given = "Debashis",   family = "Ghosh",   email = "debashis.ghosh@cuanschutz.edu",    role = c("ths"),        comment = c(ORCID = "0000-0001-6618-1316"))
              )
 Description: Analysis of network community objects with applications to neuroimaging data.
-Depends: 
+Depends:
   R (>= 4.0.0)
 License: GPL (>= 2)
 Encoding: UTF-8
@@ -34,6 +34,7 @@ Suggests:
   data.tree,
   dendextend,
   knitr,
+  matrixcalc,
   MNS,
   pheatmap,
   networkD3,

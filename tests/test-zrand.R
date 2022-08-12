@@ -28,7 +28,7 @@ stopifnot(all.equal(CommKern:::zrand(a,b),0.2908564,tolerance=0.00001))
 x <- c(1,3,1,2,3,3,3,2,1,2)
 b <- c("C", "C", "C", "C", "A", "A", "B", "A", "B", "B")
 
-stopifnot(all.equal(CommKern:::zrand(x,b),-0.8321956,tolerance=0.00001))
+stopifnot(all.equal(CommKern:::zrand(x,b),-0.8331956,tolerance=0.00001))
 
 # Mixed test no. 2
 a <- c("A", "A", "A", "A", "B", "C", "A", "B", "C", "C")

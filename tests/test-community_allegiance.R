@@ -9,7 +9,7 @@ z <- c(1,2,3,1,2,3,1,2,3,1)
 
 comm_mat <- cbind(id,w,z,y,z)
 
-stopifnot(nrow(CommKern::community_allegiance(comm_mat))==CommKern::ncol(community_allegiance(comm_mat)))
+stopifnot(nrow(community_allegiance(comm_mat)) == ncol(community_allegiance(comm_mat)))
 
 # Testing to see if the allegiance matrix is symmetric
 id <- seq(1:10)
@@ -20,7 +20,7 @@ z <- c(1,2,3,1,2,3,1,2,3,1)
 
 comm_mat <- cbind(id,w,z,y,z)
 
-stopifnot(isSymmetric(CommKern::community_allegiance(comm_mat)))
+stopifnot(isSymmetric(community_allegiance(comm_mat)))
 
 # Testing to see if the allegiance matrix has values in [0,1]
 id <- seq(1:10)
@@ -31,5 +31,5 @@ z <- c(1,2,3,1,2,3,1,2,3,1)
 
 comm_mat <- cbind(id,w,z,y,z)
 
-stopifnot(all(CommKern::community_allegiance(comm_mat)>=0) & 
-            all(CommKern::community_allegiance(comm_mat)<=1))
+stopifnot(all(community_allegiance(comm_mat)>=0) & 
+            all(community_allegiance(comm_mat)<=1))

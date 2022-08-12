@@ -12,3 +12,9 @@ NULL
 
 #' @rdname datasets
 "simasd_hamil_df"
+
+#' @rdname datasets
+"simasd_array"
+
+#' @rdname datasets
+"simasd_comm_df"

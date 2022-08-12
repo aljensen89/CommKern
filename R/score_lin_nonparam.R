@@ -41,10 +41,10 @@
 #'
 #' @examples
 #'
-#' data(simasd_ham_df)
+#' data(simasd_hamil_df)
 #' data(simasd_covars)
 #'
-#' hamil_matrix <- ham_distance(simasd_ham_df)
+#' hamil_matrix <- ham_distance(simasd_hamil_df)
 #'
 #' score_cont_nonparam(
 #'   dist_mat = hamil_matrix,

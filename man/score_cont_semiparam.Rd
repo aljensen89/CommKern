@@ -39,10 +39,10 @@ the kernel function, \mjeqn{z_{i}}{z_i} is a multidimensional array of variables
 of regression coefficients, and \mjeqn{y_{i}}{y_i} is a continuous outcome taking values in the real numbers.
 }
 \examples{
-data(simasd_ham_df)
+data(simasd_hamil_df)
 data(simasd_covars)
 
-hamil_matrix <- ham_distance(simasd_ham_df)
+hamil_matrix <- ham_distance(simasd_hamil_df)
 covars_df <- simasd_covars[,3:4]
 
 score_cont_semiparam(outcome=simasd_covars$verbal_IQ,covars=covars_df,dist_mat=hamil_matrix,grid_gran=5000)
