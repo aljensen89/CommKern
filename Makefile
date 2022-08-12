@@ -18,7 +18,7 @@ VIGNETTES = $(wildcard $(PKG_ROOT)/vignettes/*.Rmd)
 all: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 $(PKG_NAME)_$(PKG_VERSION).tar.gz: .install_dev_deps.Rout .document.Rout $(VIGNETTES) $(TESTS)
-	R CMD build --resave-data --md5 $(build-options) $(PKG_ROOT)
+	R CMD build --md5 $(build-options) $(PKG_ROOT)
 
 .install_dev_deps.Rout : $(PKG_ROOT)/DESCRIPTION
 	Rscript --vanilla --quiet -e "options(repo = c('$(CRAN)'))" \
