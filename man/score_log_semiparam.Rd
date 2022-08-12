@@ -50,7 +50,12 @@ data(simasd_covars)
 hamil_matrix <- ham_distance(simasd_hamil_df)
 covars_df <- simasd_covars[,3:4]
 
-score_log_semiparam(outcome=simasd_covars$dx_group,covars=covars_df,dist_mat=hamil_matrix,grid_gran=5000)
+score_log_semiparam(
+  outcome   = simasd_covars$dx_group,
+  covars    = covars_df,
+  dist_mat  = hamil_matrix,
+  grid_gran = 5000
+  )
 
 }
 \references{
