@@ -54,6 +54,7 @@
 #' }
 "simasd_covars"
 
+
 #' Simulated Hamiltonian values from HMS algorithm
 #'
 #' A dataset of Hamiltonian values from simulated group-level networks with
@@ -72,7 +73,6 @@
 "simasd_hamil_df"
 
 
-
 #' Simulated partitions of nodes to communities from HMS algorithm
 #'
 #' A dataset of partitions of nodes to communited from simulated group-level
@@ -86,5 +86,15 @@
 #' nodes within the simulated networks and columns correspond to the subject ID.
 "simasd_comm_df"
 
+
 #' Simulated Array
+#'
+#' A dataset containing an array of simulated adjacency matrices. The dimensions of
+#' each matrix is 80 x 80, for a total of 49 simulated networks. This simulated array
+#' is the basis of the simasd_hamil_df and simasd_comm_df datasets and is 
+#' complementary to the simasd_covars dataframe.
+#' 
+#' @format An array of dimensions 49 x 80 x 80, denoting matrices for 49 simulated
+#' networks, with each network's matrix corresponding to an adjacency matrix for 
+#' an 80 node network.
 "simasd_array"
