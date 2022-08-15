@@ -12,7 +12,7 @@ nodes within the simulated networks and columns correspond to the subject ID.
 simasd_comm_df
 }
 \description{
-A dataset of partitions of nodes to communited from simulated group-level
+A dataset of partitions of nodes to communities from simulated group-level
 networks with community structures. This dataset is complementary to the
 simasd_covars dataset, which contains the demographic information related
 to this dataset. For more information on how these group-level networks 

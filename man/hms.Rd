@@ -17,7 +17,7 @@ communities, that can be used}
 modularity calculation}
 
 \item{coolfact}{a double parameter that indicates how quickly (or slowly) to
-cool the heathbath algorithm, typically set to be 0.95-0.99}
+cool the heatbath algorithm, typically set to be 0.95-0.99}
 
 \item{false_pos}{a double parameter that indicates the level of false
 positives to allow the system to make (if ground truth is known), typically

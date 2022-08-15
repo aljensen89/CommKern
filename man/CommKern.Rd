@@ -5,7 +5,7 @@
 \alias{CommKern}
 \title{CommKern}
 \description{
-The CommKern package provides a stremlined implementation in the design and
+The CommKern package provides a streamlined implementation in the design and
 analysis of network community structures with specific applications to
 neuroimaging data. The hierarchical multimodal spinglass (HMS) algorithm has
 been developed as a novel community detection algorithm, while the
