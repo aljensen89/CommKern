@@ -29,19 +29,10 @@ Imports:
   tidyr,
   qwraps2
 Suggests:
-  ape,
-  aricode,
-  data.tree,
-  dendextend,
   knitr,
   matrixcalc,
-  MNS,
   pheatmap,
-  networkD3,
-  R.matlab,
-  reshape,
-  rmarkdown,
-  treemap
+  rmarkdown
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 RdMacros:
