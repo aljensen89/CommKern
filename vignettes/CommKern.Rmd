@@ -90,17 +90,17 @@ This is a dataset of partitions of nodes to communities from simulated group-lev
 str(simasd_comm_df)
 ```
 
-## `simasd_ham_df`
+## `simasd_hamil_df`
 
 This is a dataset of Hamiltonian values from simulated group-level networks with community structure. This dataset is complementary to the `simasd_covars` dataset and is derived from the `simasd_array` dataset.
 
 ```{r}
-str(simasd_ham_df)
+str(simasd_hamil_df)
 ```
 
 ## `simasd_array`
 
-This is a dataset containing an array of simulated adjacency matrices. The dimensions of each matrix is 80 x 80, for a total of 49 simulated networks. This simulated array is the basis of the `simasd_ham_df` and `simasd_comm_df` datasets and is complementary to the `simasd_covars` dataframe.
+This is a dataset containing an array of simulated adjacency matrices. The dimensions of each matrix is 80 x 80, for a total of 49 simulated networks. This simulated array is the basis of the `simasd_hamil_df` and `simasd_comm_df` datasets and is complementary to the `simasd_covars` dataframe.
 
 ```{r}
 str(simasd_array)
@@ -504,10 +504,10 @@ If the outcome is binary and no other covariates are of interest, then use the `
 str(score_log_nonparam)
 ```
 
-Using the `simasd_covars` demographics dataset, where `dx_group` will be used as the outcome of interest, we will use `simasd_ham_df` as the basis for our distance matrix.
+Using the `simasd_covars` demographics dataset, where `dx_group` will be used as the outcome of interest, we will use `simasd_hamil_df` as the basis for our distance matrix.
 
 ```{r}
-simasd_ham_mat <- ham_distance(simasd_ham_df)
+simasd_ham_mat <- ham_distance(simasd_hamil_df)
 
 score_log_nonparam(outcome=simasd_covars$dx_group,
                    dist_mat=simasd_ham_mat)
@@ -522,7 +522,7 @@ str(score_log_semiparam)
 For our purposes, we will still use the Hamiltonian as the basis for our distance matrix. Because handedness is a categorical variable, we will convert it to a factor before adding the covariates dataframe to the function.
 
 ```{r}
-simasd_ham_mat <- ham_distance(simasd_ham_df)
+simasd_ham_mat <- ham_distance(simasd_hamil_df)
 simasd_confound <- simasd_covars[,3:5]
 simasd_confound$handedness <- as.factor(simasd_confound$handedness)
 
