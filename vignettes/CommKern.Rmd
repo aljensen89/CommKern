@@ -190,6 +190,14 @@ Finally, `max_layers` is the parameter controlling the number of layers of commu
 
 Using the `SBM_net` dataset as an example, below we have run the `hms` algorithm to find the first layer of bipartitioning, suppressing the guidance matrix in the optimization.
 
+The output from the `hms` function call has three components.
+
+-   `comm_layers_tree`, a dataframe whose first column is the node ID (pulled from the input network object) and all other columns denote the partitioning of nodes to communities across layers.
+
+-   `net`, the original network object, with the final layer's community partitioning added.
+
+-   `best_hamiltonian`, a vector of the optimized hamiltonian values for each run of the HMS algorithm.
+
 ```{r}
 hms_object <-
   hms(
@@ -202,7 +210,7 @@ hms_object <-
 str(hms_object)
 ```
 
-The HMS algorithm is flexible enough that either the multimodal or hierarchical aspects can be suppressed. If the multimodal aspect would like to be suppressed, set $\alpha=0$ and if the hierarchical aspect would like to be suppressed, set $max_layers=1$. If both are suppressed, the algorithm simplifies to the spinglass algorithm originally proposed by Reichardt and Bornholdt.
+The HMS algorithm is flexible enough that either the multimodal or hierarchical aspects can be suppressed. If the multimodal aspect would like to be suppressed, set $\alpha=0$ and if the hierarchical aspect would like to be suppressed, set $\text{max_layers}=1$. If both are suppressed, the algorithm simplifies to the spinglass algorithm originally proposed by Reichardt and Bornholdt.
 
 ## Plotting Results
 
