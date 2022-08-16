@@ -1,5 +1,5 @@
 ---
-title: "CommKern"
+title: "Analysis of Network Community Structures Using the CommKern Package"
 output:
  rmarkdown::html_vignette:
    toc: true
@@ -18,29 +18,542 @@ knitr::opts_chunk$set(collapse = TRUE)
 library(CommKern)
 ```
 
+# Introduction
+
+In the past decade, network data has become a popular method for analyzing data from a variety of fields, including genomics, metabolomics, ecology, social networks, and neuroimaging. Brain networks are a complex system of structural-functional couplings within a hierarchy of mesoscopic interactions. Because of the unique aspects to brain connectivity, many of the popular graph theoretic measures fail to capture its complex dynamics. The **CommKern** package was created to address the limitations in analysis of network community structures through two main aspects. The first is a hierarchical, multimodal spinglass algorithm that is computationally efficient and able to robustly identify communities using multiple sources of information. The flexibility of the multimodal and hierarchical aspects to this algorithm set it apart from other existing methods which may only allow for one source of information or lack the hierarchical option. The second is a semiparametric kernel test of association, which allows for the use of a kernel to model a variety of cluster evaluation metrics without making any assumption as to the parametric form of its association with the outcome. As well, because the model is semi-parametric, potential confounders can be controlled for within a parametric framework, allowing for ease of parameter estimate interpretation, should they be desired.
+
+This vignette is designed to provide an overview of **CommKern**'s functionality using the simulated datasets provided within the package. While focusing on applications to neuroimaging, the methodologies within this package are flexible enough to be applied to any type of network data, which will be pointed out in the vignette when applicable.
+
 # Provided Data Set(s)
 
-```{r label = "provided-data-sets"}
-data(package = "CommKern")$results[, c("Item", "Title")]
-str(SBM_net)
+Several simulated datasets have been provided within the package.
+
+## `SBM_net`
+
+`SBM_net` is a dataset containing multimodal network information simulated to emulate functional and structural connectivity within a nested hierarchical structure.
+
+```{r, fig.show='hold'}
+func_node_plot <- ggplot2::ggplot(data = reshape2::melt(SBM_net$func_matrix)) + ggplot2::theme_minimal() + 
+        ggplot2::aes_string(x = "Var1", y = "Var2", fill = "value") + 
+        ggplot2::geom_tile() + ggplot2::scale_fill_gradient2(low = "navy", 
+        high = "goldenrod1", mid = "darkturquoise", midpoint = 0.5, 
+        limit = c(0, 1), space = "Lab", name = "") + ggplot2::theme(axis.text = ggplot2::element_blank())
+
+str_node_plot <- ggplot2::ggplot(data = reshape2::melt(SBM_net$str_matrix)) + ggplot2::theme_minimal() + 
+        ggplot2::aes_string(x = "Var1", y = "Var2", fill = "value") + 
+        ggplot2::geom_tile() + ggplot2::scale_fill_gradient2(low = "navy", 
+        high = "goldenrod1", mid = "darkturquoise", midpoint = 0.5, 
+        limit = c(0, 1), space = "Lab", name = "") + ggplot2::theme(axis.text = ggplot2::element_blank())
+
+ func_plot <- qwraps2::ggplot2_extract_legend(func_node_plot)
+ str_plot <- qwraps2::ggplot2_extract_legend(str_node_plot)
+ func_grob <- ggplot2::ggplotGrob(func_plot$plot)
+ str_grob <- ggplot2::ggplotGrob(str_plot$plot)
+ mxwdth <- grid::unit.pmax(func_grob$widths[2:5], str_grob$widths[2:5])
+ func_grob$widths[2:5] <- mxwdth
+ str_grob$widths[2:5] <- mxwdth
+ gridExtra::grid.arrange(func_grob, str_grob, ncol = 2)
 ```
+
 The `SBM_net` object is the result of calling `matrix_to_df`.
+
 ```{r}
 net <- matrix_to_df(func_mat = SBM_net$func_mat, str_mat = SBM_net$str_mat)
 identical(net, SBM_net)
 ```
 
-# HMS Workflow
+Network data used within the package's community detection algorithm takes a specific form. Using functional and structural adjacency matrices as inputs, the `matrix_to_df` function creates a list of five dataframes:
+
+-   `func_edges`, which describes the pairwise functional edge weights between nodes.
+-   `str_edges`, which describes the pairwise structural edge weights between nodes.
+-   `vertexes`, which describes nodal characteristics, including functional degree, structural degree, node label (which can contain additional information about the node), and community assignment (for later use).
+-   `func_matrix`, which is the functional adjacency matrix.
+-   `str_matrix`, which is the structural adjacency matrix.
+
+```{r}
+str(SBM_net)
+```
+
+## `simasd_covars`
+
+This dataframe is a simulated dataset of demographics based on summary statistics for a random subset of the ABIDE pre-processed database (<http://preprocessed-connectomes-project.org/abide/>).
+
+```{r}
+str(simasd_covars)
+```
+
+## `simasd_comm_df`
+
+This is a dataset of partitions of nodes to communities from simulated group-level networks with community structures. This dataset is complementary to the `simasd_covars` dataset and is derived from the `simasd_array` dataset.
+
+```{r}
+str(simasd_comm_df)
+```
+
+## `simasd_ham_df`
+
+This is a dataset of Hamiltonian values from simulated group-level networks with community structure. This dataset is complementary to the `simasd_covars` dataset and is derived from the `simasd_array` dataset.
+
+```{r}
+str(simasd_ham_df)
+```
+
+## `simasd_array`
+
+This is a dataset containing an array of simulated adjacency matrices. The dimensions of each matrix is 80 x 80, for a total of 49 simulated networks. This simulated array is the basis of the `simasd_ham_df` and `simasd_comm_df` datasets and is complementary to the `simasd_covars` dataframe.
+
+```{r}
+str(simasd_array)
+```
+
+# Hierarchical Multimodal Spinglass (HMS) Algorithm
+
+The hierarchical multimodal spinglass (HMS) algorithm was created as a way to address the unique characteristics of brain connectivity, specifically focusing on the hierarchical aspect to brain network segregation and integration and the structure-function relationship.
+
+## Derivation of the Algorithm
+
+First introduced by Reichardt and Bornholdt in 2006, the spinglass algorithm relies on the analogy between the Pott spinglass model - a popular statistical mechanics model - and community detection, where any community partitioning is likened to a corresponding spin configuration and the problem of community detection falls into finding the ground state of the Potts spinglass model. Building on the idea of a quality function which, when optimized, represents the ideal partitioning of a network, they determined that a quality function should embody four components: it should (a) reward internal edges between nodes of the same group/spin state; (b) penalize missing edges (non-links) between nodes in the same group; (c) penalize existing edges between different groups/spin states; and (d) reward non-links between different groups. Using these requirements, they built the following function:
+
+\$\$ \begin{equation}
+
+\mathcal{H}\left(\left\{\mathbf{C}\right\}\right) = & -\sum_{i \neq j}a_{ij}\underbrace{W_{ij} \delta \left(C_i,C_j\right)}_{\text{internal links}} + 
+        \sum_{i \neq j}b_{ij}\underbrace{\left(1-W_{ij}\right) \delta \left(C_i,C_j\right)}_{\text{internal non-links}} \\
+        & + \sum_{i \neq j}c_{ij}\underbrace{W_{ij} \left(1-\delta \left(C_i,C_j\right)\right)}_{\text{external links}} - 
+        \sum_{i \neq j}d_{ij}\underbrace{\left(1-W_{ij}\right) \left(1-\delta \left(C_i,C_j\right)\right)}_{\text{external non-links}},
+        
+\end{equation} \$\$ where $W_{ij}$ denotes the weighted adjacency matrix with $W_{ij} \geq 0$ if an edge is present and zero otherwise, $C_{i} \in \left\{1,2,...,q\right\}$ denotes the group index (or spin state) of node $i$ in the graph, $\delta$ is the Kronecker product equalling one if $C_i$ and $C_j$ belong to the same community and zero otherwise, and $a_{ij}, b_{ij}, c_{ij}, d_{ij}$ denote the weights of the individual contributions, respectively. One of the appeals of the spinglass algorithm is that the number of groups $q$ only determines the maximum number of groups allowed to exist and, in principle, can be as large as the total number of nodes in the network, $N$. All group indices specified by $q$ have to be used during the optimal assignment of nodes to communities, though some may be unpopulated in the ground state.
+
+Generally, links and non-links are weighted equally, $a_{ij}=c_{ij}$ and $b_{ij}=d_{ij}$, which simplifies the algorithm to only need to consider internal links and non-links. A convenient choice for $a_{ij}$ and $b_{ij}$ is $a_{ij} = 1-\gamma p_{ij}$ and $b_{ij} = \gamma p_{ij}$, where $p_{ij}$ is the probability that a non-zero edge exists between nodes $i$ and $j$, normalized such that $\sum_{i \neq j}p_{ij} = 2M$, where $M$ is the total weight (or sum of all edge weights) of the graph. Adopting all of these settings, we can simplify the above equation to
+
+\$\$ \begin{equation}
+
+mathcal{H}\left(\left\{\mathbf{C}\right\}\right) = & -\sum_{i \neq j}\left(W_{ij} - \gamma p_{ij}\right) \delta \left(C_{i},C_{j}\right).
+
+\end{equation} \$\$
+
+Expanding on the original algorithm of Reichardt and Bornholdt, in 2012, Eaton and Mansbach introduced the concept of semi-supervised community detection to the spinglass model. When knowledge can be used to inform the community search, either through knowledge of a specific community of interest or partial knowledge of community memberships, its incorporation can be used to help compensate for potential noise in the network. As the Hamiltonian captures the total energy of the Potts model, external knowledge can be incorporated into community detection by penalizing for community structures that violate guidance. Generally, let the disagreement of the communities to a given guidance be specified by a function $U: C \rightarrow \mathbb{R}$, where $U(C)$ is smaller when the communities $C$ agree with the guidance and larger when they disagree, with the following form:
+
+\$\$ \begin{equation}
+
+U(C) = \sum_{i \neq j} \left( u_{ij} \left( 1-\delta\left(C_{i},C_{j}\right) \right) \pm \bar{u}_{ij} \delta \left(C_{i},C_{j}\right)\right),
+
+\end{equation} \$\$ where $u_{ij}$ is the penalty for violating guidance that $v_{i}$ and $v_{j}$ belong to the same community and $\bar{u}_{ij}$ is the penalty for violating guidance that $v_{i}$ and $v_{j}$ belong to different communities. When incorporating the guidance into the Hamiltonian,
+
+\$\$ \begin{equation}
+
+\mathcal{H}'\left( C \right) = \mathcal{H}\left( C \right) + \mu \sum_{i \neq j} \left( u_{ij} - \left(u_{ij}-\bar{u}_{ij}\right) \delta \left(C_{i},C_{j}\right)\right),
+
+\end{equation} \$\$ where $\mu \geq 0$ \`\`controls the balance between the inherent community structure and the external guidance. Rewriting $\mathcal{H}'$ to be more conducive to optimization, we can decompose it as
+
+\$\$ \begin{equation}
+
+\mathcal{H}'\left( C \right) = -\sum_{i \neq j}M_{ij}\delta\left(C_{i},C_{j}\right) - \mu \sum_{i \neq j}\Delta U_{ij} \delta\left(C_{i},C_{j}\right)+K,
+
+\end{equation} \$\$ where $M_{ij}=A_{ij}-\gamma P_{ij}$, $\Delta U_{ij}=u_{ij} - \bar{u}_{ij}$, and all constant terms are contained within $K = \mu \sum_{i \neq j}u_{ij}$, which can ultimately be dropped from the optimization problem.
+
+Adapting Eaton and Mansbach's method for multimodal community detection in the human brain, our modified Hamiltonian takes the following form,
+
+\$\$ \begin{equation}
+
+\mathcal{H}'\left( C \right) = - \sum_{i \neq j} M_{ij}\delta\left(C_{i},C_{j}\right) - \alpha \sum_{i \neq j} S_{ij} \delta\left(C_{i},C_{j}\right),
+
+\end{equation} \$\$ where $M_{ij}$ is the modularity matrix associated with functional connectivity, $S_{ij}$ is the structural connectivity matrix, and $\alpha \geq 0$ controls the balance between the community structure determined solely by functional connectivity and being informed by the structural connectivity via white matter fiber tract information. In contrast to Eaton and Mansbach's approach, where penalties are applied when violating guidance for nodes belonging both to the same community or different communities, our method only decreases the total energy of the model when white matter fiber tracts exist between regions $v_i$ and $v_j$; otherwise, the guidance term is set to zero, with the algorithm deciding the community assignments for $v_i$ and $v_j$ based solely on their functional connectivity.
+
+To then study the hierarchical community structure of these networks, we implement an iterative method. Specifically, we create a multilayer network, where communities from layer $k$ each become subnetworks in layer $k+1$ wherein the multimodal spinglass algorithm is applied. The number of iterations (or layers) is pre-specified in the algorithm to avoid the need for stopping criteria. The number of communities $q$ is held constant across each layer of the network. An additional parameter, $\tau$, is also specified a priori, controlling the acceptance rate of the algorithm.
+
+## Implementation
+
+Before implementing the algorithm within the **CommKern** package, we start from a common brain atlas (e.g., Automated Anatomical Labeling (AAL), Harvard-Oxford (HO), Craddock 200 (CC200), etc.), where adjacency matrices representing functional and structural connectivity are derived from the correlation between resting state functional MRI (rs-FMRI) blood oxygen level dependent (BOLD) time series or the number of white matter fiber tracks computed from diffusion tensor MRI, respectively.
+
+Once we have structural and functional adjacency matrices, we must create the network dataframe used within the `hms` algorithm function. This is done using the `matrix_to_df` function (Note: the `SBM_net` dataset is already in this form for the end user). It should be noted that both a functional and structural matrix need to be specified for the `matrix_to_df` function to work. If there is no structural (or guidance) matrix for use, the end user can simply create a matrix of $0$s of the same dimensions for input into the function. This will not affect the end results of the `hms` function.
+
+```{r}
+net <- matrix_to_df(func_mat = SBM_net$func_mat, str_mat = SBM_net$str_mat)
+identical(net, SBM_net)
+```
+
+From here, we can implement the `hms` function. There are several input parameters to discuss.
+
+```{r}
+str(hms)
+```
+
+The `spins` parameter denotes the *maximum* number of spins, or communities, the algorithm can utilize during optimization. The whole number integer value of `spins` must lie within $\left[2,\texttt{ # of network nodes}\right]$. However, the higher the number of spins, the more complex the optimization process, leading to longer computation times. If the number of communities is unknown, we recommend an exploratory analysis to determine the number of communities the algorithm tends to decide on using less restrictive parameters.
+
+The `alpha` parameter is a numeric parameter $\left(\geq 0\right)$ that balances the use of the guidance matrix in the algorithm's optimization. When $\alpha=0$, the algorithm ignores the guidance matrix completely and when $\alpha=1$, the algorithm weights the functional and structural inputs equally.
+
+The `coolfact` parameter indicates how quickly (or slowly) to cool the heatbath algorithm, which is used to find the optimal partitioning of nodes to communities. This parameter must be in $\left(0,1\right)$, but is usually set to be $0.95-0.99$.
+
+The `false_pos` parameter indicates the level of false positives to allow the system to make (if the ground truth is known). This value must be in $\left(0,1\right)$, though typically is set to be $0.01-0.05$. If the ground truth is not known, this parameter indicates how difficult it is for a node to be randomly reassigned to a different community when the system's energy is not impacted by its movement.
+
+Finally, `max_layers` is the parameter controlling the number of layers of communities within the network. At least one layer must be specified in the algorithm. End users can specify the number of layers to be any positive whole number but several considerations should be made. First, as the number of layers increases, so does the computational time. Second, over-specification of the community layers can create singleton issues (a single node in a community), leading to the algorithm throwing an error. Finally, the number of layers specified should be data driven; therefore, we cannot provide a universally optimal number of layers to specify.
+
+Using the `SBM_net` dataset as an example, below we have run the `hms` algorithm to find the first layer of bipartitioning, suppressing the guidance matrix in the optimization.
 
 ```{r}
 hms_object <-
   hms(
-      input_net = SBM_net
-      , spins = 4
-      , alpha = 0
-      , coolfact = 0.99
-      , false_pos = 0.01
-      , max_layers = 1)
+      input_net = SBM_net, 
+      spins = 2,
+      alpha = 0,
+      coolfact = 0.99,
+      false_pos = 0.01,
+      max_layers = 1)
 str(hms_object)
 ```
 
+The HMS algorithm is flexible enough that either the multimodal or hierarchical aspects can be suppressed. If the multimodal aspect would like to be suppressed, set $\alpha=0$ and if the hierarchical aspect would like to be suppressed, set $max_layers=1$. If both are suppressed, the algorithm simplifies to the spinglass algorithm originally proposed by Reichardt and Bornholdt.
+
+## Plotting Results
+
+Once the algorithm has finished running, you can visualize the results in a plot using `community_plot`. Inputs to this function must be long data structures Using the output from the `hms` run of the `SBM_net` dataset, we can produce the following plot:
+
+```{r, fig.show='hold'}
+SBM_func_long <- reshape2::melt(SBM_net$func_matrix)
+
+SBM_comm_long <- tidyr::gather(hms_object$comm_layers_tree,
+                key = "layer",
+                value = "comm",
+                layer_1,
+                factor_key = TRUE)
+
+community_plot(comm_data = SBM_comm_long,
+               node_data = SBM_func_long)
+```
+
+## Additional Visualization and Quantification
+
+If the HMS algorithm is used on network data for which ground truth is unknown (like in the case of brain connectivity), the **CommKern** package has provided several functions to understand the robustness and stability of the partitioning of nodes to communities across multiple runs.
+
+First is the `community_allegiance` function.For node $i$, the stability of its allegiance to community $A$ is calculated as the number of times where node $i$ belongs to community $A$, divided by the total number of runs. This measure is bounded in $\left[0,1\right]$, where higher values of stability indicate that a node belong to a single community across a greater number of runs, and can only work on a single layer of the hierarchy at a time. Higher proportions of nodes with high levels of community allegiance indicate a robust community detection algorithm.
+
+Below is a simple example of how community allegiance is calculated and visualized.
+
+```{r, fig.show='hold'}
+set.seed(7183)
+
+x <- sample(x = rep(1:3, 4), 12)
+y <- sample(x = rep(1:3, 4), 12)
+z <- sample(x = rep(1:3, 4), 12)
+
+xyz_comms <- data.frame(id=seq(1:length(x)),x_comm=x,y_comm=y,z_comm=z)
+xyz_alleg <- community_allegiance(xyz_comms)
+xyz_melt <- reshape2::melt(xyz_alleg)
+
+print(xyz_comms)
+
+ggplot2::ggplot(data = xyz_melt) +
+  ggplot2::theme_minimal() +
+  ggplot2::aes(x = as.factor(Var1), y = as.factor(Var2), fill = value) +
+  ggplot2::geom_tile() +
+  ggplot2::xlab('Node') + ggplot2::ylab('Node') +
+  ggplot2::ggtitle('Community Allegiance Example') +
+  ggplot2::scale_fill_gradient2(
+    low  = 'navy',
+    high = 'goldenrod1',
+    mid  = 'darkturquoise', 
+    midpoint = 0.5,
+    limit = c(0, 1),
+    space = 'Lab', 
+    name='')
+```
+
+The average community allegiance value within this simple example is `r mean(xyz_melt$value)`, meaning that, on average, two nodes appear in the same community 33% of the time.
+
+If multiple runs of the HMS algorithm have been performed on the same dataset and a single, representative partition is desired, end users can utilize the `consensus_similarity` function. This function can be used to identify a single, representative partition from a set of partitions that is most similar to all others. Similarity is taken to be the z-score of the adjusted Rand coefficient. This definition of consensus similarity was first defined by Doron et al. in a 2012 *PNAS* publication. Pairwise z-scores of the adjusted Rand coefficient are calculated for all partitions, then the average pairwise similarity is calculated for each partition. The partition with the highest average pairwise similarity is then chosen to be the consensus partition.
+
+Below is a simple example of how the `consensus_similarity` function works.
+
+```{r}
+set.seed(7183)
+
+x <- sample(x = rep(1:3, 4), 12)
+y <- sample(x = rep(1:3, 4), 12)
+z <- sample(x = rep(1:3, 4), 12)
+
+xyz_comms_mat <- matrix(c(x,y,z),nrow=length(x),ncol=3)
+consensus_similarity(xyz_comms_mat)
+```
+
+# Simulating Group-Level Networks with Community Structure
+
+End users can simulate group-level networks with community structure using two main functions within the **Commkern** package: `group_network_perturb` and `group_adj_perturb`.
+
+```{r}
+str(group_network_perturb)
+
+str(group_adj_perturb)
+```
+
+First, `group_network_perturb` creates a list of simulated networks, of which each network is in a data.frame format, which describes the community assignment for each node in the network and simulates the edge weights based on whether the node dyad is (a) within the same community; (b) between different communities; or (c) between different communities but designated as "fuzzy" in their distinction from one another. This function takes several inputs:
+
+-   `n_nodes`, the number of nodes in each network.
+
+-   `n_comm`, the number of communities to simulate in each network.
+
+-   `n_nets`, the number of networks to simulate.
+
+-   `perturb_prop`, the proportion of network nodes to randomly alter their community assignment within each network; this helps to simulate individual variability.
+
+-   `wcr`, the the within community edge weights, sampled from a Beta distribution.
+
+-   `bcr`, the between community edge weights, sample from a Beta distribution.
+
+-   `bfcr`, fuzzy community edge weights, sample from a Beta distribution
+
+-   `fuzzy_comms`, the communities for which their distinction is "fuzzy" or not as distinct; fuzzy communities tend to have higher between-community edge weights than non-fuzzy communities.
+
+Once the `group_network_perturb` function is run, its output is used as one of the inputs for the `group-adj_perturb` function, which produces an array of adjacency matrices. These adjacency matrices can then be used as input to any community detection algorithm (such as the HMS algorithm).
+
+Below is an example of how to simulate a group of networks with similar community structure, with a visualization of one resulting simulated adjacency matrix.
+
+```{r, fig.show='hold'}
+sim_nofuzzy <-
+   group_network_perturb(
+     n_nodes = 50,
+     n_comm = 4,
+     n_nets = 3,
+     perturb_prop = 0.1,
+     wcr = c(8, 8),
+     bcr = c(1.5, 8)
+   )
+
+nofuzzy_adj <-
+  group_adj_perturb(sim_nofuzzy, n_nets = 3, n_nodes = 50)
+
+if (require(pheatmap)) {
+ pheatmap::pheatmap(
+   nofuzzy_adj[1,,],
+   treeheight_row = FALSE,
+   treeheight_col = FALSE
+ )
+}
+```
+
+As well, the following is an example of group-level networks simulated with fuzzy network structure.
+
+```{r, fig.show='hold'}
+sim_fuzzy <-
+   group_network_perturb(
+     n_nodes = 50,
+     n_comm = 4,
+     n_nets = 3,
+     perturb_prop = 0.1,
+     wcr = c(8, 8),
+     bcr = c(1.5, 8),
+     bfcr = c(3.5, 8),
+     fuzzy_comms = c('comm_b', 'comm_c')
+   )
+
+fuzzy_adj <-
+  group_adj_perturb(sim_fuzzy, n_nets = 3, n_nodes = 50)
+
+if (require(pheatmap)) {
+ pheatmap::pheatmap(
+   fuzzy_adj[1,,],
+   treeheight_row = FALSE,
+   treeheight_col = FALSE
+ )
+}
+```
+
+# Cluster Evaluation Metrics
+
+Within community detection, the methods for evaluating the performance of a particular algorithm can be classified as either (1) extrinsic, requiring ground truth labels or (2) intrinsic not requiring ground truth labels.
+
+## Extrinsic Metrics
+
+All external clustering measures rely on a $r \times k$ contingency matrix $\bs{N}$ that is induced by a system-clustering $\mathcal{C}$ and a ground truth partitioning $\mathcal{T}$, where the rows represent the system-clusters $\mathcal{C}_i \in \mathcal{C}$ for $i=1,\dots,r$ and the columns represent the ground truth partitions $\mathcal{T}_j \in \mathcal{T}$ for $j=1,\dots,k$. A cell at the intersection of row $i$ and column $j$ contains the count $n_{ij}$ of points that are common to cluster $\mathcal{C}_i$ and ground truth partition $\mathcal{T}_j$:
+
+\$\$ \begin{equation}
+
+N\left(i,j\right)=n_{ij}=\vert\mathcal{C}_i \cap \mathcal{T}_j \vert
+
+\end{equation} \$\$ However, in many cases a ground truth labelling does not exist, such as brain connectivity. In this case, a two-way matching can be performed, where the matching is performed twice, each time with one of the clusterings being the ground truth and the results combined using a harmonic mean to produce a final matching measure.
+
+There are several options for external cluster evaluation metrics. For all, assume $\Omega=\left\{\omega_1,\omega_2,\dots,\omega_k\right\}$ and $\mathbb{C}=\left\{c_1,c_2,\dots,c_j\right\}$ are two sets of clusters.
+
+-   *Purity*: quantifies the extent to which a cluster \$c_i\$ contains elements from only one partition, or measures how "pure" a cluster is. Purity is bounded in $\left[0,1\right]$ but is not symmetric due to the need to have a ground truth labeling. To get around this issue, the harmonic mean of the purity between two clusterings is taken, where one partition is taken to be the ground truth labeling, then the other.
+
+```{r}
+set.seed(7183)
+
+x <- sample(x = rep(1:3, 4), 12)
+y <- sample(x = rep(1:3, 4), 12)
+
+purity(x,y)
+```
+
+-   *Normalized Mutual Information (NMI)*: based on the idea of mutual information, which is defined between two random variables as a measure of the mutual dependence between them. It quantifies the "amount of information" obtained about one random variable by observing the other. It is linked to the concept of entropy, which attempts to characterize the "unpredictability" of a random variable. Normalized variants of mutual information allow for comparisons between different clusterings that have different numbers of clusters (but not a different number of nodes, meaning the underlying networks must be of the same size).
+
+```{r}
+set.seed(7183)
+
+x <- sample(x = rep(1:3, 4), 12)
+y <- sample(x = rep(1:3, 4), 12)
+
+NMI(x,y)
+```
+
+-   *Adjusted Rand Index (ARI)*: An alternative to an information theoretic interpretation of clustering evaluation (e.g., NMI, purity) is to view clusterings as a series of decisions, one for each of the $N\left(N-1\right)/2$ pairs of nodes in the network. The adjusted Rand Index (ARI) is the corrected-for-chance version of the Rand Index, which establishes a baseline by using the expected similarity of all pairwise comparisons between clusterings specified by a random model.ARI can yield negative values if the index is less than the expected index.
+
+```{r}
+set.seed(7183)
+
+x <- sample(x = rep(1:3, 4), 12)
+y <- sample(x = rep(1:3, 4), 12)
+
+adj_RI(x,y)
+```
+
+To create a matrix of distances, the function `ext_distance` can be used. This function uses the community output values from any community detection algorithm, such as the HMS algorithm, as an input. Because extrinsic cluster evaluation metrics use the underlying idea of similarity, distance is calculated as $\left(1-\text{similarity}\right)$. The use of distance ensures tha the distance matrix will be positive and semi-definite, a requirement for the semiparametric kernel methods detailed in the next section.
+
+```{r}
+x <- c(2,2,3,1,3,1,3,3,2,2,1,1)
+y <- c(3,3,2,1,1,1,1,2,2,3,2,3)
+z <- c(1,1,2,3,2,3,2,1,1,2,3,3)
+
+xyz_comms <- data.frame(x_comm = x, y_comm = y, z_comm = z)
+
+ext_distance(xyz_comms, variant = 'NMI')
+ext_distance(xyz_comms, variant = 'adj_RI')
+ext_distance(xyz_comms, variant = 'purity')
+```
+
+## Intrinsic Metrics
+
+Rather than use extrinsic metrics, which rely either on a ground truth labeling or on a harmonic mean between two clusterings, intrinsic evaluation metrics do not rely on the existence of a ground truth. One of the most commonly used intrinsic metrics is the optimized value of the modularity function; this is based on the fact that networks with very similar community structure should have very similar modularity values. Within the HMS algorithm, the optimized value of the Hamiltonian van be used in the same manner as the modularity function. Because the optimized Hamiltonian values from the HMS algorithm are not bounded in the same manner as the extrinsic cluster evaluation metrics, a p-norm of the differences between the Hamiltonians for two clusterings was used such that
+
+\$\$ \begin{equation}
+
+d\left(\mathcal{H}_{\Omega},\mathcal{H}_{\mathbb{C}}\right)=\Vert \mathcal{H}_{\Omega} - \mathcal{H}_{\mathbb{C}} \Vert_{p}
+
+\end{equation} \$\$ for $1 \leq p < \infty$.
+
+To create a matrix of distances, the function `ham_distance` can be used. This function uses the Hamiltonian output values from a community detection algorithm that implements a Hamiltonian value, such as the HMS algorithm. To ensure a positive, semi-definite matrix (as required for the kernel machine methds), the absolute difference between Hamiltonian values is calculated.
+
+```{r}
+hamil_df <- data.frame(id  = seq(1:8),
+                       ham = c(-160.5375, -167.8426, -121.7128,
+                               -155.7245, -113.9834, -112.5262,
+                               -117.9724, -171.374))
+
+ham_distance(hamil_df)
+```
+
+# Kernel Machine Methods
+
+## Distance-Based Kernels
+
+A kernel is a function that takes as its inputs vectors in some original space and returns the dot product of vectors in the feature space. More formally, if we have $\mathbf{x},\mathbf{z} \in \mathcal{X}$ and a map $\phi: \mathcal{X} \rightarrow \mathbb{R}^N$, then $k\left(\mathbf{x},\mathbf{z}\right)=\langle\phi\left(\mathbf{x}\right),\phi\left(\mathbf{z}\right)\rangle$ is a kernel function. An important concept relating to kernel methods is the reproducing kernel Hilbert space (RKHS). Because all kernels are positive definite, there exists one or more feature spaces for which the kernel defines the inner product, without having to explicity define such feature space. Using the Moore-Aronszajn theorem, it can be shown that for each kernel $k$ on a set $\mathcal{X}$, there is a unique space of functions (known as the Hilbert space) on $\mathcal{X}$ for which $k$ is a reproducing kernel.
+
+Letting $Z$ be a multidimensional array of variables and $i,j$ be two subjects, then $k\left(Z_i,Z_j\right)$ can be used as a measure of similarity between the pair of subjects $i,j$ since $k\left(\cdot,\cdot\right)$ is positive definite. This similarity measure can be ccan then be incorporated into a statistical inference framework to test what extend variation in $Z$ between individuals can explain variation in some outcome of interest $Y$. A range of kernel functions are used in statistics, where the choice of kernel determines the function space used to approximate the relationship between two variables. A distance-based kernel is denoted as
+
+\$\$ \begin{equation}
+
+    K_d\left(x_1,x_2\right)=exp\left\{\dfrac{-d^2(x_1,x_2)}{\rho}\right\},
+    
+\end{equation} \$\$
+
+where $d^2(x_1,x_2)$ is a distance function and $\rho$ an unknown bandwidth or scaling parameter.
+
+While this package provides several options for cluster evaluation, many more exist in the literature. End users can utilize their own custom metrics, so long as the resulting distance matrix is symmetric, positive, and semi-definite, as these are the requirements for incorporation into the kernel machine methods detailed in the next section.
+
+## Semiparametric Kernel Machine Methods
+
+Suppose a dataset consists of $n$ subjects, where for subject $i=\left(1,\dots, n\right)$, $y_i$ is an outcome variable (either binary or continuous), $\mathbf{x}_i$ is a $q \times 1$ vector of clinical covariates and $\mathbf{x}_i$ is a $p \times 1$ vector of cluster evaluation metrics. The outcome $y_i$ depends on $\mathbf{x}_i$ and $\mathbf{z}_i$ through the following semiparametric linear model
+
+\$\$ \begin{equation}
+
+y_i = x_{i}^{T}\beta + h\left(z_i\right) + e_i,
+    
+\end{equation} \$\$ where $\mathbf{\beta}$ is a $q \times 1$ vector of regression coefficients, $h\left(\bsmathbf_i\right)$ is an unknown, centered and smooth function, and $e_i$ is an independent and identically distributed error term following $N\left(0,\sigma^2\right)$.
+
+This model allows for covariate effects to be modelled parametrically and the brain connectivity metric either parametrically or non-parametrically. There are several special cases of this model: when $h\left(\cdot\right)=0$, the model reduces too a standard logistic regression model and when $\mathbf{x}_i=1$, the model reduces to a least squares kernel machine regression. A hypothesis test can be conducted to determine whether the multidimensional variable set $\mathbf{z}_i$ is associated with $y_i$, controlling for $\mathbf{x}_i$, of the form
+
+$$
+\begin{equation}
+H_0: h\left( \cdot \right) = 0\\
+H_A: h\left( \cdot \right) \neq 0\\
+\end{equation} 
+$$
+
+Details of the derivation of the score test will be left out of this vignette. If end users are interested, please refer to:
+
+Jensen AM, Tregellas JR, Sutton B, Xing F, Ghosh D (2019). "Kernel machine tests of association between brain networks and phenotypes." *PLOS ONE*, 14(3), e0199340. ISSN 1932-6203. doi: 10.1371/journal.pone.0199340. Publisher: Public Library of Science.
+
+Liu D, Ghosh D, Lin X (2008). "Estimation and testing for the effect of a genetic pathway on a disease outcome using logistic kernel machine regression via logistic mixed models." *BMC Bioinformatics*, 9(1), 292. ISSN 1471-2105. <doi:10.1186/1471-2105-9-292>.
+
+Liu D, Lin X, Ghosh D (2007). "Semiparametric Regression of Multidimensional Genetic Pathway Data: Least-Squares Kernel Machines and Linear Mixed Models." *Biometrics*, 63(4), 1079--1088. ISSN 0006-341X. <doi:10.1111/j.1541-0420.2007.00799.x>.
+
+## Examples Using Available Datasets
+
+Using the datasets provided in the **CommKern** package, we can implement the various kernel machine types. In all cases, a parameter `grid_gran` is preset to 5000; this variable relates to the grid search length for the nuisance $\rho$ parameter.
+
+If the outcome is binary and no other covariates are of interest, then use the `score_log_nonparam` function:
+
+```{r}
+str(score_log_nonparam)
+```
+
+Using the `simasd_covars` demographics dataset, where `dx_group` will be used as the outcome of interest, we will use `simasd_ham_df` as the basis for our distance matrix.
+
+```{r}
+simasd_ham_mat <- ham_distance(simasd_ham_df)
+
+score_log_nonparam(outcome=simasd_covars$dx_group,
+                   dist_mat=simasd_ham_mat)
+```
+
+If we wish to incorporate additional covariates of interest, like age, sex, or handedness, this can easily be done via the `score_log_semiparam` function.
+
+```{r}
+str(score_log_semiparam)
+```
+
+For our purposes, we will still use the Hamiltonian as the basis for our distance matrix. Because handedness is a categorical variable, we will convert it to a factor before adding the covariates dataframe to the function.
+
+```{r}
+simasd_ham_mat <- ham_distance(simasd_ham_df)
+simasd_confound <- simasd_covars[,3:5]
+simasd_confound$handedness <- as.factor(simasd_confound$handedness)
+
+score_log_semiparam(outcome=simasd_covars$dx_group,
+                    covars=simasd_confound,
+                    dist_mat=simasd_ham_mat)
+```
+
+In a similar manner, if the outcome of interest is continuous and no other covariates are of interest, then use the `score_cont_nonparam` function:
+
+```{r}
+str(score_cont_nonparam)
+```
+
+Still using the `simasd_covars` demographics dataset, we will now use `verbal_IQ` as the outcome of interest and we will now use `simasd_comm_df` as the basis for our distance matrix, with the NMI as the extrinsic cluster evaluation metric
+
+```{r}
+simasd_NMI_mat <- ext_distance(comm_df=simasd_comm_df,
+                               variant=c("NMI"))
+
+score_cont_nonparam(outcome=simasd_covars$verbal_IQ,
+                   dist_mat=simasd_NMI_mat)
+```
+
+If we wish to incorporate additional covariates of interest, like age, sex, or handedness, this can easily be done via the `score_cont_semiparam` function.
+
+```{r}
+str(score_cont_semiparam)
+```
+
+For our purposes, we will now use purity as the basis for our distance matrix. Because handedness is a categorical variable, we will convert it to a factor before adding the covariates dataframe to the function.
+
+```{r}
+simasd_pur_mat <- ext_distance(comm_df=simasd_comm_df,
+                               variant=c("purity"))
+simasd_confound <- simasd_covars[,3:5]
+simasd_confound$handedness <- as.factor(simasd_confound$handedness)
+
+score_cont_semiparam(outcome=simasd_covars$verbal_IQ,
+                    covars=simasd_confound,
+                    dist_mat=simasd_pur_mat)
+```
