@@ -1,4 +1,5 @@
-# CommKern
+CommKern: Analysis of Network Community Structures <img src="CommKern_hex_sticker.png" align="right"/>
+=====================================================================
 
 [![R-CMD-check](https://github.com/aljensen89/CommKern/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aljensen89/CommKern/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/aljensen89/CommKern/branch/master/graph/badge.svg)](https://app.codecov.io/gh/aljensen89/CommKern)
