@@ -5,12 +5,17 @@
 \alias{simasd_array}
 \title{Simulated Array}
 \format{
-An object of class \code{array} of dimension 49 x 80 x 80.
+An array of dimensions 49 x 80 x 80, denoting matrices for 49 simulated
+networks, with each network's matrix corresponding to an adjacency matrix for 
+an 80 node network.
 }
 \usage{
 simasd_array
 }
 \description{
-Simulated Array
+A dataset containing an array of simulated adjacency matrices. The dimensions of
+each matrix is 80 x 80, for a total of 49 simulated networks. This simulated array
+is the basis of the simasd_hamil_df and simasd_comm_df datasets and is 
+complementary to the simasd_covars dataframe.
 }
 \keyword{datasets}
