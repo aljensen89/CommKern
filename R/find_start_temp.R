@@ -15,10 +15,6 @@
 #' @return the starting temperature that meets the criteria specified above
 #'
 find_start_temp <- function(net, mod_matrix, spins, alpha, ts) {
-    UseMethod("find_start_temp")
-}
-
-find_start_temp.spinglass_net <- function(net, mod_matrix, spins, alpha, ts) {
     kT <- ts
     acceptance <- 0
 

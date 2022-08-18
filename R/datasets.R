@@ -46,7 +46,7 @@
 #'   \item{handedness}{subject handedness category, a factor with three level
 #'     (0=right, 1=left, 2=ambidextrous)}
 #'   \item{fullscale_IQ}{fullscale IQ score, simulated as if administered from the
-#'     Wechsler Abbreviated Scalesof Intelligence (WASI), an integer value in (50,160)}
+#'     Wechsler Abbreviated Scales of Intelligence (WASI), an integer value in (50,160)}
 #'   \item{verbal_IQ}{verbal IQ component, simulated as if administered from the
 #'     Wechsler Abbreviated Scalesof Intelligence (WASI), an integer value in (55,160)}
 #'   \item{nonverbal_IQ}{nonverbal IQ component, simulated as if administered from the
@@ -75,7 +75,7 @@
 
 #' Simulated partitions of nodes to communities from HMS algorithm
 #'
-#' A dataset of partitions of nodes to communited from simulated group-level
+#' A dataset of partitions of nodes to communities from simulated group-level
 #' networks with community structures. This dataset is complementary to the
 #' simasd_covars dataset, which contains the demographic information related
 #' to this dataset. For more information on how these group-level networks 

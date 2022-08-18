@@ -4,23 +4,18 @@
 \alias{community_plot}
 \title{Communities by layer plot}
 \usage{
-community_plot(comm_data, node_data)
+community_plot(x, ...)
 }
 \arguments{
-\item{comm_data}{is a long data frame with three columns: node_id, layer, and
-comm; this can be created from the \code{link{comm_layers_tree}} object using
-the \code{\link[tidyr]{gather}} function.}
+\item{x}{a \code{spinglass_net} object created by \code{\link{hms}}}
 
-\item{node_data}{is a melted version of the network adjacency matrix, using
-the reshape2::melt() function}
+\item{...}{additional arguments from other methods}
 }
 \value{
-A 1x2 panel plot.
-
-the vertex_df dataframe to be incorporated into the network object
+a \code{gtable} object
 }
 \description{
-Description of the communities by layer plot function.
+Generate a graphical representation of the communities and layers.
 }
 \details{
 This is an ancillary function that creates the plots seen in the manuscript,
@@ -31,9 +26,32 @@ layer.
 \examples{
 
 data(SBM_net)
-\dontrun{
-SBM_netcomm <- hms(input_net=SBM_net,spins=4,alpha=0,coolfact=0.90,false_pos=0.05,max_layers=3)
 
-community_plot(SBM_netcomm$comm_layers_tree,SBM_netcomm$func_matrix)
+# plot with max of one layer
+SBM_netcomm <- hms(
+  input_net  = SBM_net,
+  spins      = 4,
+  alpha      = 0,
+  coolfact   = 0.90,
+  false_pos  = 0.05,
+  max_layers = 1
+  )
+
+community_plot(SBM_netcomm)
+
+# plot with three layers
+SBM_netcomm <- hms(
+  input_net  = SBM_net,
+  spins      = 4,
+  alpha      = 0,
+  coolfact   = 0.90,
+  false_pos  = 0.05,
+  max_layers = 3
+  )
+
+community_plot(SBM_netcomm)
+
 }
+\seealso{
+\code{link{hms}}
 }

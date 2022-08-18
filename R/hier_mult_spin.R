@@ -18,15 +18,18 @@
 #' @param alpha a double parameter balancing the use of the guidance matrix in
 #' modularity calculation
 #' @param coolfact a double parameter that indicates how quickly (or slowly) to
-#' cool the heathbath algorithm, typically set to be 0.95-0.99
+#' cool the heatbath algorithm, typically set to be 0.95-0.99
 #' @param false_pos a double parameter that indicates the level of false
 #' positives to allow the system to make (if ground truth is known), typically
 #' set to 0.01-0.05
 #' @param max_layers an integer parameter that specifies the maximum number of
 #' layers of communities within the network
 #'
-#' @return comm_layers_tree a data frame consisting of nodes and their community
-#' assignments across the layers
+#' @return a list of two components: comm_layers_tree, a dataframe whose first
+#' column is the node id and all subsequent columns are the partitioning of the
+#' nodes to communities across the number of pre-specified layers; and
+#' best_hamiltonian, a vector of the optimized Hamiltonian values for each
+#' run of the algorithm
 #' 
 #' @seealso \code{\link{matrix_to_df}}
 #'
@@ -70,6 +73,9 @@ hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_
 
     # Data frame holding the community assignments through the layers
     comm_layers_tree <- data.frame(node_id = input_net$vertexes$node_id)
+    
+    # Vector holding the resulting hamiltonian values
+    ham_vector <- c()
 
     # Layer loop
     while (num_layer < max_layers) {
@@ -157,6 +163,8 @@ hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_
                 sub_net_layer[[k]] <- subset_matrix_to_df(sub_net_funcmat, sub_net_strmat)
             }
         }
+        ham_vector <- c(ham_vector,best_hamiltonian)
+        
         layer_comms %<>%
             dplyr::arrange(.data$node_id) %>%
             dplyr::mutate(node_id = as.integer(.data$node_id))
@@ -168,8 +176,12 @@ hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_
         names(comm_layers_tree)[num_layer + 1] <- paste0("layer_", num_layer)
     }
 
-    rtn <- list(comm_layers_tree = comm_layers_tree, net = net, initial_temp = initial_temp,
-        temp = temp, best_communities = best_communities, best_hamiltonian = best_hamiltonian)
+    rtn <-
+      list(
+           comm_layers_tree = comm_layers_tree, 
+           net = net,
+           best_hamiltonian = ham_vector
+          )
     class(rtn) <- "spinglass_hms"
     rtn
 }
