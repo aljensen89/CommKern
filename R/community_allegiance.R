@@ -9,15 +9,16 @@
 #' stability indicate that a node belong to a single community across a greater
 #' number of runs.
 #' 
-#' The function returns the consensus partition, which is determined by the
-#' maximum average pairwise similarity.
+#' The function returns a square matrix whose values are bounded in [0,1],
+#' where higher values in the off diagonal indicate that the two nodes belong
+#' to the same community over a higher proportion of partitions. 
 #' 
 #' @param comm_matrix a matrix whose first column is the node label/id and all
 #' subsequent columns are different partitions
 #' 
-#' @return a matrix whose values are bounded in [0,1], where higher values
-#' indicate that a node belongs to a single community over a higher proportion
-#' of runs
+#' @return a matrix whose values are bounded in [0,1], where higher values 
+#' in the off diagonal indicate that the two nodes belong to the same 
+#' community over a higher proportion of runs.
 #' 
 #' @examples
 #' 

@@ -194,7 +194,7 @@ The output from the `hms` function call has three components.
 
 -   `comm_layers_tree`, a dataframe whose first column is the node ID (pulled from the input network object) and all other columns denote the partitioning of nodes to communities across layers.
 
--   `net`, the original network object, with the final layer's community partitioning added.
+-   `net`, the original network object, with the first layer's community partitioning added.
 
 -   `best_hamiltonian`, a vector of the optimized hamiltonian values for each run of the HMS algorithm.
 
@@ -214,7 +214,7 @@ The HMS algorithm is flexible enough that either the multimodal or hierarchical 
 
 ## Plotting Results
 
-Once the algorithm has finished running, you can visualize the results in a plot using `community_plot`. Inputs to this function must be long data structures Using the output from the `hms` run of the `SBM_net` dataset, we can produce the following plot:
+Once the algorithm has finished running, you can visualize the results in a plot using `community_plot`. Inputs to this function must be long data structures. Using the output from the `hms` run of the `SBM_net` dataset, we can produce the following plot:
 
 ```{r, fig.show='hold'}
 SBM_func_long <- reshape2::melt(SBM_net$func_matrix)
