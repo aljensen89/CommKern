@@ -33,22 +33,45 @@ Several simulated datasets have been provided within the package.
 `SBM_net` is a dataset containing multimodal network information simulated to emulate functional and structural connectivity within a nested hierarchical structure.
 
 ```{r, fig.show='hold'}
-func_node_plot <- ggplot2::ggplot(data = reshape2::melt(SBM_net$func_matrix)) + ggplot2::theme_minimal() + 
-        ggplot2::aes_string(x = "Var1", y = "Var2", fill = "value") + 
-        ggplot2::geom_tile() + ggplot2::scale_fill_gradient2(low = "navy", 
-        high = "goldenrod1", mid = "darkturquoise", midpoint = 0.5, 
-        limit = c(0, 1), space = "Lab", name = "") + ggplot2::theme(axis.text = ggplot2::element_blank())
+func_node_plot <-
+  ggplot2::ggplot(data = reshape2::melt(SBM_net$func_matrix)) +
+  ggplot2::theme_minimal() +
+  ggplot2::aes_string(x = "Var1", y = "Var2", fill = "value") +
+  ggplot2::geom_tile() +
+  ggplot2::scale_fill_gradient2(
+    low = "navy",
+    high = "goldenrod1",
+    mid = "darkturquoise",
+    midpoint = 0.5,
+    limit = c(0, 1),
+    space = "Lab",
+    name = ""
+    ) +
+  ggplot2::theme(
+    axis.text = ggplot2::element_blank(),
+    legend.position = "none"
+  )
 
-str_node_plot <- ggplot2::ggplot(data = reshape2::melt(SBM_net$str_matrix)) + ggplot2::theme_minimal() + 
-        ggplot2::aes_string(x = "Var1", y = "Var2", fill = "value") + 
-        ggplot2::geom_tile() + ggplot2::scale_fill_gradient2(low = "navy", 
-        high = "goldenrod1", mid = "darkturquoise", midpoint = 0.5, 
-        limit = c(0, 1), space = "Lab", name = "") + ggplot2::theme(axis.text = ggplot2::element_blank())
+str_node_plot <- 
+  ggplot2::ggplot(data = reshape2::melt(SBM_net$str_matrix)) + 
+  ggplot2::theme_minimal() +
+  ggplot2::aes_string(x = "Var1", y = "Var2", fill = "value") +
+  ggplot2::geom_tile() + 
+  ggplot2::scale_fill_gradient2(
+    low = "navy",
+    high = "goldenrod1",
+    mid = "darkturquoise",
+    midpoint = 0.5,
+    limit = c(0, 1),
+    space = "Lab",
+    name = "") +
+  ggplot2::theme(
+    axis.text = ggplot2::element_blank(),
+    legend.position = "none"
+    )
 
- func_plot <- qwraps2::ggplot2_extract_legend(func_node_plot)
- str_plot <- qwraps2::ggplot2_extract_legend(str_node_plot)
- func_grob <- ggplot2::ggplotGrob(func_plot$plot)
- str_grob <- ggplot2::ggplotGrob(str_plot$plot)
+ func_grob <- ggplot2::ggplotGrob(func_node_plot)
+ str_grob <- ggplot2::ggplotGrob(str_node_plot)
  mxwdth <- grid::unit.pmax(func_grob$widths[2:5], str_grob$widths[2:5])
  func_grob$widths[2:5] <- mxwdth
  str_grob$widths[2:5] <- mxwdth
@@ -76,7 +99,7 @@ str(SBM_net)
 
 ## `simasd_covars`
 
-This dataframe is a simulated dataset of demographics based on summary statistics for a random subset of the ABIDE pre-processed database (<http://preprocessed-connectomes-project.org/abide/>).
+This dataframe is a simulated dataset of demographics based on summary statistics for a random subset of the [ABIDE pre-processed database](<http://preprocessed-connectomes-project.org/abide/>).
 
 ```{r}
 str(simasd_covars)
@@ -116,11 +139,11 @@ First introduced by Reichardt and Bornholdt in 2006, the spinglass algorithm rel
 
 \$\$ \begin{equation}
 
-\mathcal{H}\left(\left\{\mathbf{C}\right\}\right) = & -\sum_{i \neq j}a_{ij}\underbrace{W_{ij} \delta \left(C_i,C_j\right)}_{\text{internal links}} + 
+\mathcal{H}\left(\left\{\mathbf{C}\right\}\right) = & -\sum_{i \neq j}a_{ij}\underbrace{W_{ij} \delta \left(C_i,C_j\right)}_{\text{internal links}} +
         \sum_{i \neq j}b_{ij}\underbrace{\left(1-W_{ij}\right) \delta \left(C_i,C_j\right)}_{\text{internal non-links}} \\
-        & + \sum_{i \neq j}c_{ij}\underbrace{W_{ij} \left(1-\delta \left(C_i,C_j\right)\right)}_{\text{external links}} - 
+        & + \sum_{i \neq j}c_{ij}\underbrace{W_{ij} \left(1-\delta \left(C_i,C_j\right)\right)}_{\text{external links}} -
         \sum_{i \neq j}d_{ij}\underbrace{\left(1-W_{ij}\right) \left(1-\delta \left(C_i,C_j\right)\right)}_{\text{external non-links}},
-        
+
 \end{equation} \$\$ where $W_{ij}$ denotes the weighted adjacency matrix with $W_{ij} \geq 0$ if an edge is present and zero otherwise, $C_{i} \in \left\{1,2,...,q\right\}$ denotes the group index (or spin state) of node $i$ in the graph, $\delta$ is the Kronecker product equalling one if $C_i$ and $C_j$ belong to the same community and zero otherwise, and $a_{ij}, b_{ij}, c_{ij}, d_{ij}$ denote the weights of the individual contributions, respectively. One of the appeals of the spinglass algorithm is that the number of groups $q$ only determines the maximum number of groups allowed to exist and, in principle, can be as large as the total number of nodes in the network, $N$. All group indices specified by $q$ have to be used during the optimal assignment of nodes to communities, though some may be unpopulated in the ground state.
 
 Generally, links and non-links are weighted equally, $a_{ij}=c_{ij}$ and $b_{ij}=d_{ij}$, which simplifies the algorithm to only need to consider internal links and non-links. A convenient choice for $a_{ij}$ and $b_{ij}$ is $a_{ij} = 1-\gamma p_{ij}$ and $b_{ij} = \gamma p_{ij}$, where $p_{ij}$ is the probability that a non-zero edge exists between nodes $i$ and $j$, normalized such that $\sum_{i \neq j}p_{ij} = 2M$, where $M$ is the total weight (or sum of all edge weights) of the graph. Adopting all of these settings, we can simplify the above equation to
@@ -201,7 +224,7 @@ The output from the `hms` function call has three components.
 ```{r}
 hms_object <-
   hms(
-      input_net = SBM_net, 
+      input_net = SBM_net,
       spins = 2,
       alpha = 0,
       coolfact = 0.99,
@@ -217,16 +240,7 @@ The HMS algorithm is flexible enough that either the multimodal or hierarchical 
 Once the algorithm has finished running, you can visualize the results in a plot using `community_plot`. Inputs to this function must be long data structures. Using the output from the `hms` run of the `SBM_net` dataset, we can produce the following plot:
 
 ```{r, fig.show='hold'}
-SBM_func_long <- reshape2::melt(SBM_net$func_matrix)
-
-SBM_comm_long <- tidyr::gather(hms_object$comm_layers_tree,
-                key = "layer",
-                value = "comm",
-                layer_1,
-                factor_key = TRUE)
-
-community_plot(comm_data = SBM_comm_long,
-               node_data = SBM_func_long)
+community_plot(hms_object)
 ```
 
 ## Additional Visualization and Quantification
@@ -259,10 +273,10 @@ ggplot2::ggplot(data = xyz_melt) +
   ggplot2::scale_fill_gradient2(
     low  = 'navy',
     high = 'goldenrod1',
-    mid  = 'darkturquoise', 
+    mid  = 'darkturquoise',
     midpoint = 0.5,
     limit = c(0, 1),
-    space = 'Lab', 
+    space = 'Lab',
     name='')
 ```
 
@@ -460,7 +474,7 @@ Letting $Z$ be a multidimensional array of variables and $i,j$ be two subjects, 
 \$\$ \begin{equation}
 
     K_d\left(x_1,x_2\right)=exp\left\{\dfrac{-d^2(x_1,x_2)}{\rho}\right\},
-    
+
 \end{equation} \$\$
 
 where $d^2(x_1,x_2)$ is a distance function and $\rho$ an unknown bandwidth or scaling parameter.
@@ -474,7 +488,7 @@ Suppose a dataset consists of $n$ subjects, where for subject $i=\left(1,\dots, 
 \$\$ \begin{equation}
 
 y_i = x_{i}^{T}\beta + h\left(z_i\right) + e_i,
-    
+
 \end{equation} \$\$ where $\mathbf{\beta}$ is a $q \times 1$ vector of regression coefficients, $h\left(\bsmathbf_i\right)$ is an unknown, centered and smooth function, and $e_i$ is an independent and identically distributed error term following $N\left(0,\sigma^2\right)$.
 
 This model allows for covariate effects to be modelled parametrically and the brain connectivity metric either parametrically or non-parametrically. There are several special cases of this model: when $h\left(\cdot\right)=0$, the model reduces too a standard logistic regression model and when $\mathbf{x}_i=1$, the model reduces to a least squares kernel machine regression. A hypothesis test can be conducted to determine whether the multidimensional variable set $\mathbf{z}_i$ is associated with $y_i$, controlling for $\mathbf{x}_i$, of the form
@@ -483,7 +497,7 @@ $$
 \begin{equation}
 H_0: h\left( \cdot \right) = 0\\
 H_A: h\left( \cdot \right) \neq 0\\
-\end{equation} 
+\end{equation}
 $$
 
 Details of the derivation of the score test will be left out of this vignette. If end users are interested, please refer to:

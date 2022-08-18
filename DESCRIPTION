@@ -26,8 +26,7 @@ Imports:
   rlang,
   stats,
   stringr,
-  tidyr,
-  qwraps2
+  tidyr
 Suggests:
   knitr,
   matrixcalc,
