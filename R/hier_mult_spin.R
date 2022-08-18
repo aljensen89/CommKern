@@ -176,7 +176,12 @@ hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_
         names(comm_layers_tree)[num_layer + 1] <- paste0("layer_", num_layer)
     }
 
-    rtn <- list(comm_layers_tree = comm_layers_tree, best_hamiltonian = ham_vector)
+    rtn <-
+      list(
+           comm_layers_tree = comm_layers_tree, 
+           net = net,
+           best_hamiltonian = ham_vector
+          )
     class(rtn) <- "spinglass_hms"
     rtn
 }
