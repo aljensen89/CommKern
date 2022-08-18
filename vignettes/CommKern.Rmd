@@ -235,7 +235,7 @@ The HMS algorithm is flexible enough that either the multimodal or hierarchical 
 
 ## Plotting Results
 
-Once the algorithm has finished running, you can visualize the results in a plot using `community_plot`. Inputs to this function must be long data structures. Using the output from the `hms` run of the `SBM_net` dataset, we can produce the following plot:
+Once the algorithm has finished running, you can visualize the results in a plot using `community_plot`. Using the output from the `hms` run of the `SBM_net` dataset, we can produce the following plot:
 
 ```{r, fig.show='hold'}
 community_plot(hms_object)
