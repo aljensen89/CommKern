@@ -11,9 +11,9 @@ community_allegiance(comm_matrix)
 subsequent columns are different partitions}
 }
 \value{
-a matrix whose values are bounded in [0,1], where higher values
-indicate that a node belongs to a single community over a higher proportion
-of runs
+a matrix whose values are bounded in [0,1], where higher values 
+in the off diagonal indicate that the two nodes belong to the same 
+community over a higher proportion of runs.
 }
 \description{
 Description of the community allegiance function.
@@ -26,8 +26,9 @@ number of runs. This measure is bounded in [0,1], where higher values of
 stability indicate that a node belong to a single community across a greater
 number of runs.
 
-The function returns the consensus partition, which is determined by the
-maximum average pairwise similarity.
+The function returns a square matrix whose values are bounded in [0,1],
+where higher values in the off diagonal indicate that the two nodes belong
+to the same community over a higher proportion of partitions.
 }
 \examples{
 
