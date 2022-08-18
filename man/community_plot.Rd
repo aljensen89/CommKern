@@ -12,8 +12,6 @@ community_plot(x, ...)
 \item{...}{additional arguments from other methods}
 }
 \value{
-A 1x2 panel plot.
-
 a \code{gtable} object
 }
 \description{

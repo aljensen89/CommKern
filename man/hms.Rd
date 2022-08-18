@@ -27,8 +27,11 @@ set to 0.01-0.05}
 layers of communities within the network}
 }
 \value{
-comm_layers_tree a data frame consisting of nodes and their community
-assignments across the layers
+a list of two components: comm_layers_tree, a dataframe whose first
+column is the node id and all subsequent columns are the partitioning of the
+nodes to communities across the number of pre-specified layers; and
+best_hamiltonian, a vector of the optimized Hamiltonian values for each
+run of the algorithm
 }
 \description{
 Description of the hierarchical multimodal spinglass algorithm function.
