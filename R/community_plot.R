@@ -7,8 +7,6 @@
 #' matrix, and a community assignment plot on the bottom panel, separated by
 #' layer.
 #'
-#' @return A 1x2 panel plot.
-#'
 #' @param x a \code{spinglass_net} object created by \code{\link{hms}}
 #' @param ... additional arguments from other methods
 #'
