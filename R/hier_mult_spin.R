@@ -25,8 +25,11 @@
 #' @param max_layers an integer parameter that specifies the maximum number of
 #' layers of communities within the network
 #'
-#' @return comm_layers_tree a data frame consisting of nodes and their community
-#' assignments across the layers
+#' @return a list of two components: comm_layers_tree, a dataframe whose first
+#' column is the node id and all subsequent columns are the partitioning of the
+#' nodes to communities across the number of pre-specified layers; and
+#' best_hamiltonian, a vector of the optimized Hamiltonian values for each
+#' run of the algorithm
 #' 
 #' @seealso \code{\link{matrix_to_df}}
 #'
@@ -173,7 +176,7 @@ hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_
         names(comm_layers_tree)[num_layer + 1] <- paste0("layer_", num_layer)
     }
 
-    rtn <- list(comm_layers_tree = comm_layers_tree, net = net, best_hamiltonian = ham_vector)
+    rtn <- list(comm_layers_tree = comm_layers_tree, best_hamiltonian = ham_vector)
     class(rtn) <- "spinglass_hms"
     rtn
 }
