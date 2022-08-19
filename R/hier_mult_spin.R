@@ -46,6 +46,9 @@
 #' str(hms_object)
 #' str(hms_object$comm_layers_tree)
 #' str(hms_object$net)
+#'
+#' identical(SBM_net, hms_object$net)
+#' hms_object$net$vertexes
 #'   
 #' @export
 hms <- function(input_net, spins, alpha, coolfact, false_pos, max_layers) {
