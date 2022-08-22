@@ -33,7 +33,7 @@ Several simulated datasets have been provided within the package.
 
 `SBM_net` is a dataset containing multimodal network information simulated to emulate functional and structural connectivity within a nested hierarchical structure.
 
-```{r, fig.show='hold'}
+```{r, fig.width = 7, fig.height = 3.5, fig.show='hold'}
 matrix_plot(SBM_net)
 ```
 
@@ -69,7 +69,7 @@ str(simasd_covars)
 This is a dataset of partitions of nodes to communities from simulated group-level networks with community structures. This dataset is complementary to the `simasd_covars` dataset and is derived from the `simasd_array` dataset.
 
 ```{r}
-str(simasd_comm_df)
+str(simasd_comm_df, max.level = 0)
 ```
 
 ## `simasd_hamil_df`
@@ -95,51 +95,47 @@ The hierarchical multimodal spinglass (HMS) algorithm was created as a way to ad
 ## Derivation of the Algorithm
 
 First introduced by Reichardt and Bornholdt in 2006, the spinglass algorithm relies on the analogy between the Pott spinglass model - a popular statistical mechanics model - and community detection, where any community partitioning is likened to a corresponding spin configuration and the problem of community detection falls into finding the ground state of the Potts spinglass model. Building on the idea of a quality function which, when optimized, represents the ideal partitioning of a network, they determined that a quality function should embody four components: it should (a) reward internal edges between nodes of the same group/spin state; (b) penalize missing edges (non-links) between nodes in the same group; (c) penalize existing edges between different groups/spin states; and (d) reward non-links between different groups. Using these requirements, they built the following function:
-
-\$\$ \begin{equation}
-
+\begin{equation}
+\begin{split}
 \mathcal{H}\left(\left\{\mathbf{C}\right\}\right) = & -\sum_{i \neq j}a_{ij}\underbrace{W_{ij} \delta \left(C_i,C_j\right)}_{\text{internal links}} +
         \sum_{i \neq j}b_{ij}\underbrace{\left(1-W_{ij}\right) \delta \left(C_i,C_j\right)}_{\text{internal non-links}} \\
         & + \sum_{i \neq j}c_{ij}\underbrace{W_{ij} \left(1-\delta \left(C_i,C_j\right)\right)}_{\text{external links}} -
         \sum_{i \neq j}d_{ij}\underbrace{\left(1-W_{ij}\right) \left(1-\delta \left(C_i,C_j\right)\right)}_{\text{external non-links}},
-
-\end{equation} \$\$ where $W_{ij}$ denotes the weighted adjacency matrix with $W_{ij} \geq 0$ if an edge is present and zero otherwise, $C_{i} \in \left\{1,2,...,q\right\}$ denotes the group index (or spin state) of node $i$ in the graph, $\delta$ is the Kronecker product equalling one if $C_i$ and $C_j$ belong to the same community and zero otherwise, and $a_{ij}, b_{ij}, c_{ij}, d_{ij}$ denote the weights of the individual contributions, respectively. One of the appeals of the spinglass algorithm is that the number of groups $q$ only determines the maximum number of groups allowed to exist and, in principle, can be as large as the total number of nodes in the network, $N$. All group indices specified by $q$ have to be used during the optimal assignment of nodes to communities, though some may be unpopulated in the ground state.
+\end{split}
+\end{equation}
+where $W_{ij}$ denotes the weighted adjacency matrix with $W_{ij} \geq 0$ if an edge is present and zero otherwise, $C_{i} \in \left\{1,2,...,q\right\}$ denotes the group index (or spin state) of node $i$ in the graph, $\delta$ is the Kronecker product equalling one if $C_i$ and $C_j$ belong to the same community and zero otherwise, and $a_{ij}, b_{ij}, c_{ij}, d_{ij}$ denote the weights of the individual contributions, respectively. One of the appeals of the spinglass algorithm is that the number of groups $q$ only determines the maximum number of groups allowed to exist and, in principle, can be as large as the total number of nodes in the network, $N$. All group indices specified by $q$ have to be used during the optimal assignment of nodes to communities, though some may be unpopulated in the ground state.
 
 Generally, links and non-links are weighted equally, $a_{ij}=c_{ij}$ and $b_{ij}=d_{ij}$, which simplifies the algorithm to only need to consider internal links and non-links. A convenient choice for $a_{ij}$ and $b_{ij}$ is $a_{ij} = 1-\gamma p_{ij}$ and $b_{ij} = \gamma p_{ij}$, where $p_{ij}$ is the probability that a non-zero edge exists between nodes $i$ and $j$, normalized such that $\sum_{i \neq j}p_{ij} = 2M$, where $M$ is the total weight (or sum of all edge weights) of the graph. Adopting all of these settings, we can simplify the above equation to
 
-\$\$ \begin{equation}
-
-mathcal{H}\left(\left\{\mathbf{C}\right\}\right) = & -\sum_{i \neq j}\left(W_{ij} - \gamma p_{ij}\right) \delta \left(C_{i},C_{j}\right).
-
-\end{equation} \$\$
+\begin{equation}
+\begin{split}
+\mathcal{H}\left(\left\{\mathbf{C}\right\}\right) = & -\sum_{i \neq j}\left(W_{ij} - \gamma p_{ij}\right) \delta \left(C_{i},C_{j}\right).
+\end{split}
+\end{equation}
 
 Expanding on the original algorithm of Reichardt and Bornholdt, in 2012, Eaton and Mansbach introduced the concept of semi-supervised community detection to the spinglass model. When knowledge can be used to inform the community search, either through knowledge of a specific community of interest or partial knowledge of community memberships, its incorporation can be used to help compensate for potential noise in the network. As the Hamiltonian captures the total energy of the Potts model, external knowledge can be incorporated into community detection by penalizing for community structures that violate guidance. Generally, let the disagreement of the communities to a given guidance be specified by a function $U: C \rightarrow \mathbb{R}$, where $U(C)$ is smaller when the communities $C$ agree with the guidance and larger when they disagree, with the following form:
 
-\$\$ \begin{equation}
-
+\begin{equation}
 U(C) = \sum_{i \neq j} \left( u_{ij} \left( 1-\delta\left(C_{i},C_{j}\right) \right) \pm \bar{u}_{ij} \delta \left(C_{i},C_{j}\right)\right),
+\end{equation}
+where $u_{ij}$ is the penalty for violating guidance that $v_{i}$ and $v_{j}$ belong to the same community and $\bar{u}_{ij}$ is the penalty for violating guidance that $v_{i}$ and $v_{j}$ belong to different communities. When incorporating the guidance into the Hamiltonian,
 
-\end{equation} \$\$ where $u_{ij}$ is the penalty for violating guidance that $v_{i}$ and $v_{j}$ belong to the same community and $\bar{u}_{ij}$ is the penalty for violating guidance that $v_{i}$ and $v_{j}$ belong to different communities. When incorporating the guidance into the Hamiltonian,
-
-\$\$ \begin{equation}
-
+\begin{equation}
 \mathcal{H}'\left( C \right) = \mathcal{H}\left( C \right) + \mu \sum_{i \neq j} \left( u_{ij} - \left(u_{ij}-\bar{u}_{ij}\right) \delta \left(C_{i},C_{j}\right)\right),
+\end{equation}
+where $\mu \geq 0$ \`\`controls the balance between the inherent community structure and the external guidance. Rewriting $\mathcal{H}'$ to be more conducive to optimization, we can decompose it as
 
-\end{equation} \$\$ where $\mu \geq 0$ \`\`controls the balance between the inherent community structure and the external guidance. Rewriting $\mathcal{H}'$ to be more conducive to optimization, we can decompose it as
-
-\$\$ \begin{equation}
-
+\begin{equation}
 \mathcal{H}'\left( C \right) = -\sum_{i \neq j}M_{ij}\delta\left(C_{i},C_{j}\right) - \mu \sum_{i \neq j}\Delta U_{ij} \delta\left(C_{i},C_{j}\right)+K,
-
-\end{equation} \$\$ where $M_{ij}=A_{ij}-\gamma P_{ij}$, $\Delta U_{ij}=u_{ij} - \bar{u}_{ij}$, and all constant terms are contained within $K = \mu \sum_{i \neq j}u_{ij}$, which can ultimately be dropped from the optimization problem.
+\end{equation}
+where $M_{ij}=A_{ij}-\gamma P_{ij}$, $\Delta U_{ij}=u_{ij} - \bar{u}_{ij}$, and all constant terms are contained within $K = \mu \sum_{i \neq j}u_{ij}$, which can ultimately be dropped from the optimization problem.
 
 Adapting Eaton and Mansbach's method for multimodal community detection in the human brain, our modified Hamiltonian takes the following form,
 
-\$\$ \begin{equation}
-
+\begin{equation}
 \mathcal{H}'\left( C \right) = - \sum_{i \neq j} M_{ij}\delta\left(C_{i},C_{j}\right) - \alpha \sum_{i \neq j} S_{ij} \delta\left(C_{i},C_{j}\right),
-
-\end{equation} \$\$ where $M_{ij}$ is the modularity matrix associated with functional connectivity, $S_{ij}$ is the structural connectivity matrix, and $\alpha \geq 0$ controls the balance between the community structure determined solely by functional connectivity and being informed by the structural connectivity via white matter fiber tract information. In contrast to Eaton and Mansbach's approach, where penalties are applied when violating guidance for nodes belonging both to the same community or different communities, our method only decreases the total energy of the model when white matter fiber tracts exist between regions $v_i$ and $v_j$; otherwise, the guidance term is set to zero, with the algorithm deciding the community assignments for $v_i$ and $v_j$ based solely on their functional connectivity.
+\end{equation}
+where $M_{ij}$ is the modularity matrix associated with functional connectivity, $S_{ij}$ is the structural connectivity matrix, and $\alpha \geq 0$ controls the balance between the community structure determined solely by functional connectivity and being informed by the structural connectivity via white matter fiber tract information. In contrast to Eaton and Mansbach's approach, where penalties are applied when violating guidance for nodes belonging both to the same community or different communities, our method only decreases the total energy of the model when white matter fiber tracts exist between regions $v_i$ and $v_j$; otherwise, the guidance term is set to zero, with the algorithm deciding the community assignments for $v_i$ and $v_j$ based solely on their functional connectivity.
 
 To then study the hierarchical community structure of these networks, we implement an iterative method. Specifically, we create a multilayer network, where communities from layer $k$ each become subnetworks in layer $k+1$ wherein the multimodal spinglass algorithm is applied. The number of iterations (or layers) is pre-specified in the algorithm to avoid the need for stopping criteria. The number of communities $q$ is held constant across each layer of the network. An additional parameter, $\tau$, is also specified a priori, controlling the acceptance rate of the algorithm.
 
@@ -342,17 +338,16 @@ Within community detection, the methods for evaluating the performance of a part
 
 ## Extrinsic Metrics
 
-All external clustering measures rely on a $r \times k$ contingency matrix $\bs{N}$ that is induced by a system-clustering $\mathcal{C}$ and a ground truth partitioning $\mathcal{T}$, where the rows represent the system-clusters $\mathcal{C}_i \in \mathcal{C}$ for $i=1,\dots,r$ and the columns represent the ground truth partitions $\mathcal{T}_j \in \mathcal{T}$ for $j=1,\dots,k$. A cell at the intersection of row $i$ and column $j$ contains the count $n_{ij}$ of points that are common to cluster $\mathcal{C}_i$ and ground truth partition $\mathcal{T}_j$:
+All external clustering measures rely on a $r \times k$ contingency matrix $\mathbs{N}$ that is induced by a system-clustering $\mathcal{C}$ and a ground truth partitioning $\mathcal{T}$, where the rows represent the system-clusters $\mathcal{C}_i \in \mathcal{C}$ for $i=1,\dots,r$ and the columns represent the ground truth partitions $\mathcal{T}_j \in \mathcal{T}$ for $j=1,\dots,k$. A cell at the intersection of row $i$ and column $j$ contains the count $n_{ij}$ of points that are common to cluster $\mathcal{C}_i$ and ground truth partition $\mathcal{T}_j$:
 
-\$\$ \begin{equation}
-
+\begin{equation}
 N\left(i,j\right)=n_{ij}=\vert\mathcal{C}_i \cap \mathcal{T}_j \vert
-
-\end{equation} \$\$ However, in many cases a ground truth labelling does not exist, such as brain connectivity. In this case, a two-way matching can be performed, where the matching is performed twice, each time with one of the clusterings being the ground truth and the results combined using a harmonic mean to produce a final matching measure.
+\end{equation}
+However, in many cases a ground truth labelling does not exist, such as brain connectivity. In this case, a two-way matching can be performed, where the matching is performed twice, each time with one of the clusterings being the ground truth and the results combined using a harmonic mean to produce a final matching measure.
 
 There are several options for external cluster evaluation metrics. For all, assume $\Omega=\left\{\omega_1,\omega_2,\dots,\omega_k\right\}$ and $\mathbb{C}=\left\{c_1,c_2,\dots,c_j\right\}$ are two sets of clusters.
 
--   *Purity*: quantifies the extent to which a cluster \$c_i\$ contains elements from only one partition, or measures how "pure" a cluster is. Purity is bounded in $\left[0,1\right]$ but is not symmetric due to the need to have a ground truth labeling. To get around this issue, the harmonic mean of the purity between two clusterings is taken, where one partition is taken to be the ground truth labeling, then the other.
+-   *Purity*: quantifies the extent to which a cluster $c_i$ contains elements from only one partition, or measures how "pure" a cluster is. Purity is bounded in $\left[0,1\right]$ but is not symmetric due to the need to have a ground truth labeling. To get around this issue, the harmonic mean of the purity between two clusterings is taken, where one partition is taken to be the ground truth labeling, then the other.
 
 ```{r}
 set.seed(7183)
@@ -403,11 +398,10 @@ ext_distance(xyz_comms, variant = 'purity')
 
 Rather than use extrinsic metrics, which rely either on a ground truth labeling or on a harmonic mean between two clusterings, intrinsic evaluation metrics do not rely on the existence of a ground truth. One of the most commonly used intrinsic metrics is the optimized value of the modularity function; this is based on the fact that networks with very similar community structure should have very similar modularity values. Within the HMS algorithm, the optimized value of the Hamiltonian van be used in the same manner as the modularity function. Because the optimized Hamiltonian values from the HMS algorithm are not bounded in the same manner as the extrinsic cluster evaluation metrics, a p-norm of the differences between the Hamiltonians for two clusterings was used such that
 
-\$\$ \begin{equation}
-
+\begin{equation}
 d\left(\mathcal{H}_{\Omega},\mathcal{H}_{\mathbb{C}}\right)=\Vert \mathcal{H}_{\Omega} - \mathcal{H}_{\mathbb{C}} \Vert_{p}
-
-\end{equation} \$\$ for $1 \leq p < \infty$.
+\end{equation}
+for $1 \leq p < \infty.$
 
 To create a matrix of distances, the function `ham_distance` can be used. This function uses the Hamiltonian output values from a community detection algorithm that implements a Hamiltonian value, such as the HMS algorithm. To ensure a positive, semi-definite matrix (as required for the kernel machine methods), the absolute difference between Hamiltonian values is calculated.
 
@@ -428,12 +422,9 @@ A kernel is a function that takes as its inputs vectors in some original space a
 
 Letting $Z$ be a multidimensional array of variables and $i,j$ be two subjects, then $k\left(Z_i,Z_j\right)$ can be used as a measure of similarity between the pair of subjects $i,j$ since $k\left(\cdot,\cdot\right)$ is positive definite. This similarity measure can be ccan then be incorporated into a statistical inference framework to test what extend variation in $Z$ between individuals can explain variation in some outcome of interest $Y$. A range of kernel functions are used in statistics, where the choice of kernel determines the function space used to approximate the relationship between two variables. A distance-based kernel is denoted as
 
-\$\$ \begin{equation}
-
+\begin{equation}
     K_d\left(x_1,x_2\right)=exp\left\{\dfrac{-d^2(x_1,x_2)}{\rho}\right\},
-
-\end{equation} \$\$
-
+\end{equation}
 where $d^2(x_1,x_2)$ is a distance function and $\rho$ an unknown bandwidth or scaling parameter.
 
 While this package provides several options for cluster evaluation, many more exist in the literature. End users can utilize their own custom metrics, so long as the resulting distance matrix is symmetric, positive, and semi-definite, as these are the requirements for incorporation into the kernel machine methods detailed in the next section.
@@ -442,20 +433,17 @@ While this package provides several options for cluster evaluation, many more ex
 
 Suppose a dataset consists of $n$ subjects, where for subject $i=\left(1,\dots, n\right)$, $y_i$ is an outcome variable (either binary or continuous), $\mathbf{x}_i$ is a $q \times 1$ vector of clinical covariates and $\mathbf{x}_i$ is a $p \times 1$ vector of cluster evaluation metrics. The outcome $y_i$ depends on $\mathbf{x}_i$ and $\mathbf{z}_i$ through the following semiparametric linear model
 
-\$\$ \begin{equation}
-
+\begin{equation}
 y_i = x_{i}^{T}\beta + h\left(z_i\right) + e_i,
-
-\end{equation} \$\$ where $\mathbf{\beta}$ is a $q \times 1$ vector of regression coefficients, $h\left(\bsmathbf_i\right)$ is an unknown, centered and smooth function, and $e_i$ is an independent and identically distributed error term following $N\left(0,\sigma^2\right)$.
+\end{equation}
+where $\mathbf{\beta}$ is a $q \times 1$ vector of regression coefficients, $h\left(\bsmathbf_i\right)$ is an unknown, centered and smooth function, and $e_i$ is an independent and identically distributed error term following $N\left(0,\sigma^2\right)$.
 
 This model allows for covariate effects to be modelled parametrically and the brain connectivity metric either parametrically or non-parametrically. There are several special cases of this model: when $h\left(\cdot\right)=0$, the model reduces too a standard logistic regression model and when $\mathbf{x}_i=1$, the model reduces to a least squares kernel machine regression. A hypothesis test can be conducted to determine whether the multidimensional variable set $\mathbf{z}_i$ is associated with $y_i$, controlling for $\mathbf{x}_i$, of the form
 
-$$
 \begin{equation}
 H_0: h\left( \cdot \right) = 0\\
 H_A: h\left( \cdot \right) \neq 0\\
 \end{equation}
-$$
 
 Details of the derivation of the score test will be left out of this vignette. If end users are interested, please refer to @jensen2019kernel; @liu2007semiparametric; and @liu2008estimation.
 
