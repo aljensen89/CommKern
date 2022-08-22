@@ -43,23 +43,34 @@ simnet_df_perturb <- function(n_nodes, n_comm, n_nets, perturb_prop) {
 
         # Create a data frame with all possible combinations of nodes except
         # 'self-relationships'
-        ind_dataframe <- expand.grid(Node_A = ind_node_df$Node, Node_B = ind_node_df$Node,
-            stringsAsFactors = F) %>%
-            dplyr::left_join(dplyr::select(ind_node_df, Node_A = .data$Node, Node_A_Comm = .data$Comm),
-                by = "Node_A") %>%
-            dplyr::left_join(dplyr::select(ind_node_df, Node_B = .data$Node, Node_B_Comm = .data$Comm),
-                by = "Node_B") %>%
-            dplyr::filter(.data$Node_A != .data$Node_B)
+        ind_dataframe <-
+          expand.grid(Node_A = ind_node_df$Node,
+                      Node_B = ind_node_df$Node,
+                      stringsAsFactors = FALSE)
+
+        ind_dataframe <- merge(x = ind_dataframe,
+                               y = stats::setNames(ind_node_df, c("Node_B", "Node_B_Comm")),
+                               all.x = TRUE,
+                               all.y = FALSE,
+                               by = "Node_B")
+        ind_dataframe <- merge(x = ind_dataframe,
+                               y = stats::setNames(ind_node_df, c("Node_A", "Node_A_Comm")),
+                               all.x = TRUE,
+                               all.y = FALSE,
+                               by = "Node_A")
+        ind_dataframe <- subset(ind_dataframe, ind_dataframe$Node_A != ind_dataframe$Node_B)
 
         # Limit the data frame to one row per dyad for an undirected network
-        ind_dataframe <- ind_dataframe %>%
-            dplyr::arrange(.data$Node_A, .data$Node_B) %>%
-            dplyr::mutate(dyad = dplyr::if_else(.data$Node_A < .data$Node_B, paste0(.data$Node_A,
-                "_", .data$Node_B), paste0(.data$Node_B, "_", .data$Node_A))) %>%
-            dplyr::distinct(.data$dyad, .keep_all = T)
+        ind_dataframe <- ind_dataframe[order(ind_dataframe$Node_A, ind_dataframe$Node_B), ]
+        ind_dataframe$dyad <- ifelse(ind_dataframe$Node_A < ind_dataframe$Node_B,
+                                     paste(ind_dataframe$Node_A, ind_dataframe$Node_B, sep = "_"),
+                                     paste(ind_dataframe$Node_B, ind_dataframe$Node_A, sep = "_"))
+        ind_dataframe <- ind_dataframe[!duplicated(ind_dataframe$dyad), ]
+
 
         net_list[[i]] <- ind_dataframe
     }
 
     return(net_list)
 }
+
