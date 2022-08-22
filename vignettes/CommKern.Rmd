@@ -218,7 +218,7 @@ The output from the `hms` function call has two components within a list structu
 
 -   `comm_layers_tree`, a dataframe whose first column is the node ID (pulled from the input network object) and all other columns denote the partitioning of nodes to communities across layers.
 
--   `best_hamiltonian`, a vector of the optimized hamiltonian values for each run of the HMS algorithm.
+-   `best_hamiltonian`, a vector of the optimized Hamiltonian values for each run of the HMS algorithm.
 
 ```{r}
 hms_object <-
@@ -298,7 +298,7 @@ consensus_similarity(xyz_comms_mat)
 
 # Simulating Group-Level Networks with Community Structure
 
-End users can simulate group-level networks with community structure using two main functions within the **Commkern** package: `group_network_perturb` and `group_adj_perturb`.
+End users can simulate group-level networks with community structure using two main functions within the **CommKern** package: `group_network_perturb` and `group_adj_perturb`.
 
 ```{r}
 str(group_network_perturb)
@@ -427,7 +427,7 @@ y <- sample(x = rep(1:3, 4), 12)
 adj_RI(x,y)
 ```
 
-To create a matrix of distances, the function `ext_distance` can be used. This function uses the community output values from any community detection algorithm, such as the HMS algorithm, as an input. Because extrinsic cluster evaluation metrics use the underlying idea of similarity, distance is calculated as $\left(1-\text{similarity}\right)$. The use of distance ensures tha the distance matrix will be positive and semi-definite, a requirement for the semiparametric kernel methods detailed in the next section.
+To create a matrix of distances, the function `ext_distance` can be used. This function uses the community output values from any community detection algorithm, such as the HMS algorithm, as an input. Because extrinsic cluster evaluation metrics use the underlying idea of similarity, distance is calculated as $\left(1-\text{similarity}\right)$. The use of distance ensures that the distance matrix will be positive and semi-definite, a requirement for the semiparametric kernel methods detailed in the next section.
 
 ```{r}
 x <- c(2,2,3,1,3,1,3,3,2,2,1,1)
@@ -451,7 +451,7 @@ d\left(\mathcal{H}_{\Omega},\mathcal{H}_{\mathbb{C}}\right)=\Vert \mathcal{H}_{\
 
 \end{equation} \$\$ for $1 \leq p < \infty$.
 
-To create a matrix of distances, the function `ham_distance` can be used. This function uses the Hamiltonian output values from a community detection algorithm that implements a Hamiltonian value, such as the HMS algorithm. To ensure a positive, semi-definite matrix (as required for the kernel machine methds), the absolute difference between Hamiltonian values is calculated.
+To create a matrix of distances, the function `ham_distance` can be used. This function uses the Hamiltonian output values from a community detection algorithm that implements a Hamiltonian value, such as the HMS algorithm. To ensure a positive, semi-definite matrix (as required for the kernel machine methods), the absolute difference between Hamiltonian values is calculated.
 
 ```{r}
 hamil_df <- data.frame(id  = seq(1:8),
@@ -466,7 +466,7 @@ ham_distance(hamil_df)
 
 ## Distance-Based Kernels
 
-A kernel is a function that takes as its inputs vectors in some original space and returns the dot product of vectors in the feature space. More formally, if we have $\mathbf{x},\mathbf{z} \in \mathcal{X}$ and a map $\phi: \mathcal{X} \rightarrow \mathbb{R}^N$, then $k\left(\mathbf{x},\mathbf{z}\right)=\langle\phi\left(\mathbf{x}\right),\phi\left(\mathbf{z}\right)\rangle$ is a kernel function. An important concept relating to kernel methods is the reproducing kernel Hilbert space (RKHS). Because all kernels are positive definite, there exists one or more feature spaces for which the kernel defines the inner product, without having to explicity define such feature space. Using the Moore-Aronszajn theorem, it can be shown that for each kernel $k$ on a set $\mathcal{X}$, there is a unique space of functions (known as the Hilbert space) on $\mathcal{X}$ for which $k$ is a reproducing kernel.
+A kernel is a function that takes as its inputs vectors in some original space and returns the dot product of vectors in the feature space. More formally, if we have $\mathbf{x},\mathbf{z} \in \mathcal{X}$ and a map $\phi: \mathcal{X} \rightarrow \mathbb{R}^N$, then $k\left(\mathbf{x},\mathbf{z}\right)=\langle\phi\left(\mathbf{x}\right),\phi\left(\mathbf{z}\right)\rangle$ is a kernel function. An important concept relating to kernel methods is the reproducing kernel Hilbert space (RKHS). Because all kernels are positive definite, there exists one or more feature spaces for which the kernel defines the inner product, without having to explicitly define such feature space. Using the Moore-Aronszajn theorem, it can be shown that for each kernel $k$ on a set $\mathcal{X}$, there is a unique space of functions (known as the Hilbert space) on $\mathcal{X}$ for which $k$ is a reproducing kernel.
 
 Letting $Z$ be a multidimensional array of variables and $i,j$ be two subjects, then $k\left(Z_i,Z_j\right)$ can be used as a measure of similarity between the pair of subjects $i,j$ since $k\left(\cdot,\cdot\right)$ is positive definite. This similarity measure can be ccan then be incorporated into a statistical inference framework to test what extend variation in $Z$ between individuals can explain variation in some outcome of interest $Y$. A range of kernel functions are used in statistics, where the choice of kernel determines the function space used to approximate the relationship between two variables. A distance-based kernel is denoted as
 
