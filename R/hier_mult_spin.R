@@ -168,12 +168,12 @@ hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_
         }
         ham_vector <- c(ham_vector,best_hamiltonian)
         
-        layer_comms %<>%
-            dplyr::arrange(.data$node_id) %>%
-            dplyr::mutate(node_id = as.integer(.data$node_id))
+        layer_comms <- layer_comms[order(layer_comms$node_id), ]
+        layer_comms$node_id <- as.integer(layer_comms$node_id)
 
-        comm_layers_tree %<>%
-            dplyr::left_join(layer_comms, by = "node_id")
+        comm_layers_tree <-
+          merge(x = comm_layers_tree, y = layer_comms, all.x = TRUE, all.y =
+                FALSE, by = "node_id")
 
         layer_name <- c(paste0("layer_", num_layer))
         names(comm_layers_tree)[num_layer + 1] <- paste0("layer_", num_layer)
