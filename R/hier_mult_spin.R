@@ -31,7 +31,7 @@
 #' best_hamiltonian, a vector of the optimized Hamiltonian values for each
 #' run of the algorithm
 #' 
-#' @seealso \code{\link{matrix_to_df}}
+#' @seealso \code{\link{matrix_to_df}}, \code{\link{community_plot}}
 #'
 #' @examples
 #'
@@ -49,6 +49,8 @@
 #'
 #' identical(SBM_net, hms_object$net)
 #' hms_object$net$vertexes
+#'
+#' community_plot(hms_object)
 #'   
 #' @export
 hms <- function(input_net, spins, alpha, coolfact, false_pos, max_layers) {

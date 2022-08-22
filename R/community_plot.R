@@ -18,19 +18,21 @@
 #'
 #' data(SBM_net)
 #'
-#' # plot with max of one layer
+#' # plot with max of two layers
 #' SBM_netcomm <- hms(
 #'   input_net  = SBM_net,
 #'   spins      = 4,
 #'   alpha      = 0,
 #'   coolfact   = 0.90,
 #'   false_pos  = 0.05,
-#'   max_layers = 1
+#'   max_layers = 2
 #'   )
 #'
 #' community_plot(SBM_netcomm)
 #'
+#' \dontrun{
 #' # plot with three layers
+#' # don't run automatically on CRAN; > 5 seconds
 #' SBM_netcomm <- hms(
 #'   input_net  = SBM_net,
 #'   spins      = 4,
@@ -41,6 +43,7 @@
 #'   )
 #'
 #' community_plot(SBM_netcomm)
+#' }
 #'
 #' @export
 community_plot <- function(x, ...) {

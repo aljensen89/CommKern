@@ -62,8 +62,10 @@ str(hms_object$net)
 
 identical(SBM_net, hms_object$net)
 hms_object$net$vertexes
+
+community_plot(hms_object)
   
 }
 \seealso{
-\code{\link{matrix_to_df}}
+\code{\link{matrix_to_df}}, \code{\link{community_plot}}
 }
