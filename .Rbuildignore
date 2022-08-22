@@ -8,3 +8,4 @@
 ^.*\.png$
 ^covr-report\.html$
 ^lib/*
+^cran-comments\.md$
