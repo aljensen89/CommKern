@@ -20,9 +20,7 @@ Imports:
   mathjaxr,
   Matrix,
   RColorBrewer,
-  reshape2,
-  stats,
-  stringr
+  reshape2
 Suggests:
   knitr,
   matrixcalc,
