@@ -23,9 +23,9 @@ simnet_df_perturb <- function(n_nodes, n_comm, n_nets, perturb_prop) {
 
     # Create a master data frame that has IDs for all nodes and assigns random
     # communities to nodes
-    master_node_df <- tidyr::tibble(Node = paste0("node_", stringr::str_pad(1:n_nodes,
-        width = nchar(n_nodes), pad = "0")), Comm = sample(x = paste0("comm_", letters[1:n_comm]),
-        size = n_nodes, replace = T))
+    master_node_df <- 
+      data.frame(Node = paste0("node_", stringr::str_pad(1:n_nodes, width = nchar(n_nodes), pad = "0")),
+                 Comm = sample(x = paste0("comm_", letters[1:n_comm]), size = n_nodes, replace = TRUE))
 
     net_list <- list()
     perturb_num <- ceiling(n_nodes * perturb_prop)
