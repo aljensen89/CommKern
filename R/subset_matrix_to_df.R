@@ -43,9 +43,9 @@ subset_matrix_to_df <- function(func_matrix, str_matrix) {
     func_df <- reshape2::melt(func_matrix2)
 
     ## Filter out the upper matrix values, the self correlations, and value=0
-    func_df <- dplyr::filter(func_df, !is.na(.data$value)) %>%
-        dplyr::filter(.data$Var1 != .data$Var2) %>%
-        dplyr::filter(.data$value != 0)
+    func_df <- subset(func_df, !is.na(func_df$value))
+    func_df <- subset(func_df, func_df$Var1 != func_df$Var2)
+    func_df <- subset(func_df, func_df$value != 0)
 
     ## Renaming the columns
     names(func_df) <- c("func_start_node", "func_end_node", "func_weight")
@@ -60,9 +60,9 @@ subset_matrix_to_df <- function(func_matrix, str_matrix) {
     str_df <- reshape2::melt(str_matrix2)
 
     ## Filter out the upper matrix values, the self correlations, and value=0
-    str_df <- dplyr::filter(str_df, !is.na(.data$value)) %>%
-        dplyr::filter(.data$Var1 != .data$Var2) %>%
-        dplyr::filter(.data$value != 0)
+    str_df <- subset(str_df, !is.na(str_df$value))
+    str_df <- subset(str_df, str_df$Var1 != str_df$Var2)
+    str_df <- subset(str_df, str_df$value != 0)
 
     ## Renaming the columns
     names(str_df) <- c("str_start_node", "str_end_node", "str_weight")
