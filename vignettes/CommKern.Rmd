@@ -34,49 +34,7 @@ Several simulated datasets have been provided within the package.
 `SBM_net` is a dataset containing multimodal network information simulated to emulate functional and structural connectivity within a nested hierarchical structure.
 
 ```{r, fig.show='hold'}
-func_node_plot <-
-  ggplot2::ggplot(data = reshape2::melt(SBM_net$func_matrix)) +
-  ggplot2::theme_minimal() +
-  ggplot2::aes_string(x = "Var1", y = "Var2", fill = "value") +
-  ggplot2::geom_tile() +
-  ggplot2::scale_fill_gradient2(
-    low = "navy",
-    high = "goldenrod1",
-    mid = "darkturquoise",
-    midpoint = 0.5,
-    limit = c(0, 1),
-    space = "Lab",
-    name = ""
-    ) +
-  ggplot2::theme(
-    axis.text = ggplot2::element_blank(),
-    legend.position = "none"
-  )
-
-str_node_plot <- 
-  ggplot2::ggplot(data = reshape2::melt(SBM_net$str_matrix)) + 
-  ggplot2::theme_minimal() +
-  ggplot2::aes_string(x = "Var1", y = "Var2", fill = "value") +
-  ggplot2::geom_tile() + 
-  ggplot2::scale_fill_gradient2(
-    low = "navy",
-    high = "goldenrod1",
-    mid = "darkturquoise",
-    midpoint = 0.5,
-    limit = c(0, 1),
-    space = "Lab",
-    name = "") +
-  ggplot2::theme(
-    axis.text = ggplot2::element_blank(),
-    legend.position = "none"
-    )
-
- func_grob <- ggplot2::ggplotGrob(func_node_plot)
- str_grob <- ggplot2::ggplotGrob(str_node_plot)
- mxwdth <- grid::unit.pmax(func_grob$widths[2:5], str_grob$widths[2:5])
- func_grob$widths[2:5] <- mxwdth
- str_grob$widths[2:5] <- mxwdth
- gridExtra::grid.arrange(func_grob, str_grob, ncol = 2)
+matrix_plot(SBM_net)
 ```
 
 The `SBM_net` object is the result of calling `matrix_to_df`.
