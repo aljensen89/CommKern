@@ -28,7 +28,7 @@
 #' @export
 
 ham_distance <- function(hamil_df) {
-    hamil_expand <- tidyr::expand_grid(hamil_df[, 1], hamil_df[, 1])
+  hamil_expand <- expand.grid(hamil_df[, 1], hamil_df[, 1])
     colnames(hamil_expand) <- c("id_a", "id_b")
     hamil_expand$hamil_diff <- NA
 
