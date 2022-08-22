@@ -17,15 +17,12 @@ Imports:
   ggnewscale,
   ggplot2,
   gridExtra,
-  magrittr,
   mathjaxr,
   Matrix,
   RColorBrewer,
   reshape2,
-  rlang,
   stats,
-  stringr,
-  tidyr
+  stringr
 Suggests:
   knitr,
   matrixcalc,

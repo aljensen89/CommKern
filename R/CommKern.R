@@ -14,9 +14,6 @@
 #' mentorship on the creation of this package.
 #'
 #' @import mathjaxr
-#' @importFrom rlang .data
-#' @importFrom magrittr '%>%'
-#' @importFrom magrittr '%<>%'
 #'
 #' @docType package
 #' @name CommKern
