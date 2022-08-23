@@ -123,7 +123,7 @@ where $u_{ij}$ is the penalty for violating guidance that $v_{i}$ and $v_{j}$ be
 \begin{equation}
 \mathcal{H}'\left( C \right) = \mathcal{H}\left( C \right) + \mu \sum_{i \neq j} \left( u_{ij} - \left(u_{ij}-\bar{u}_{ij}\right) \delta \left(C_{i},C_{j}\right)\right),
 \end{equation}
-where $\mu \geq 0$ \`\`controls the balance between the inherent community structure and the external guidance. Rewriting $\mathcal{H}'$ to be more conducive to optimization, we can decompose it as
+where $\mu \geq 0$ controls the balance between the inherent community structure and the external guidance. Rewriting $\mathcal{H}'$ to be more conducive to optimization, we can decompose it as
 
 \begin{equation}
 \mathcal{H}'\left( C \right) = -\sum_{i \neq j}M_{ij}\delta\left(C_{i},C_{j}\right) - \mu \sum_{i \neq j}\Delta U_{ij} \delta\left(C_{i},C_{j}\right)+K,
@@ -420,7 +420,7 @@ ham_distance(hamil_df)
 
 A kernel is a function that takes as its inputs vectors in some original space and returns the dot product of vectors in the feature space. More formally, if we have $\mathbf{x},\mathbf{z} \in \mathcal{X}$ and a map $\phi: \mathcal{X} \rightarrow \mathbb{R}^N$, then $k\left(\mathbf{x},\mathbf{z}\right)=\langle\phi\left(\mathbf{x}\right),\phi\left(\mathbf{z}\right)\rangle$ is a kernel function. An important concept relating to kernel methods is the reproducing kernel Hilbert space (RKHS). Because all kernels are positive definite, there exists one or more feature spaces for which the kernel defines the inner product, without having to explicitly define such feature space. Using the Moore-Aronszajn theorem, it can be shown that for each kernel $k$ on a set $\mathcal{X}$, there is a unique space of functions (known as the Hilbert space) on $\mathcal{X}$ for which $k$ is a reproducing kernel.
 
-Letting $Z$ be a multidimensional array of variables and $i,j$ be two subjects, then $k\left(Z_i,Z_j\right)$ can be used as a measure of similarity between the pair of subjects $i,j$ since $k\left(\cdot,\cdot\right)$ is positive definite. This similarity measure can be ccan then be incorporated into a statistical inference framework to test what extend variation in $Z$ between individuals can explain variation in some outcome of interest $Y$. A range of kernel functions are used in statistics, where the choice of kernel determines the function space used to approximate the relationship between two variables. A distance-based kernel is denoted as
+Letting $Z$ be a multidimensional array of variables and $i,j$ be two subjects, then $k\left(Z_i,Z_j\right)$ can be used as a measure of similarity between the pair of subjects $i,j$ since $k\left(\cdot,\cdot\right)$ is positive definite. This similarity measure can then be incorporated into a statistical inference framework to test what extend variation in $Z$ between individuals can explain variation in some outcome of interest $Y$. A range of kernel functions are used in statistics, where the choice of kernel determines the function space used to approximate the relationship between two variables. A distance-based kernel is denoted as
 
 \begin{equation}
     K_d\left(x_1,x_2\right)=exp\left\{\dfrac{-d^2(x_1,x_2)}{\rho}\right\},
