@@ -5,9 +5,12 @@
 #' This is an ancillary function that creates a data frame list for the
 #' subnetworks created using the multimodal hierarchical spinglass algorithm.
 #'  
-#' 
-#' @param func_matrix a network object in list form (see the matrix_to_df() function for more details)
-#' @param str_matrix an integer indicating the maximum number of spins, or communities, that can be used
+#'#' @param func_mat a square, symmetric matrix to be used as the main input
+#' for the \code\link{hms}} algorithm. For brain connectivity, this will be
+#' a representation of functional (e.g., BOLD) connectivity.
+#' @param str_mat a square, symmetric matrix to be used as the guidance
+#' input for the \code\link{hms}} algorithm. For brain connectivity, this 
+#' will be a representation of structural (e.g., white matter) connectivity.
 #' 
 #' @return A list of data frame containing the functional matrix,
 #' structural matrix, a data frame of the functional edge weights, a data frame

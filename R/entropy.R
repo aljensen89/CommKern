@@ -10,10 +10,10 @@
 #'
 #' @return a list of four objects:
 #' \itemize{
-#'   \item{\code{uv}}{the joint entropy}
-#'   \item{\code{u}}{the conditional entropy of partition \code{a}}
-#'   \item{\code{v}}{the conditional entropy of partition \code{b}}
-#'   \item{\code{sort_pairs}}{the output from the sort_pairs function}
+#'   \item{\code{uv}}{ the joint entropy}
+#'   \item{\code{u}}{ the conditional entropy of partition \code{a}}
+#'   \item{\code{v}}{ the conditional entropy of partition \code{b}}
+#'   \item{\code{sort_pairs}}{ the output from the sort_pairs function}
 #' }
 #'
 #' @seealso \code{\link{sort_pairs}}

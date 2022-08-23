@@ -3,7 +3,7 @@
 #' Provide a graphical representation of the functional and structural matrices
 #' within a \code{spinglass_net} object.
 #'
-#' @param x a \code{spinglass_net}
+#' @param x a \code{spinglass_net} object
 #' @param ... additional arguments from other methods
 #'
 #' @return a \code{gtable} object
