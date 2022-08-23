@@ -17,7 +17,6 @@ Imports:
   ggnewscale,
   ggplot2,
   gridExtra,
-  mathjaxr,
   Matrix,
   RColorBrewer,
   reshape2
@@ -28,5 +27,3 @@ Suggests:
   rmarkdown
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
-RdMacros:
-  mathjaxr

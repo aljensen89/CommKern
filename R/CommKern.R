@@ -13,8 +13,6 @@
 #' overseen by her advisor Debashis Ghosh. Peter DeWitt provided extensive
 #' mentorship on the creation of this package.
 #'
-#' @import mathjaxr
-#'
 #' @docType package
 #' @name CommKern
 NULL

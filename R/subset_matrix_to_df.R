@@ -5,10 +5,11 @@
 #' This is an ancillary function that creates a data frame list for the
 #' subnetworks created using the multimodal hierarchical spinglass algorithm.
 #'  
-#' @param func_mat a square, symmetric matrix to be used as the main input for
+#' @param func_matrix a square, symmetric matrix to be used as the main input for
 #' the \code{\link{hms}} algorithm. For brain connectivity, this will be a
 #' representation of functional (e.g., BOLD) connectivity.
-#' @param str_mat a square, symmetric matrix to be used as the guidance input
+#'
+#' @param str_matrix a square, symmetric matrix to be used as the guidance input
 #' for the \code{\link{hms}} algorithm. For brain connectivity, this will be a
 #' representation of structural (e.g., white matter) connectivity.
 #' 

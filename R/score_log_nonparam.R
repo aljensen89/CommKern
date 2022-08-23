@@ -5,17 +5,16 @@
 #' This is the main function that calculates the p-value associated with a nonparametric kernel test
 #' of association between the kernel and binary outcome variable. A null model (where the kernel is not
 #' associated with the outcome) is initially fit. Then, the variance of
-#' \loadmathjax
-#' \mjeqn{Y_{i}|X_{i}}{Y_i | X_i}
+#' \eqn{Y_{i}|X_{i}}{Y_i | X_i}
 #' is used as the basis for the score test,
-#' \mjdeqn{S\left(\rho\right) = \frac{Q_{\tau}\left(\hat{\beta_0},\rho\right)-\mu_Q}{\sigma_Q}.}{S(rho) = ( Q_tau (beta_0, rho) - mu_Q) / ( sigma_Q).}
-#' However, because \mjeqn{\rho}{rho} disappears under the null hypothesis, we run a
-#' grid search over a range of values of \mjeqn{\rho}{rho} (the bounds
+#' \deqn{S\left(\rho\right) = \frac{Q_{\tau}\left(\hat{\beta_0},\rho\right)-\mu_Q}{\sigma_Q}.}{S(rho) = ( Q_tau (beta_0, rho) - mu_Q) / ( sigma_Q).}
+#' However, because \eqn{\rho}{rho} disappears under the null hypothesis, we run a
+#' grid search over a range of values of \eqn{\rho}{rho} (the bounds
 #' of which were derived by Liu et al. in 2008). This grid search gets the upper bound for the score test's p-value.
 #' This function is tailored for the underlying model
-#' \mjdeqn{y_{i} = h\left(z_{i}\right) + e_{i},}{y_i = h(z_i) + e_i,}
-#' where \mjdeqn{h\left(\cdot\right)}{h(.)} is
-#' the kernel function, \mjeqn{z_{i}}{z_i} is a multidimensional array of variables, and \mjeqn{y_{i}}{y_i} is a binary outcome taking values in
+#' \deqn{y_{i} = h\left(z_{i}\right) + e_{i},}{y_i = h(z_i) + e_i,}
+#' where \deqn{h\left(\cdot\right)}{h(.)} is
+#' the kernel function, \eqn{z_{i}}{z_i} is a multidimensional array of variables, and \eqn{y_{i}}{y_i} is a binary outcome taking values in
 #' {0, 1}.
 #'
 #' The function returns an numeric p-value for the kernel score test of association.
