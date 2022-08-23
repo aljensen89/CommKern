@@ -12,8 +12,8 @@
 #' @param comm_df a data frame whose columns are different partitions. All
 #' partitions must have the same set of nodes in order for this function to work
 #' and this data frame should exclude a node ID column for ease of computation.
-#' @param variant a string in ('NMI', 'Adj_RI', 'purity') that calculates different external cluster
-#' evaluation metrics.
+#' @param variant a string in ('NMI', 'Adj_RI', 'purity') that calculates different
+#' extrinsic cluster evaluation metrics.
 #'
 #' @seealso \code{\link{adj_RI}}, \code{\link{NMI}}, and \code{\link{purity}}
 #'

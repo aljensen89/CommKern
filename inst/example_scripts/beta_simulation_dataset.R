@@ -66,10 +66,10 @@ for (b in 1:dim(simasd_array)[1]){
   sim_network <- matrix_to_df(func_mat=sim_mat_func,str_mat=sim_mat_str)
   
   #Running the HMS algorithm and grabbing the resulting hamiltonian and communities
-  hms_results <- hms.spinglass_net(input_net=sim_network,spins=4,alpha=0,
-                                   coolfact=0.99,false_pos=0.01,max_layers=1)
+  hms_results <- hms(input_net=sim_network,spins=4,alpha=0,
+                     coolfact=0.99,false_pos=0.01,max_layers=1)
   
-  simasd_ham_df$hamil[b] <- hms_results$best_hamiltonian
-  simasd_comm_df[,b] <- hms_results$best_communities
+  simasd_ham_df$hamil[b] <- hms_results$best_hamiltonian[1]
+  simasd_comm_df[,b] <- hms_results$comm_layers_tree[,2]
 }
 
