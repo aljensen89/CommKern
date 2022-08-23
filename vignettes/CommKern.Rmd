@@ -434,9 +434,9 @@ While this package provides several options for cluster evaluation, many more ex
 Suppose a dataset consists of $n$ subjects, where for subject $i=\left(1,\dots, n\right)$, $y_i$ is an outcome variable (either binary or continuous), $\mathbf{x}_i$ is a $q \times 1$ vector of clinical covariates and $\mathbf{x}_i$ is a $p \times 1$ vector of cluster evaluation metrics. The outcome $y_i$ depends on $\mathbf{x}_i$ and $\mathbf{z}_i$ through the following semiparametric linear model
 
 \begin{equation}
-y_i = x_{i}^{T}\beta + h\left(z_i\right) + e_i,
+y_i = \mathbf{x}_{i}^{T}\mathbf{\beta} + h\left(\mathbf{z}_i\right) + e_i,
 \end{equation}
-where $\mathbf{\beta}$ is a $q \times 1$ vector of regression coefficients, $h\left(\bsmathbf_i\right)$ is an unknown, centered and smooth function, and $e_i$ is an independent and identically distributed error term following $N\left(0,\sigma^2\right)$.
+where $\mathbf{\beta}$ is a $q \times 1$ vector of regression coefficients, $h\left(\mathbf{z}_i\right)$ is an unknown, centered and smooth function, and $e_i$ is an independent and identically distributed error term following $N\left(0,\sigma^2\right)$.
 
 This model allows for covariate effects to be modelled parametrically and the brain connectivity metric either parametrically or non-parametrically. There are several special cases of this model: when $h\left(\cdot\right)=0$, the model reduces too a standard logistic regression model and when $\mathbf{x}_i=1$, the model reduces to a least squares kernel machine regression. A hypothesis test can be conducted to determine whether the multidimensional variable set $\mathbf{z}_i$ is associated with $y_i$, controlling for $\mathbf{x}_i$, of the form
 
