@@ -1,6 +1,6 @@
 #' Functional and Structural Matrix Plot
 #'
-#' Provide a graphical representation of the functional and strucutrual matrices
+#' Provide a graphical representation of the functional and structural matrices
 #' within a \code{spinglass_net} object.
 #'
 #' @param x a \code{spinglass_net}
