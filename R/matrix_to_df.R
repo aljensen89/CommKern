@@ -6,10 +6,10 @@
 #' network. This is the form of the network used for the spinglass algorithm
 #'
 #' @param func_mat a square, symmetric matrix to be used as the main input
-#' for the \code\link{hms}} algorithm. For brain connectivity, this will be
+#' for the \code{\link{hms}} algorithm. For brain connectivity, this will be
 #' a representation of functional (e.g., BOLD) connectivity.
 #' @param str_mat a square, symmetric matrix to be used as the guidance
-#' input for the \code\link{hms}} algorithm. For brain connectivity, this 
+#' input for the \code{\link{hms}} algorithm. For brain connectivity, this 
 #' will be a representation of structural (e.g., white matter) connectivity.
 #'
 #' @return A list containing the functional matrix, structural matrix, a data
