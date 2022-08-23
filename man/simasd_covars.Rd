@@ -17,9 +17,9 @@ A dataframe with 49 rows and 8 columns:
   \item{fullscale_IQ}{fullscale IQ score, simulated as if administered from the
     Wechsler Abbreviated Scales of Intelligence (WASI), an integer value in (50,160)}
   \item{verbal_IQ}{verbal IQ component, simulated as if administered from the
-    Wechsler Abbreviated Scalesof Intelligence (WASI), an integer value in (55,160)}
+    Wechsler Abbreviated Scales of Intelligence (WASI), an integer value in (55,160)}
   \item{nonverbal_IQ}{nonverbal IQ component, simulated as if administered from the
-    Wechsler Abbreviated Scalesof Intelligence (WASI), an integer value in (53,160)}
+    Wechsler Abbreviated Scales of Intelligence (WASI), an integer value in (53,160)}
 }
 }
 \usage{

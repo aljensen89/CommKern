@@ -11,8 +11,8 @@ ext_distance(comm_df, variant = c("NMI", "adj_RI", "purity"))
 partitions must have the same set of nodes in order for this function to work
 and this data frame should exclude a node ID column for ease of computation.}
 
-\item{variant}{a string in ('NMI', 'Adj_RI', 'purity') that calculates different external cluster
-evaluation metrics.}
+\item{variant}{a string in ('NMI', 'Adj_RI', 'purity') that calculates different
+extrinsic cluster evaluation metrics.}
 }
 \value{
 A m x m (m is the number of partitions) extrinsic evaluation distance

@@ -7,9 +7,13 @@
 subset_matrix_to_df(func_matrix, str_matrix)
 }
 \arguments{
-\item{func_matrix}{a network object in list form (see the matrix_to_df() function for more details)}
+\item{func_matrix}{a square, symmetric matrix to be used as the main input for
+the \code{\link{hms}} algorithm. For brain connectivity, this will be a
+representation of functional (e.g., BOLD) connectivity.}
 
-\item{str_matrix}{an integer indicating the maximum number of spins, or communities, that can be used}
+\item{str_matrix}{a square, symmetric matrix to be used as the guidance input
+for the \code{\link{hms}} algorithm. For brain connectivity, this will be a
+representation of structural (e.g., white matter) connectivity.}
 }
 \value{
 A list of data frame containing the functional matrix,

@@ -7,11 +7,13 @@
 matrix_to_df(func_mat, str_mat)
 }
 \arguments{
-\item{func_mat}{a network object in list form (see the matrix_to_df()
-function for more details)}
+\item{func_mat}{a square, symmetric matrix to be used as the main input
+for the \code{\link{hms}} algorithm. For brain connectivity, this will be
+a representation of functional (e.g., BOLD) connectivity.}
 
-\item{str_mat}{an integer indicating the maximum number of spins, or
-communities, that can be used}
+\item{str_mat}{a square, symmetric matrix to be used as the guidance
+input for the \code{\link{hms}} algorithm. For brain connectivity, this 
+will be a representation of structural (e.g., white matter) connectivity.}
 }
 \value{
 A list containing the functional matrix, structural matrix, a data

@@ -24,13 +24,11 @@ taken to be the z-score of the Rand coefficient.
 }
 \examples{
 
-#' set.seed(7)
+set.seed(7183)
 x <- sample(x = rep(1:3, 4), 12)
 
-set.seed(18)
 y <- sample(x = rep(1:3, 4), 12)
 
-set.seed(3)
 z <- sample(x = rep(1:3, 4), 12)
 
 xyz_comms_mat <- matrix(c(x,y,z),nrow=length(x),ncol=3)

@@ -7,7 +7,7 @@
 matrix_plot(x, ...)
 }
 \arguments{
-\item{x}{a \code{spinglass_net}}
+\item{x}{a \code{spinglass_net} object}
 
 \item{...}{additional arguments from other methods}
 }
@@ -15,7 +15,7 @@ matrix_plot(x, ...)
 a \code{gtable} object
 }
 \description{
-Provide a graphical representation of the functional and strucutrual matrices
+Provide a graphical representation of the functional and structural matrices
 within a \code{spinglass_net} object.
 }
 \examples{

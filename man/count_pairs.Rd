@@ -16,15 +16,15 @@ count_pairs(a, b, order)
 \value{
 a list of five different vectors:
 \itemize{
-  \item{pair_nb}{a vector containing counts of nodes within all possible
+  \item{\code{pair_nb}}{: a vector containing counts of nodes within all possible
   classification pairs from partitions a and b}
-  \item{pair_a}{a vector of the same length as pair_nb, specifying the order
+  \item{\code{pair_a}}{: a vector of the same length as pair_nb, specifying the order
   of classifications in pair_nb from partition a}
-  \item{pair_b}{a vector of the same length as pair_nb, specifying the order
+  \item{\code{pair_b}}{: a vector of the same length as pair_nb, specifying the order
   of classifications in pair_nb from partition b}
-  \item{a_nb}{a vector containing counts of nodes within each class for
+  \item{\code{a_nb}}{: a vector containing counts of nodes within each class for
   partition a}
-  \item{b_nb}{a vector containing counts of nodes within each class for
+  \item{\code{b_nb}}{: a vector containing counts of nodes within each class for
   partition b}
 }
 }
