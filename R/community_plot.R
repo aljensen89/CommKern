@@ -30,7 +30,7 @@
 #'
 #' community_plot(SBM_netcomm)
 #'
-#' \dontrun{
+#' \donttest{
 #' # plot with three layers
 #' # don't run automatically on CRAN; > 5 seconds
 #' SBM_netcomm <- hms(
