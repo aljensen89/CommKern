@@ -1,3 +1,31 @@
+# Version 1.0.0
+
+## CRAN Submission Comments
+
+```
+If there are references describing the methods in your package, please
+add these in the description field of your DESCRIPTION file in the form
+authors (year) <doi:...>
+authors (year) <arXiv:...>
+authors (year, ISBN:...)
+or if those are not available: <[https:...]https:...>
+with no space after 'doi:', 'arXiv:', 'https:' and angle brackets for
+auto-linking.
+(If you want to add a title as well please put it in quotes: "Title")
+```
+
+The methods in this package are part of a PhD dissertation. Currently, these methods have not been published but, in the coming months, manuscripts will be submitted for publication. Once this has been done, the DESCRIPTION file will be updated accordingly.
+
+```
+\dontrun{} should only be used if the example really cannot be executed
+(e.g. because of missing additional software, missing API keys, ...) by
+the user. That's why wrapping examples in \dontrun{} adds the comment
+("# Not run:") as a warning for the user.
+Please replace \dontrun with \donttest.
+```
+
+This has been updated within the `community_plot()` function.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 3 notes
