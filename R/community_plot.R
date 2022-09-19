@@ -18,6 +18,7 @@
 #'
 #' data(SBM_net)
 #'
+#'\donttest{
 #' # plot with max of two layers
 #' SBM_netcomm <- hms(
 #'   input_net  = SBM_net,
@@ -29,6 +30,7 @@
 #'   )
 #'
 #' community_plot(SBM_netcomm)
+#'}
 #'
 #' \donttest{
 #' # plot with three layers
