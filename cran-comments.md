@@ -24,7 +24,7 @@ the user. That's why wrapping examples in \dontrun{} adds the comment
 Please replace \dontrun with \donttest.
 ```
 
-This has been updated within the `community_plot()` function.
+This has been updated within the `community_plot()` function. As well, we have wrapped the examples for the semiparametric kernel machine methods in \donttest{} as they can exceed 5 seconds to run.
 
 ## R CMD check results
 
