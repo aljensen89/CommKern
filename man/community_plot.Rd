@@ -27,6 +27,7 @@ layer.
 
 data(SBM_net)
 
+\donttest{
 # plot with max of two layers
 SBM_netcomm <- hms(
   input_net  = SBM_net,
@@ -38,8 +39,9 @@ SBM_netcomm <- hms(
   )
 
 community_plot(SBM_netcomm)
+}
 
-\dontrun{
+\donttest{
 # plot with three layers
 # don't run automatically on CRAN; > 5 seconds
 SBM_netcomm <- hms(

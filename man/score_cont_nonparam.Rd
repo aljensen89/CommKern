@@ -47,11 +47,13 @@ data(simasd_covars)
 
 hamil_matrix <- ham_distance(simasd_hamil_df)
 
+\donttest{
 score_cont_nonparam(
   dist_mat = hamil_matrix,
   outcome = simasd_covars$verbal_IQ,
   grid_gran = 5000
 )
+}
 
 }
 \references{
