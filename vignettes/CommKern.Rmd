@@ -162,10 +162,7 @@ The `alpha` parameter is a numeric parameter $\left(\geq 0\right)$ that balances
 
 The `coolfact` parameter indicates how quickly (or slowly) to cool the heatbath algorithm, which is used to find the optimal partitioning of nodes to communities. This parameter must be in $\left(0,1\right)$, but is usually set to be $0.95-0.99$.
 
-The `tol` is a parameter that indicates the tolerance level of accepting
-the proposed changes within a temperature; at the end of each sweep, the number
-of proposed changes to the partition is assessed to see if it exceeds a threshold
-determined as a function of tol and spins, typically set to be 0.01-0.05.
+The `tol` parameter indicates the tolerance level of accepting the proposed changes within a temperature; at the end of each sweep, the number of proposed changes to the partition is assessed to see if it exceeds a threshold determined as a function of tol and spins, typically set to be 0.01-0.05.
 
 Finally, `max_layers` is the parameter controlling the number of layers of communities within the network. At least one layer must be specified in the algorithm. End users can specify the number of layers to be any positive whole number but several considerations should be made. First, as the number of layers increases, so does the computational time. Second, over-specification of the community layers can create singleton issues (a single node in a community), leading to the algorithm throwing an error. Finally, the number of layers specified should be data driven; therefore, we cannot provide a universally optimal number of layers to specify.
 

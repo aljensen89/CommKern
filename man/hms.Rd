@@ -4,7 +4,7 @@
 \alias{hms}
 \title{Hierarchical multimodal spinglass algorithm}
 \usage{
-hms(input_net, spins, alpha, coolfact, false_pos, max_layers)
+hms(input_net, spins, alpha, coolfact, tol, max_layers)
 }
 \arguments{
 \item{input_net}{a \code{spinglass_net} object (see
@@ -19,9 +19,10 @@ modularity calculation}
 \item{coolfact}{a double parameter that indicates how quickly (or slowly) to
 cool the heatbath algorithm, typically set to be 0.95-0.99}
 
-\item{false_pos}{a double parameter that indicates the level of false
-positives to allow the system to make (if ground truth is known), typically
-set to 0.01-0.05}
+\item{tol}{a double parameter that indicates the tolerance level of accepting
+the proposed changes within a temperature; at the end of each sweep, the number
+of proposed changes to the partition is assessed to see if it exceeds a threshold
+determined as a function of tol and spins, typically set to be 0.01-0.05}
 
 \item{max_layers}{an integer parameter that specifies the maximum number of
 layers of communities within the network}
@@ -53,7 +54,7 @@ hms_object <-
       spins = 4,
       alpha = 0,
       coolfact = 0.90,
-      false_pos = 0.05,
+      tol = 0.05,
       max_layers = 1)
 
 str(hms_object)
