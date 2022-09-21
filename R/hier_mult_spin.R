@@ -19,9 +19,10 @@
 #' modularity calculation
 #' @param coolfact a double parameter that indicates how quickly (or slowly) to
 #' cool the heatbath algorithm, typically set to be 0.95-0.99
-#' @param false_pos a double parameter that indicates the level of false
-#' positives to allow the system to make (if ground truth is known), typically
-#' set to 0.01-0.05
+#' @param tol a double parameter that indicates the tolerance level of accepting
+#' the proposed changes within a temperature; at the end of each sweep, the number
+#' of proposed changes to the partition is assessed to see if it exceeds a threshold
+#' determined as a function of tol and spins, typically set to be 0.01-0.05
 #' @param max_layers an integer parameter that specifies the maximum number of
 #' layers of communities within the network
 #'
@@ -40,7 +41,7 @@
 #'       spins = 4,
 #'       alpha = 0,
 #'       coolfact = 0.90,
-#'       false_pos = 0.05,
+#'       tol = 0.05,
 #'       max_layers = 1)
 #'
 #' str(hms_object)
@@ -53,12 +54,12 @@
 #' community_plot(hms_object)
 #'   
 #' @export
-hms <- function(input_net, spins, alpha, coolfact, false_pos, max_layers) {
+hms <- function(input_net, spins, alpha, coolfact, tol, max_layers) {
     UseMethod("hms")
 }
 
 #' @export
-hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_layers) {
+hms.spinglass_net <- function(input_net, spins, alpha, coolfact, tol, max_layers) {
 
     if (spins < 2 | spins > length(input_net$vertexes$node_id)) {
         stop("Must provide a number of spins within [2,number of nodes in network]")
@@ -129,7 +130,7 @@ hms.spinglass_net <- function(input_net, spins, alpha, coolfact, false_pos, max_
                 acc <- hb$acceptance
                 best_communities <- hb$best_communities
                 best_hamiltonian <- hb$best_hamiltonian
-                if (acc < (1 - (1/spins)) * false_pos) {
+                if (acc < (1 - (1/spins)) * tol) {
                   changes <- 0
                 } else {
                   changes <- 1

@@ -25,7 +25,7 @@
 #'   spins      = 4,
 #'   alpha      = 0,
 #'   coolfact   = 0.90,
-#'   false_pos  = 0.05,
+#'   tol  = 0.05,
 #'   max_layers = 2
 #'   )
 #'
@@ -40,7 +40,7 @@
 #'   spins      = 4,
 #'   alpha      = 0,
 #'   coolfact   = 0.90,
-#'   false_pos  = 0.05,
+#'   tol  = 0.05,
 #'   max_layers = 3
 #'   )
 #'
