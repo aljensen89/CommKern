@@ -3,7 +3,13 @@ library(CommKern)
 
 # Test that the provided SBM_net data set regenerates itself
 net <- matrix_to_df(func_mat = SBM_net$func_mat, str_mat = SBM_net$str_mat)
-stopifnot(identical(net, SBM_net))
+
+# if R was built without long.double capabilities then the `identical` call will
+# fail and we need to use the less precise `all.equal`
+# Also, there was an issue with the `identical` on the M1 Mac CRAN check.  We
+# hope that `all.equal` will address that issue too.
+stopifnot(all.equal(net, SBM_net))
+
 
 # Verify expected error handles - all matrices
 func_mat_ex <- matrix(runif(25,min=0,max=1),nrow=5)

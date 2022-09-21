@@ -1,5 +1,5 @@
 Package: CommKern
-Version: 1.0.0
+Version: 1.0.1
 Title: Network-Based Communities and Kernel Machine Methods
 Authors@R: c(person(given = "Alexandria", family = "Jensen",  email = "alexandria.jensen@cuanschutz.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6337-9079")),
              person(given = "Peter",      family = "DeWitt",  email = "peter.dewitt@cuanschutz.edu",      role = c("ctb"),        comment = c(ORCID = "0000-0002-6391-0795")),
