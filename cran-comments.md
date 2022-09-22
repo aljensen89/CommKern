@@ -10,3 +10,5 @@ We hope that this change will also address the issue on the M1 Mac.  We do not,
 ourselves, have access to a M1 Mac for testing at this time.  But given that the
 CRAN check errors were on the same test script on the M1 and the noLD system we
 expect that version 1.0.1 should pass on the M1 as well.
+
+We have also updated the http links for badges in the README file to https per a request from Uwe Ligges on 22 Sep 2022.
